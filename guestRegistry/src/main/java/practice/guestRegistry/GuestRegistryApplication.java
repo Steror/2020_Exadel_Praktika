@@ -1,15 +1,20 @@
 package practice.guestRegistry;
 
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import practice.guestRegistry.dao.CustomerRepository;
-import practice.guestRegistry.models.Customer;
+import org.springframework.core.env.Environment;
+import practice.guestRegistry.models.Card;
+import practice.guestRegistry.models.CardType;
+import practice.guestRegistry.models.Person;
+import practice.guestRegistry.services.CardService;
+import practice.guestRegistry.services.PersonService;
+
+import java.io.PrintStream;
+import java.time.Instant;
+import java.util.Date;
 
 @SpringBootApplication(exclude = {
 //		MongoAutoConfiguration.class,
@@ -17,37 +22,58 @@ import practice.guestRegistry.models.Customer;
 public class GuestRegistryApplication implements CommandLineRunner {
 
 	@Autowired
-	private CustomerRepository repository;
+	private PersonService personService;
+	@Autowired
+	private CardService cardService;
 
 	public static void main(String[] args) {
-		SpringApplication.run(GuestRegistryApplication.class, args);
+//		SpringApplication.run(GuestRegistryApplication.class, args);
+		SpringApplication app = new SpringApplication(GuestRegistryApplication.class);
+		app.setBanner(new Banner() {
+//		SpringApplicationBuilder app = new SpringApplicationBuilder(GuestRegistryApplication.class);
+//		app.child("EXTRA CONFIGURATION"); << this shouldn't work
+//		app.banner(new Banner() {
+			@Override
+			public void printBanner(Environment environment, Class<?> sourceClass, PrintStream out) {
+				System.out.println("         ,--,                                                                                                            ");
+				System.out.println("       ,--.'|            ,--,    ,--,                      .--.--.                                                       ");
+				System.out.println("    ,--,  | :          ,--.'|  ,--.'|                     /  /    '. ,-.----.             ,--,                           ");
+				System.out.println(" ,---.'|  : '          |  | :  |  | :     ,---.          |  :  /`. / \\    /  \\   __  ,-.,--.'|         ,---,             ");
+				System.out.println(" |   | : _' |          :  : '  :  : '    '   ,'\\         ;  |  |--`  |   :    |,' ,'/ /||  |,      ,-+-. /  |  ,----._,. ");
+				System.out.println(" :   : |.'  |   ,---.  |  ' |  |  ' |   /   /   |        |  :  ;_    |   | .\\ :'  | |' |`--'_     ,--.'|'   | /   /  ' / ");
+				System.out.println(" |   ' '  ; :  /     \\ '  | |  '  | |  .   ; ,. :         \\  \\    `. .   : |: ||  |   ,',' ,'|   |   |  ,'' ||   :     | ");
+				System.out.println(" '   |  .'. | /    /  ||  | :  |  | :  '   | |: :          `----.   \\|   |  \\ :'  :  /  '  | |   |   | /  | ||   | .\\  . ");
+				System.out.println(" |   | :  | '.    ' / |'  : |__'  : |__'   | .; :          __ \\  \\  ||   : .  ||  | '   |  | :   |   | |  | |.   ; ';  | ");
+				System.out.println(" '   : |  : ;'   ;   /||  | '.'|  | '.'|   :    |         /  /`--'  /:     |`-';  : |   '  : |__ |   | |  |/ '   .   . | ");
+				System.out.println(" |   | '  ,/ '   |  / |;  :    ;  :    ;\\   \\  /         '--'.     / :   : :   |  , ;   |  | '.'||   | |--'   `---`-'| | ");
+				System.out.println(" ;   : ;--'  |   :    ||  ,   /|  ,   /  `----'            `--'---'  |   | :    ---'    ;  :    ;|   |/       .'__/\\_: | ");
+				System.out.println(" |   ,/       \\   \\  /  ---`-'  ---`-'                               `---'.|            |  ,   / '---'        |   :    : ");
+				System.out.println(" '---'         `----'                                                  `---`             ---`-'                \\   \\  /  ");
+				System.out.println("                                                                                                                `--`-' ");
+ 			}
+		});
+		app.run(args);
 	}
+
 
 	@Override
 	public void run(String... args) throws Exception {
-		repository.deleteAll();
+		cardService.deleteAll();
+		cardService.addCard(new Card(new Long(11),
+				"serial",
+				Date.from(Instant.now()),
+				Date.from(Instant.now()),
+				CardType.GUEST));
+		cardService.addCard(new Card(new Long(12),
+				"SERIAL",
+				Date.from(Instant.now()),
+				Date.from(Instant.now()),
+				CardType.GUEST));
 
-		// save a couple of customers
-		repository.save(new Customer("Alice", "Smith"));
-		repository.save(new Customer("Bob", "Smith"));
 
-		// fetch all customers
-		System.out.println("Customers found with findAll():");
-		System.out.println("-------------------------------");
-		for (Customer customer : repository.findAll()) {
-			System.out.println(customer);
-		}
-		System.out.println();
+		personService.deleteAll();
+		personService.addPerson(new Person((long) 1, "firstName", "mname", "lname", "emaill", "phone_nr"));
+		personService.addPerson(new Person((long) 2, "firstName", "mname", "lname", "emaill", "phone_nr"));
 
-		// fetch an individual customer
-		System.out.println("Customer found with findByFirstName('Alice'):");
-		System.out.println("--------------------------------");
-		System.out.println(repository.findByFirstName("Alice"));
-
-		System.out.println("Customers found with findByLastName('Smith'):");
-		System.out.println("--------------------------------");
-		for (Customer customer : repository.findByLastName("Smith")) {
-			System.out.println(customer);
-		}
 	}
 }

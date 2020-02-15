@@ -21,13 +21,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-<<<<<<< HEAD
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-=======
->>>>>>> b4ad537b2a23afbc886044c9db78f8c0c73c4c6d
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
 		<dependency>
@@ -46,19 +43,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-<<<<<<< HEAD
 		<!--
-=======
->>>>>>> b4ad537b2a23afbc886044c9db78f8c0c73c4c6d
 		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
 		-->
-=======
->>>>>>> b4ad537b2a23afbc886044c9db78f8c0c73c4c6d
 	</dependencies>
 
 	<build>
