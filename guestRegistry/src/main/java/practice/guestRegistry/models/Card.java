@@ -1,9 +1,10 @@
 package practice.guestRegistry.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Document(collection = "card")
 public class Card {
@@ -11,15 +12,16 @@ public class Card {
     Long id;
     String serialNumber;
     //Location location;
-    Date manufatured;
-    Date validUntil;
+    LocalDateTime manufactured;
+    LocalDateTime validUntil;
+//    @JsonProperty("ctype")
     CardType ctype;
 
 
-    public Card(Long id, String serialNumber, Date manufatured, Date validUntil, CardType ctype) {
+    public Card(Long id, String serialNumber, LocalDateTime manufactured, LocalDateTime validUntil, CardType ctype) {
         this.id = id;
         this.serialNumber = serialNumber;
-        this.manufatured = manufatured;
+        this.manufactured = manufactured;
         this.validUntil = validUntil;
         this.ctype = ctype;
     }
@@ -29,7 +31,7 @@ public class Card {
         return "Card{" +
                 "id=" + id +
                 ", serialNumber='" + serialNumber + '\'' +
-                ", manufatured=" + manufatured +
+                ", manufactured=" + manufactured +
                 ", validUntil=" + validUntil +
                 ", ctype=" + ctype +
                 '}';
@@ -51,19 +53,19 @@ public class Card {
         this.serialNumber = serialNumber;
     }
 
-    public Date getManufatured() {
-        return manufatured;
+    public LocalDateTime getManufatured() {
+        return manufactured;
     }
 
-    public void setManufatured(Date manufatured) {
-        this.manufatured = manufatured;
+    public void setManufatured(LocalDateTime manufactured) {
+        this.manufactured = manufactured;
     }
 
-    public Date getValidUntil() {
+    public LocalDateTime getValidUntil() {
         return validUntil;
     }
 
-    public void setValidUntil(Date validUntil) {
+    public void setValidUntil(LocalDateTime validUntil) {
         this.validUntil = validUntil;
     }
 

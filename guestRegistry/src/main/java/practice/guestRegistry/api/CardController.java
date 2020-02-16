@@ -1,6 +1,7 @@
 package practice.guestRegistry.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import practice.guestRegistry.models.Card;
 import practice.guestRegistry.services.CardService;
@@ -31,8 +32,9 @@ public class CardController {
     }
 
     @PostMapping
-    public void addCard(@RequestBody Card card) {
+    public ResponseEntity<Card> addCard(@RequestBody Card card) {
         service.addCard(card);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path="{id}")

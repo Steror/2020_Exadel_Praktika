@@ -13,5 +13,6 @@ public interface CardDao {
     public Optional<Card> findById (long id);
     public List<Card> findAll ();
     public void save (Card card);
+    public void update (long id, Card card);
     public void deleteById (long id);
 }
