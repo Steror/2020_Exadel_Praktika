@@ -2,34 +2,22 @@ package practice.guestRegistry.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("location")
+@Data
+@NoArgsConstructor
+@Document(collection = "location")
 public class Location {
     @Id
-    Long id;
-    String locationName;
-
-    @Override
-    public String toString() {
-        return "Location{" +
-                "id=" + id +
-                ", locationName='" + locationName + '\'' +
-                '}';
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
+    private Long id;
+    private String name;
+    private String country;
+    private String city;
+    private String address;
+    private LocationType locationType;
+    private String phoneNumber;
+    //Worker manager;
 }

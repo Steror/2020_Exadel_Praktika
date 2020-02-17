@@ -15,10 +15,13 @@ import practice.guestRegistry.models.CardType;
 import practice.guestRegistry.models.Location;
 import practice.guestRegistry.models.Person;
 import practice.guestRegistry.services.CardService;
+import practice.guestRegistry.services.LocationService;
 import practice.guestRegistry.services.PersonService;
 
 import java.io.PrintStream;
 import java.time.LocalDateTime;
+
+import static practice.guestRegistry.models.LocationType.OFFICE;
 
 @SpringBootApplication(exclude = {
 //		MongoAutoConfiguration.class,
@@ -29,6 +32,8 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	private PersonService personService;
 	@Autowired
 	private CardService cardService;
+	@Autowired
+	private LocationService locationService;
 	@Autowired
 	MongoTemplate mongoTemplate;
 	@Autowired
@@ -84,6 +89,15 @@ public class GuestRegistryApplication implements CommandLineRunner {
 				LocalDateTime.now(),
 				LocalDateTime.now(),
 				CardType.GUEST));
+
+		Location location = new Location();
+		location.setName("a");
+		location.setCountry("b");
+		location.setCity("c");
+		location.setAddress("d");
+		location.setLocationType(OFFICE);
+		location.setPhoneNumber("777");
+		locationService.addLocation(location);
 
 
 		personService.deleteAll();
