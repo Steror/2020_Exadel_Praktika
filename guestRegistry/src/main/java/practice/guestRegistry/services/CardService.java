@@ -34,8 +34,7 @@ public class CardService {
     }
 
     public void updateCard (Long id, Card newCard) {
-        newCard.setId(id);
-        dao.save(newCard);
+        dao.update(id, newCard);
     }
 
     public void deleteCardById (Long id) {
