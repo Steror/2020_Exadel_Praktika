@@ -1,26 +1,37 @@
 package practice.guestRegistry.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mongodb.lang.NonNull;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.time.LocalDateTime;
 
 @Document(collection = "card")
 public class Card {
+
+    @NonNull
     @Id
     Long id;
     String serialNumber;
-    //Location location;
+
+    @DBRef(db = "test", lazy = false)
+    Location location;
     LocalDateTime manufactured;
     LocalDateTime validUntil;
 //    @JsonProperty("ctype")
     CardType ctype;
 
 
-    public Card(Long id, String serialNumber, LocalDateTime manufactured, LocalDateTime validUntil, CardType ctype) {
+    public Card(Long id, String serialNumber, Location location, LocalDateTime manufactured, LocalDateTime validUntil, CardType ctype) {
         this.id = id;
         this.serialNumber = serialNumber;
+        this.location = location;
         this.manufactured = manufactured;
         this.validUntil = validUntil;
         this.ctype = ctype;
@@ -31,6 +42,8 @@ public class Card {
         return "Card{" +
                 "id=" + id +
                 ", serialNumber='" + serialNumber + '\'' +
+//                ", location=" + location.toString() +
+                ", location=" + location +
                 ", manufactured=" + manufactured +
                 ", validUntil=" + validUntil +
                 ", ctype=" + ctype +
@@ -53,11 +66,19 @@ public class Card {
         this.serialNumber = serialNumber;
     }
 
-    public LocalDateTime getManufatured() {
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public LocalDateTime getManufactured() {
         return manufactured;
     }
 
-    public void setManufatured(LocalDateTime manufactured) {
+    public void setManufactured(LocalDateTime manufactured) {
         this.manufactured = manufactured;
     }
 

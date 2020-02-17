@@ -2,9 +2,15 @@ package practice.guestRegistry.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.lang.NonNull;
+
+import java.util.UUID;
 
 @Document("person")
 public class Person {
+
+    //ObjectId vs SequenceId vs UUID
+    @NonNull
     @Id
     Long id;
 
@@ -16,6 +22,7 @@ public class Person {
     String phoneNumber;
 
     public Person(Long id, String firstName, String middleName, String lastName, String email, String phoneNumber) {
+//        this.id = UUID.randomUUID().toString();
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;

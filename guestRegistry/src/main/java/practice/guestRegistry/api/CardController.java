@@ -28,7 +28,11 @@ public class CardController {
 
     @GetMapping
     public List<Card> getCards() {
-        return service.getAllCards();
+        List<Card> cards = service.getAllCards();
+        for (Card card : cards) {
+            System.out.println(card);
+        }
+        return cards;
     }
 
     @PostMapping

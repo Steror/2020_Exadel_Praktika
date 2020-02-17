@@ -50,6 +50,8 @@ public class CardDaoImpl implements CardDao {
     public void save(Card card) {
         long temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
         card.setId(temp);
+        System.out.println("Saving card:" + card);
+//        mongoTemplate.save(card.getLocation(), "location");
         mongoTemplate.save(card);
     }
 

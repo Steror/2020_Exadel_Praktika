@@ -9,8 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import practice.guestRegistry.dao.LocationDao;
 import practice.guestRegistry.models.Card;
 import practice.guestRegistry.models.CardType;
+import practice.guestRegistry.models.Location;
 import practice.guestRegistry.models.Person;
 import practice.guestRegistry.services.CardService;
 import practice.guestRegistry.services.PersonService;
@@ -29,6 +31,9 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	private CardService cardService;
 	@Autowired
 	MongoTemplate mongoTemplate;
+	@Autowired
+	LocationDao locationDao;
+
 
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(GuestRegistryApplication.class);
@@ -61,14 +66,21 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		Location location = new Location();
+		location.setId((long)1);
+		location.setLocationName("Grazi vieta");
+		locationDao.save(location);
+
 		cardService.deleteAll();
 		cardService.addCard(new Card(11L,
 				"serial",
+				location,
 				LocalDateTime.now(),
 				LocalDateTime.now(),
 				CardType.GUEST));
 		cardService.addCard(new Card(12L,
 				"SERIAL",
+				location,
 				LocalDateTime.now(),
 				LocalDateTime.now(),
 				CardType.GUEST));
