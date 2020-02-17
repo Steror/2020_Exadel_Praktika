@@ -28,7 +28,7 @@ public class LocationDaoImpl implements LocationDao {
     public void save (Location location) {
         mongoTemplate.save(location);
     }
-    
+
     public void deleteById(Long id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
