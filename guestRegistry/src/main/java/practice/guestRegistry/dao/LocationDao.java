@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LocationDao {
-    public Optional<Location> findById (Long id);
-    public List<Location> findAll ();
-    public void save (Location location);
-    public void deleteById (Long id);
+    Optional<Location> findById (Long id);
+    List<Location> findAll ();
+    void add (Location location);
+    void update (Long id, Location location);
+    void deleteById (Long id);
 }

@@ -19,11 +19,10 @@ public class LocationService {
 
     public List<Location> getAllLocations() { return dao.findAll(); }
 
-    public void addLocation(Location location) { dao.save(location); }
+    public void addLocation(Location location) { dao.add(location); }
 
     public void updateLocation(Long id, Location location) {
-        location.setId(id);
-        dao.save(location);
+        dao.update(id, location);
     }
 
     public void deleteLocationById(Long id) { dao.deleteById(id); }
