@@ -73,11 +73,11 @@ entity Worker {
     <b>ID</b>
     person_id
     card_id
-    position_id
 }
 
 entity Position {
     ...
+    worker_id
     contract_url
     start_date
     ...
@@ -130,6 +130,3 @@ LocationType -right- Location
 
 @enduml
 #+END_SRC
-
-#+RESULTS:
-[[file:db.png]]

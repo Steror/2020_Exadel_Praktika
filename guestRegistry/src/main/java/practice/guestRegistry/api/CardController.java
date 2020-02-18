@@ -1,5 +1,6 @@
 package practice.guestRegistry.api;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/card")
+@CrossOrigin("*")
 public class CardController {
 
     CardService service;
@@ -22,7 +24,7 @@ public class CardController {
 
 //    @GetMapping("card")
     @GetMapping(path="{id}")
-    public Optional<Card> getCard(@PathVariable long id) {
+    public Optional<Card> getCard(@PathVariable ObjectId id) {
         return service.getCardById(id);
     }
 
@@ -42,13 +44,13 @@ public class CardController {
     }
 
     @PutMapping(path="{id}")
-    public void updateCard(@PathVariable("id") long id, @RequestBody Card newCard) {
+    public void updateCard(@PathVariable("id") ObjectId id, @RequestBody Card newCard) {
         System.out.println("I HAVE BEEN CALLED");
         service.updateCard(id, newCard);
     }
 
     @DeleteMapping(path="{id}")
-    public void deleteCard(@PathVariable long id) {
+    public void deleteCard(@PathVariable ObjectId id) {
         service.deleteCardById(id);
     }
 }

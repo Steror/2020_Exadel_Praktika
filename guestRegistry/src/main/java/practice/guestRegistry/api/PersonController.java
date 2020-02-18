@@ -1,5 +1,6 @@
 package practice.guestRegistry.api;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import practice.guestRegistry.models.Person;
@@ -21,7 +22,7 @@ public class PersonController {
 
 //    @GetMapping("person")
     @GetMapping(path="{id}")
-    public Optional<Person> getPerson(@PathVariable long id) {
+    public Optional<Person> getPerson(@PathVariable ObjectId id) {
         return service.getPersonById(id);
     }
 
@@ -36,12 +37,12 @@ public class PersonController {
     }
 
     @PutMapping(path="{id}")
-    public void updatePerson(@PathVariable("id") long id, @RequestBody Person newPerson) {
+    public void updatePerson(@PathVariable("id") ObjectId id, @RequestBody Person newPerson) {
         service.updatePerson(id, newPerson);
     }
 
     @DeleteMapping(path="{id}")
-    public void deletePerson(@PathVariable long id) {
+    public void deletePerson(@PathVariable ObjectId id) {
         service.deletePersonById(id);
     }
 }

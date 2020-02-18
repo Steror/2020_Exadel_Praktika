@@ -1,5 +1,6 @@
 package practice.guestRegistry.services;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestRegistry.dao.CardDao;
@@ -21,7 +22,7 @@ public class CardService {
         dao.deleteAll();
     }
 
-    public Optional<Card> getCardById (long id) {
+    public Optional<Card> getCardById (ObjectId id) {
         return dao.findById(id);
     }
 
@@ -33,11 +34,11 @@ public class CardService {
         dao.save(newCard);
     }
 
-    public void updateCard (Long id, Card newCard) {
+    public void updateCard (ObjectId id, Card newCard) {
         dao.update(id, newCard);
     }
 
-    public void deleteCardById (Long id) {
+    public void deleteCardById (ObjectId id) {
         dao.deleteById(id);
     }
 
