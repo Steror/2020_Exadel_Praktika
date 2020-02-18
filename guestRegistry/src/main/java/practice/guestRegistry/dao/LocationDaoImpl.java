@@ -53,7 +53,13 @@ public class LocationDaoImpl implements LocationDao {
 
     @PostConstruct
     private void after() {
-        if (!mongoTemplate.collectionExists(Location.class))
+        if (!mongoTemplate.collectionExists(Location.class)) {
             sequenceDao.initCollection(HOSTING_SEQ_KEY);
+        }
+        System.out.println("--------------------------------");
+        for (SequenceId name : mongoTemplate.findAll(SequenceId.class)) {
+            System.out.println(name);
+        }
+        System.out.println("--------------------------------");
     }
 }

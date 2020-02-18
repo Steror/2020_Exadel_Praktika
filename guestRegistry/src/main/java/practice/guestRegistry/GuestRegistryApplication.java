@@ -18,6 +18,7 @@ import practice.guestRegistry.services.CardService;
 import practice.guestRegistry.services.LocationService;
 import practice.guestRegistry.services.PersonService;
 
+import javax.annotation.PostConstruct;
 import java.io.PrintStream;
 import java.time.LocalDateTime;
 
@@ -36,8 +37,6 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	private LocationService locationService;
 	@Autowired
 	MongoTemplate mongoTemplate;
-	@Autowired
-	LocationDao locationDao;
 
 
 	public static void main(String[] args) {
@@ -72,9 +71,13 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		Location location = new Location();
-		location.setId((long)1);
-		location.setLocationName("Grazi vieta");
-		locationDao.save(location);
+		location.setName("a");
+		location.setCountry("b");
+		location.setCity("c");
+		location.setAddress("d");
+		location.setLocationType(OFFICE);
+		location.setPhoneNumber("777");
+		locationService.addLocation(location);
 
 		cardService.deleteAll();
 		cardService.addCard(new Card(11L,
@@ -90,14 +93,6 @@ public class GuestRegistryApplication implements CommandLineRunner {
 				LocalDateTime.now(),
 				CardType.GUEST));
 
-		Location location = new Location();
-		location.setName("a");
-		location.setCountry("b");
-		location.setCity("c");
-		location.setAddress("d");
-		location.setLocationType(OFFICE);
-		location.setPhoneNumber("777");
-		locationService.addLocation(location);
 
 
 		personService.deleteAll();
@@ -129,7 +124,7 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		};
 	}
 
-//	@Bean
+	//	@Bean
 //	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 //		return args -> {
 //			System.out.println("Let's inspect the beans provided by Spring Boot:");
