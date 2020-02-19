@@ -14,7 +14,7 @@ public class LocationController {
     LocationService service;
 
     @Autowired
-    public void LocationController(LocationService service) { this.service = service; }
+    public LocationController(LocationService service) { this.service = service; }
 
     @GetMapping(path="{id}")
     public Optional<Location> getLocation(@PathVariable Long id) {

@@ -51,6 +51,10 @@ public class LocationDaoImpl implements LocationDao {
         mongoTemplate.remove(query, Location.class);
     }
 
+    public void deleteAll() {
+        mongoTemplate.findAllAndRemove(Query.query(Criteria.where("id").exists(true)), Location.class);
+    }
+
     @PostConstruct
     private void after() {
         if (!mongoTemplate.collectionExists(Location.class)) {
