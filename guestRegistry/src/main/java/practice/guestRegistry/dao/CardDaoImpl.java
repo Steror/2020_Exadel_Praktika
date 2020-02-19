@@ -1,5 +1,6 @@
 package practice.guestRegistry.dao;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -37,7 +38,7 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public Optional<Card> findById(long id) {
+    public Optional<Card> findById(ObjectId id) {
         return Optional.ofNullable (mongoTemplate.findById(id, Card.class));
     }
 
@@ -48,15 +49,14 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public void save(Card card) {
-        long temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
-        card.setId(temp);
+//        long temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
+        card.setId(ObjectId.get());
         System.out.println("Saving card:" + card);
-//        mongoTemplate.save(card.getLocation(), "location");
         mongoTemplate.save(card);
     }
 
     @Override
-    public void update(long id, Card card) {
+    public void update(ObjectId id, Card card) {
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Card.class)) {
             card.setId(id);
             mongoTemplate.save(card);
@@ -64,23 +64,18 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(ObjectId id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
 //        mongoTemplate.findAllAndRemove(Query.query(new Criteria().where("id").is(id)),Card.class);
         mongoTemplate.findAllAndRemove(query, Card.class);
     }
 
-    @PostConstruct
-    private void after() {
-
-        if (!mongoTemplate.collectionExists(Card.class)   ) {
-            sequenceDao.initCollection(HOSTING_SEQ_KEY);
-        }
-        System.out.println("--------------------------------");
-        for (SequenceId name : mongoTemplate.findAll(SequenceId.class)) {
-            System.out.println(name);
-        }
-        System.out.println("--------------------------------");
-    }
+//    @PostConstruct
+//    private void after() {
+//
+//        if (!mongoTemplate.collectionExists(Card.class)   ) {
+//            sequenceDao.initCollection(HOSTING_SEQ_KEY);
+//        }
+//    }
 }

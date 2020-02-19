@@ -1,5 +1,6 @@
 package practice.guestRegistry;
 
+import org.bson.types.ObjectId;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -91,13 +92,13 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		eventService.addEvent(event);
 
 		cardService.deleteAll();
-		cardService.addCard(new Card(11L,
+		cardService.addCard(new Card(ObjectId.get(),
 				"serial",
 				location,
 				LocalDateTime.now(),
 				LocalDateTime.now(),
 				CardType.GUEST));
-		cardService.addCard(new Card(12L,
+		cardService.addCard(new Card(ObjectId.get(),
 				"SERIAL",
 				location,
 				LocalDateTime.now(),
@@ -107,8 +108,8 @@ public class GuestRegistryApplication implements CommandLineRunner {
 
 
 		personService.deleteAll();
-		personService.addPerson(new Person((long) 11, "firstName", "mname", "lname", "emaill", "phone_nr"));
-		personService.addPerson(new Person((long) 22, "firstName", "mname", "lname", "emaill", "phone_nr"));
+		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
+		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
 
 
 //		db clean up

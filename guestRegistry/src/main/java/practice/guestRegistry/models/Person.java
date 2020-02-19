@@ -1,28 +1,27 @@
 package practice.guestRegistry.models;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 
-import java.util.UUID;
+import java.net.URL;
 
 @Document("person")
 public class Person {
 
-    //ObjectId vs SequenceId vs UUID
     @NonNull
     @Id
-    Long id;
+    ObjectId id;
 
     String firstName;
     String middleName;
     String lastName;
-
     String email;
     String phoneNumber;
+    //URL url;
 
-    public Person(Long id, String firstName, String middleName, String lastName, String email, String phoneNumber) {
-//        this.id = UUID.randomUUID().toString();
+    public Person(ObjectId id, String firstName, String middleName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -43,11 +42,12 @@ public class Person {
                 '}';
     }
 
-    public Long getId() {
+    @NonNull
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(@NonNull ObjectId id) {
         this.id = id;
     }
 

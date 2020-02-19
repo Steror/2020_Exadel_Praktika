@@ -1,5 +1,6 @@
 package practice.guestRegistry.services;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestRegistry.dao.PersonDao;
@@ -23,7 +24,7 @@ public class PersonService {
         dao.deleteAll();
     }
 
-    public Optional<Person> getPersonById (long id) {
+    public Optional<Person> getPersonById (ObjectId id) {
         return dao.findById(id);
     }
 
@@ -35,12 +36,12 @@ public class PersonService {
         dao.save(newPerson);
     }
 
-    public void updatePerson (Long id, Person newPerson) {
+    public void updatePerson (ObjectId id, Person newPerson) {
         newPerson.setId(id);
         dao.save(newPerson);
     }
 
-    public void deletePersonById (Long id) {
+    public void deletePersonById (ObjectId id) {
         dao.deleteById(id);
     }
 

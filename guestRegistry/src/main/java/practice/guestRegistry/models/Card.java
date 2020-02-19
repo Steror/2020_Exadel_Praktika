@@ -2,22 +2,18 @@ package practice.guestRegistry.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.lang.NonNull;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.time.LocalDateTime;
 
 @Document(collection = "card")
 public class Card {
 
-    @NonNull
     @Id
-    Long id;
+    ObjectId id;
     String serialNumber;
 
     @DBRef(db = "test", lazy = false)
@@ -28,7 +24,7 @@ public class Card {
     CardType ctype;
 
 
-    public Card(Long id, String serialNumber, Location location, LocalDateTime manufactured, LocalDateTime validUntil, CardType ctype) {
+    public Card(ObjectId id, String serialNumber, Location location, LocalDateTime manufactured, LocalDateTime validUntil, CardType ctype) {
         this.id = id;
         this.serialNumber = serialNumber;
         this.location = location;
@@ -50,11 +46,12 @@ public class Card {
                 '}';
     }
 
-    public Long getId() {
+    @NonNull
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(@NonNull ObjectId id) {
         this.id = id;
     }
 

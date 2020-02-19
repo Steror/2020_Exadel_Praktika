@@ -17,13 +17,10 @@ public class SequenceId {
         this.seq = (long) i;
     }
 
-
     public SequenceId(String tableName, long i) {
         this.id = tableName;
         this.seq = i;
     }
-
-
 
     @Override
     public String toString() {
