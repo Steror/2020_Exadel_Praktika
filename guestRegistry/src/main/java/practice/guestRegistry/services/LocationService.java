@@ -26,4 +26,6 @@ public class LocationService {
     }
 
     public void deleteLocationById(Long id) { dao.deleteById(id); }
+
+    public void deleteAllLocations() { dao.deleteAll(); }
 }

@@ -11,11 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import practice.guestRegistry.dao.LocationDao;
-import practice.guestRegistry.models.Card;
-import practice.guestRegistry.models.CardType;
-import practice.guestRegistry.models.Location;
-import practice.guestRegistry.models.Person;
+import practice.guestRegistry.models.*;
 import practice.guestRegistry.services.CardService;
+import practice.guestRegistry.services.EventService;
 import practice.guestRegistry.services.LocationService;
 import practice.guestRegistry.services.PersonService;
 
@@ -36,6 +34,8 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	private CardService cardService;
 	@Autowired
 	private LocationService locationService;
+	@Autowired
+	private EventService eventService;
 	@Autowired
 	MongoTemplate mongoTemplate;
 
@@ -71,6 +71,7 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		locationService.deleteAllLocations();
 		Location location = new Location();
 		location.setName("a");
 		location.setCountry("b");
@@ -79,6 +80,16 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		location.setLocationType(OFFICE);
 		location.setPhoneNumber("777");
 		locationService.addLocation(location);
+
+		eventService.deleteAllEvents();
+		Event event = new Event();
+		event.setName("a");
+		event.setDescription("b");
+		event.setParticipants_amount(10);
+		event.setStart_date_time(LocalDateTime.now());
+		event.setEnd_date_time(LocalDateTime.now());
+		event.setLocation(location);
+		eventService.addEvent(event);
 
 		cardService.deleteAll();
 		cardService.addCard(new Card(ObjectId.get(),
