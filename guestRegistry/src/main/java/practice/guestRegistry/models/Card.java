@@ -1,11 +1,13 @@
 package practice.guestRegistry.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.mongodb.lang.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import practice.guestRegistry.config.ObjectID_Serializer;
 
 import java.time.LocalDateTime;
 
@@ -13,13 +15,14 @@ import java.time.LocalDateTime;
 public class Card {
 
     @Id
-    ObjectId id;
-    String serialNumber;
+    @JsonSerialize(using = ObjectID_Serializer.class)
+    private ObjectId id;
+    private String serialNumber;
 
     @DBRef(db = "test", lazy = false)
-    Location location;
-    LocalDateTime manufactured;
-    LocalDateTime validUntil;
+    private Location location;
+    private LocalDateTime manufactured;
+    private LocalDateTime validUntil;
 //    @JsonProperty("ctype")
     CardType ctype;
 
