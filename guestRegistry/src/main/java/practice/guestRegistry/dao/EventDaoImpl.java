@@ -1,5 +1,6 @@
 package practice.guestRegistry.dao;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,7 +24,7 @@ public class EventDaoImpl implements EventDao {
         this.sequenceDao = sequenceDao;
     }
 
-    public Optional<Event> findById (Long id) {
+    public Optional<Event> findById (ObjectId id) {
         return Optional.ofNullable(mongoTemplate.findById(id, Event.class));
     }
 
@@ -32,19 +33,19 @@ public class EventDaoImpl implements EventDao {
     }
 
     public void add (Event event) {
-        Long temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
-        event.setId(temp);
+        //ObjectId temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
+        event.setId(ObjectId.get());
         mongoTemplate.save(event);
     }
 
-    public void update (Long id, Event event) {
+    public void update (ObjectId id, Event event) {
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Event.class)) {
             event.setId(id);
             mongoTemplate.save(event);
         }
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(ObjectId id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
         mongoTemplate.remove(query, Event.class);

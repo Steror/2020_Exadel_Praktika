@@ -1,5 +1,6 @@
 package practice.guestRegistry.dao;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -24,7 +25,7 @@ public class LocationDaoImpl implements LocationDao {
         this.sequenceDao = sequenceDao;
     }
 
-    public Optional<Location> findById (Long id) {
+    public Optional<Location> findById (ObjectId id) {
         return Optional.ofNullable(mongoTemplate.findById(id, Location.class));
     }
 
@@ -33,19 +34,19 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     public void add (Location location) {
-        Long temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
-        location.setId(temp);
+        //ObjectId temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
+        location.setId(ObjectId.get());
         mongoTemplate.save(location);
     }
 
-    public void update (Long id, Location location) {
+    public void update (ObjectId id, Location location) {
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Location.class)) {
             location.setId(id);
             mongoTemplate.save(location);
         }
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(ObjectId id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
         mongoTemplate.remove(query, Location.class);

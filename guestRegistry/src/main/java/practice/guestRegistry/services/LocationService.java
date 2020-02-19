@@ -1,5 +1,6 @@
 package practice.guestRegistry.services;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestRegistry.dao.LocationDao;
@@ -15,17 +16,17 @@ public class LocationService {
     @Autowired
     public LocationService(LocationDao dao) { this.dao = dao; }
 
-    public Optional<Location> getLocationById(Long id) { return dao.findById(id); }
+    public Optional<Location> getLocationById(ObjectId id) { return dao.findById(id); }
 
     public List<Location> getAllLocations() { return dao.findAll(); }
 
     public void addLocation(Location location) { dao.add(location); }
 
-    public void updateLocation(Long id, Location location) {
+    public void updateLocation(ObjectId id, Location location) {
         dao.update(id, location);
     }
 
-    public void deleteLocationById(Long id) { dao.deleteById(id); }
+    public void deleteLocationById(ObjectId id) { dao.deleteById(id); }
 
     public void deleteAllLocations() { dao.deleteAll(); }
 }
