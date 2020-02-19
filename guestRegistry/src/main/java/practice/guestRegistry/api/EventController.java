@@ -1,5 +1,6 @@
 package practice.guestRegistry.api;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import practice.guestRegistry.models.Event;
@@ -17,7 +18,7 @@ public class EventController {
     public EventController(EventService service) { this.service = service; }
 
     @GetMapping(path="{id}")
-    public Optional<Event> getEvent(@PathVariable Long id) {
+    public Optional<Event> getEvent(@PathVariable ObjectId id) {
         return service.getEventById(id);
     }
 
@@ -29,8 +30,8 @@ public class EventController {
         service.addEvent(event); }
 
     @PutMapping(path="{id}")
-    public void updateEvent(@PathVariable Long id, Event event) { service.updateEvent(id, event); }
+    public void updateEvent(@PathVariable ObjectId id, Event event) { service.updateEvent(id, event); }
 
     @DeleteMapping(path="{id}")
-    public void deleteEvent(@PathVariable Long id) { service.deleteEventById(id); }
+    public void deleteEvent(@PathVariable ObjectId id) { service.deleteEventById(id); }
 }

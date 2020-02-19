@@ -1,5 +1,6 @@
 package practice.guestRegistry.models;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Document(collection = "event")
 public class Event {
     @Id
-    private Long id;
+    private ObjectId id;
     private String name;
     private String description;
     private int participants_amount;

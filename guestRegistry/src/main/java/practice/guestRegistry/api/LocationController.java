@@ -1,5 +1,6 @@
 package practice.guestRegistry.api;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import practice.guestRegistry.models.Location;
@@ -17,7 +18,7 @@ public class LocationController {
     public LocationController(LocationService service) { this.service = service; }
 
     @GetMapping(path="{id}")
-    public Optional<Location> getLocation(@PathVariable Long id) {
+    public Optional<Location> getLocation(@PathVariable ObjectId id) {
         return service.getLocationById(id);
     }
 
@@ -28,8 +29,8 @@ public class LocationController {
     public void addLocation(Location location) { service.addLocation(location); }
 
     @PutMapping(path="{id}")
-    public void updateLocation(@PathVariable Long id, Location location) { service.updateLocation(id, location); }
+    public void updateLocation(@PathVariable ObjectId id, Location location) { service.updateLocation(id, location); }
 
     @DeleteMapping(path="{id}")
-    public void deleteLocation(@PathVariable Long id) { service.deleteLocationById(id); }
+    public void deleteLocation(@PathVariable ObjectId id) { service.deleteLocationById(id); }
 }
