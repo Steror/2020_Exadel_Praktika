@@ -29,7 +29,8 @@ public class LocationController {
 
     @PostMapping
     @CrossOrigin(origins = "http://localhost:4200")
-    public void addLocation(Location location) { service.addLocation(location); }
+    public void addLocation(Location location) {
+        service.addLocation(location); }
 
     @PutMapping(path="{id}")
     @CrossOrigin(origins = "http://localhost:4200")

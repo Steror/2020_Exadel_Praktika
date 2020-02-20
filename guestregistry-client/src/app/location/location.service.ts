@@ -15,13 +15,13 @@ export class LocationService {
   }
 
   get(id: any) {
-    return this.http.get(this.API + '/' + id.valueOf());
+    return this.http.get(this.API + '/' + id.toString());
   }
 
   save(location: any): Observable<any> {
     let result: Observable<any>;
     if (location.id) {
-      result = this.http.put(this.API + '/' + location.id.valueOf(), location);
+      result = this.http.put(this.API + '/' + location.id, location);
     } else {
       result = this.http.post(this.API, location);
     }
@@ -30,6 +30,6 @@ export class LocationService {
 
   remove(id: any) {
     console.log(typeof id);
-    return this.http.delete(this.API, id);
+    return this.http.delete(this.API + '/' + id.toString());
   }
 }

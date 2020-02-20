@@ -12,12 +12,19 @@ export class LocationListComponent implements OnInit {
   constructor(private locationService: LocationService) { }
 
   ngOnInit() {
-    this.locationService.getAll().subscribe(data => {
-      this.locations = data;
-    });
+    this.loadLocations();
   }
 
   remove(id) {
-    this.locationService.remove(id).subscribe();
+    this.locationService.remove(id).subscribe(result => {
+      this.loadLocations();
+    });
+    // response.subscribe(() => this.loadLocations());
+  }
+
+  loadLocations() {
+    this.locationService.getAll().subscribe(data => {
+      this.locations = data;
+    });
   }
 }
