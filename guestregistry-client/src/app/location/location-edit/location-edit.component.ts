@@ -31,7 +31,6 @@ export class LocationEditComponent implements OnInit {
   }
 
   save(form: NgForm) {
-    console.log(form);
     this.locationService.save(form).subscribe(result => {
       this.gotoList();
     }, error => console.error(error));

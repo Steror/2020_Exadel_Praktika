@@ -21,6 +21,7 @@ export class LocationService {
   save(location: any): Observable<any> {
     let result: Observable<any>;
     if (location.id) {
+      console.log(location);
       result = this.http.put(this.API + '/' + location.id, location);
     } else {
       result = this.http.post(this.API, location);

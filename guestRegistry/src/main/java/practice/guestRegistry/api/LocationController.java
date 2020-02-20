@@ -29,12 +29,13 @@ public class LocationController {
 
     @PostMapping
     @CrossOrigin(origins = "http://localhost:4200")
-    public void addLocation(Location location) {
+    public void addLocation(@RequestBody Location location) {
         service.addLocation(location); }
 
     @PutMapping(path="{id}")
     @CrossOrigin(origins = "http://localhost:4200")
-    public void updateLocation(@PathVariable ObjectId id, Location location) { service.updateLocation(id, location); }
+    public void updateLocation(@PathVariable ObjectId id, @RequestBody Location location) {
+        service.updateLocation(id, location); }
 
     @DeleteMapping(path="{id}")
     @CrossOrigin(origins = "http://localhost:4200")

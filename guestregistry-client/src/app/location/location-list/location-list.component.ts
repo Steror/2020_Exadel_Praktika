@@ -19,7 +19,6 @@ export class LocationListComponent implements OnInit {
     this.locationService.remove(id).subscribe(result => {
       this.loadLocations();
     });
-    // response.subscribe(() => this.loadLocations());
   }
 
   loadLocations() {
