@@ -18,19 +18,24 @@ public class LocationController {
     public LocationController(LocationService service) { this.service = service; }
 
     @GetMapping(path="{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public Optional<Location> getLocation(@PathVariable ObjectId id) {
         return service.getLocationById(id);
     }
 
     @GetMapping
+    @CrossOrigin(origins = "http://localhost:4200")
     public List<Location> getLocations() { return service.getAllLocations(); }
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:4200")
     public void addLocation(Location location) { service.addLocation(location); }
 
     @PutMapping(path="{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public void updateLocation(@PathVariable ObjectId id, Location location) { service.updateLocation(id, location); }
 
     @DeleteMapping(path="{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public void deleteLocation(@PathVariable ObjectId id) { service.deleteLocationById(id); }
 }
