@@ -1,9 +1,11 @@
 package practice.guestRegistry.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
+import practice.guestRegistry.config.ObjectID_Serializer;
 
 import java.net.URL;
 
@@ -12,6 +14,7 @@ public class Person {
 
     @NonNull
     @Id
+    @JsonSerialize(using = ObjectID_Serializer.class)
     ObjectId id;
 
     String firstName;
