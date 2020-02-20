@@ -1,0 +1,31 @@
+<h2>Location List</h2>
+
+<div>
+  <button [routerLink]="['/location-add']">Add</button>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col"> No. </th>
+        <th scope="col"> Name </th>
+        <th scope="col"> Country </th>
+        <th scope="col"> City </th>
+        <th scope="col"> Address </th>
+        <th scope="col"> Type </th>
+        <th scope="col"> Phone number </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let location of locations">
+        <td> {{location.id}} </td>
+        <td> {{location.name}} </td>
+        <td> {{location.country}} </td>
+        <td> {{location.city}} </td>
+        <td> {{location.address}} </td>
+        <td> {{location.locationType}} </td>
+        <td> {{location.phoneNumber}} </td>
+        <td><button [routerLink]="['/location-edit', location.id]">Edit</button></td>
+        <td><button (click)="remove(location.id)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
