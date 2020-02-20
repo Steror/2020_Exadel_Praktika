@@ -1,4 +1,82 @@
 <p>card-add works!</p>
-<button class="btn btn-success btn-sl"(click)="goToPage('card/list')">
+<button class="btn btn-success btn-sl"(click)="gotoPage('card/list')">
   <span>Back to card list</span>
 </button>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form>
+        <fieldset>
+          <legend class="text-center">Valid information is required to register. <span class="req"><small>
+                                required *</small></span></legend>
+
+          <div class="form-group">
+            <label for="Name"><span class="req">* </span> Name: <small>
+              best name in the world
+            </small> </label>
+            <input required type="text" [(ngModel)]="card.serialNumber" name="name" id="name"
+                   class="form-control phone" maxlength="28" placeholder="Enter your fullname..." />
+          </div>
+
+          <div class="form-group">
+            <label for="Type"><span class="req">* </span> Type: </label>
+            <input class="form-control" type="text" [(ngModel)]="card.location" name="type" id="txt" required
+                   placeholder="There should be type" />
+            <div id="errFirst"></div>
+          </div>
+
+          <div class="form-group">
+            <label> Select card type </label>
+            <select placeholder="Location Type" [(ngModel)]="card.ctype"
+                    required name="ctype" #ctype>
+              <option value="GUEST">Guest</option>
+              <option value="PERSONNEL">Personnel</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="fromm"><span class="req">* </span> Date from : </label>
+            <input class="form-control" type="text" [(ngModel)]="card.manufactured" name="experience" id="txt"
+                   placeholder="date from" required />
+            <div id="errLast"></div>
+          </div>
+
+          <div class='col-md-6'>
+            <div class="form-group">
+              <label class="control-label">Appointment Time</label>
+              <div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control" [(ngModel)]="card.manufactured" name="experience" id="txt"/>
+                <span class="input-group-addon">
+                     <span class="glyphicon glyphicon-calendar"></span>
+                     </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="too"><span class="req">* </span> Date to: </label>
+            <input class="form-control" required type="text" [(ngModel)]="card.validUntil" name="domain"
+                   id="email" placeholder="date to" />
+            <div class="status" id="status"></div>
+          </div>
+
+
+<!--          <div class="form-group">-->
+<!--            <label for="availability"><span class="req">* </span> availability: </label>-->
+<!--            <input class="form-control" required type="boolean" [(ngModel)]="card.availability" name="availability"-->
+<!--                   id="availability" placeholder="is it available" />-->
+<!--            &lt;!&ndash;            <div class="status" id="status"></div>&ndash;&gt;-->
+<!--          </div>-->
+
+          <div class="form-group">
+            <input class="btn btn-success" type="submit" name="submit_reg" value="Register" (click)="addCard()">
+          </div>
+        </fieldset>
+      </form><!-- ends register form -->
+      <!-- second for to fiter user-->
+    </div><!-- ends col-6 -->
+
+  </div>
+</div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TypeSelectlistComponent } from './type-selectlist.component';
+import { LocationListComponent } from './location-list.component';
 
-describe('TypeSelectlistComponent', () => {
-  let component: TypeSelectlistComponent;
-  let fixture: ComponentFixture<TypeSelectlistComponent>;
+describe('LocationListComponent', () => {
+  let component: LocationListComponent;
+  let fixture: ComponentFixture<LocationListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TypeSelectlistComponent ]
+      declarations: [ LocationListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TypeSelectlistComponent);
+    fixture = TestBed.createComponent(LocationListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
