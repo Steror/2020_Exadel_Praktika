@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/event")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EventController {
     EventService service;
 
@@ -26,11 +27,11 @@ public class EventController {
     public List<Event> getEvents() { return service.getAllEvents(); }
 
     @PostMapping
-    public void addEvent(Event event) {
+    public void addEvent(@RequestBody Event event) {
         service.addEvent(event); }
 
     @PutMapping(path="{id}")
-    public void updateEvent(@PathVariable ObjectId id, Event event) { service.updateEvent(id, event); }
+    public void updateEvent(@PathVariable ObjectId id, @RequestBody Event event) { service.updateEvent(id, event); }
 
     @DeleteMapping(path="{id}")
     public void deleteEvent(@PathVariable ObjectId id) { service.deleteEventById(id); }

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LocationListComponent } from './location/location-list/location-list.component';
 import { LocationEditComponent } from './location/location-edit/location-edit.component';
+import { EventListComponent } from './event/event-list/event-list.component';
+import { EventEditComponent } from './event/event-edit/event-edit.component';
 
 
 const routes: Routes = [
@@ -17,6 +19,18 @@ const routes: Routes = [
   {
     path: 'location-edit/:id',
     component: LocationEditComponent
+  },
+  {
+    path: 'event-list',
+    component: EventListComponent
+  },
+  {
+    path: 'event-add',
+    component: EventEditComponent
+  },
+  {
+    path: 'event-edit/:id',
+    component: EventEditComponent
   }
 ];
 

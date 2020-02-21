@@ -1,0 +1,31 @@
+<h2>Event List</h2>
+
+<div>
+  <button [routerLink]="['/event-add']">Add</button>
+  <table>
+    <thead>
+    <tr>
+      <th scope="col"> No. </th>
+      <th scope="col"> Name </th>
+      <th scope="col"> Description </th>
+      <th scope="col"> Invited people </th>
+      <th scope="col"> From </th>
+      <th scope="col"> To </th>
+      <th scope="col"> Location </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let event of events">
+      <td> {{event.id}} </td>
+      <td> {{event.name}} </td>
+      <td> {{event.description}} </td>
+      <td> {{event.participants_amount}} </td>
+      <td> {{event.start_date_time}} </td>
+      <td> {{event.end_date_time}} </td>
+      <td> {{event.location}} </td>
+      <td><button [routerLink]="['/event-edit', event.id]">Edit</button></td>
+      <td><button (click)="remove(event.id)">Delete</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

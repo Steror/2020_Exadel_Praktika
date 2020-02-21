@@ -1,0 +1,31 @@
+<div>
+  <form #eventForm="ngForm" (ngSubmit)="save(eventForm.value)">
+    <h2>{{event.id ? 'Edit' : 'Add'}} Event</h2>
+    <input type="hidden" name="id" [(ngModel)]="event.id">
+    <label>Name
+    <input placeholder="Name" [(ngModel)]="event.name"
+           required name="name" #name></label><br>
+    <label>Description
+    <input placeholder="Description" [(ngModel)]="event.description"
+           name="description" #description></label><br>
+    <label>Invited people
+    <input placeholder="Invited people" [(ngModel)]="event.participants_amount"
+           required name="participants_amount" #participants_amount></label><br>
+    <label>From
+    <input placeholder="From" [(ngModel)]="event.start_date_time"
+           name="start_date_time" #start_date_time></label><br>
+    <label>To
+    <input placeholder="To" [(ngModel)]="event.end_date_time"
+           name="end_date_time" #end_date_time></label><br>
+    <label>Location
+    <select [(ngModel)]="event.location"
+            required name="location" #location>
+      <option *ngFor="let location of locations" [ngValue]="location">
+        {{location.name}}
+      </option>
+    </select></label><br>
+    <button type="submit"
+            [disabled]="!eventForm.valid">Save</button>
+    <a routerLink="/event-list">Cancel</a>
+  </form>
+</div>
