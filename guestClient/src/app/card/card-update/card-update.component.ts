@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CardServiceService} from "../card-service.service";
 import {Card} from "../card";
+import {CardTypes} from "../cardTypes";
 import DateTimeFormat = Intl.DateTimeFormat;
 
 @Component({
@@ -16,7 +17,9 @@ export class CardUpdateComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: CardServiceService)
+    private service: CardServiceService
+  )
+    // private typos: CardTypes)
   { }
 
   ngOnInit() {

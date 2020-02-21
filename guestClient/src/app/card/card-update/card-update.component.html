@@ -23,15 +23,18 @@
 
 
           <div class="form-group">
-            <label>
-              Select card type
+            <label> Select card type </label>
+            <select placeholder="Location Type" [(ngModel)]="card.ctype"
+                    required name="ctype" #ctype>
+              <option value="GUEST">Guest</option>
+              <option value="PERSONNEL">Personnel</option>
+            </select>
 
-              <select formControlName="preferredBankAccountId" class="form-control" value="">
+<!--              <select formControlName="preferredBankAccountId" class="form-control" value="">-->
 <!--                <option value="">Select card type</option>-->
-                <option *ngFor="let item of societyAccountDtos" [value]="item.societyAccountId" >{{item.nickName}}</option>
-                <option *ngFor="let item of societyAccountDtos" [value]="item.societyAccountId" >{{item.nickName}}</option>
-              </select>
-            </label>
+<!--                <option *ngFor="let type of types" >{{type}}</option>-->
+<!--                <option *ngFor="let item of societyAccountDtos" [value]="item.societyAccountId" >{{item.nickName}}</option>-->
+<!--              </select>-->
             <!--
             <label for="ctype"><span class="req">* </span> Card type: </label>
             <input class="form-control" type="text" [(ngModel)]="card.ctype" name="ctype" id="txt"
@@ -59,6 +62,11 @@
           </div>
         </fieldset>
       </form><!-- ends register form -->
+
+
+      <button class="btn btn-success btn-sl"(click)="gotoPage('card/list')">
+        <span>Back to card list</span>
+      </button>
       <!-- second for to fiter user-->
     </div><!-- ends col-6 -->
   </div>

@@ -10,7 +10,6 @@ import { CardUpdateComponent } from './card/card-update/card-update.component';
 import { CardListDeleteComponent } from './card/card-list-delete/card-list-delete.component';
 import { CardAddComponent } from './card/card-add/card-add.component';
 import {FormsModule} from "@angular/forms";
-import { TypeSelectlistComponent } from './card/type-selectlist/type-selectlist.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +17,6 @@ import { TypeSelectlistComponent } from './card/type-selectlist/type-selectlist.
     CardUpdateComponent,
     CardListDeleteComponent,
     CardAddComponent,
-    TypeSelectlistComponent
   ],
   imports: [
     BrowserModule,
