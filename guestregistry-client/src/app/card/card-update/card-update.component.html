@@ -1,0 +1,80 @@
+<p>card-update works!</p>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form>
+        <fieldset>
+          <legend class="text-center"> Updating card <span class="req"><small>
+                                required *</small></span></legend>
+
+          <div class="form-group">
+            <label for="serialNumber"><span class="req">* </span> Serial number:  </label>
+            <input required type="text" [(ngModel)]="card.serialNumber" name="serialNumber" id="txt" required
+                   class="form-control phone" maxlength="28" placeholder="Enter your fullname..." />
+          </div>
+
+          <div class="form-group">
+            <label>Location
+              <select [(ngModel)]="card.location"
+                      required name="location" #location>
+                <option *ngFor="let location of locations" [ngValue]="location">
+                  {{location.name}}
+                </option>
+              </select></label>
+          </div>
+
+
+          <div class="form-group">
+            <label> Select card type </label>
+            <select placeholder="Location Type" [(ngModel)]="card.ctype"
+                    required name="ctype" #ctype>
+              <option value="GUEST">Guest</option>
+              <option value="PERSONNEL">Personnel</option>
+            </select>
+
+            <!--              <select formControlName="preferredBankAccountId" class="form-control" value="">-->
+            <!--                <option value="">Select card type</option>-->
+            <!--                <option *ngFor="let type of types" >{{type}}</option>-->
+            <!--                <option *ngFor="let item of societyAccountDtos" [value]="item.societyAccountId" >{{item.nickName}}</option>-->
+            <!--              </select>-->
+            <!--
+            <label for="ctype"><span class="req">* </span> Card type: </label>
+            <input class="form-control" type="text" [(ngModel)]="card.ctype" name="ctype" id="txt"
+                   placeholder="date from" required />
+            <div id="errLast"></div>
+            -->
+          </div>
+
+          <div class="form-group">
+            <label>
+              Date Time Range From:
+              <input name="selectedMoments" [owlDateTimeTrigger]="dt12" [owlDateTime]="dt12"
+                     [(ngModel)]="selectedMoments"
+                     [selectMode]="'rangeFrom'">
+              <owl-date-time #dt12></owl-date-time>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>
+              Date Time Range To:
+              <input name="selectdMoments" [owlDateTimeTrigger]="dt13" [owlDateTime]="dt13"
+                     [(ngModel)]="selectedMoments"
+                     [selectMode]="'rangeTo'">
+              <owl-date-time #dt13></owl-date-time>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <input class="btn btn-success" type="submit" name="submit_reg" value="Update" (click)="updateCard()">
+            <input class="btn btn-success btn-sl" type="button" name="submit_back" value="Back to card list" (click)="gotoPage('card/list')">
+          </div>
+        </fieldset>
+      </form><!-- ends register form -->
+
+
+      <!-- second for to fiter user-->
+    </div><!-- ends col-6 -->
+  </div>
+</div>

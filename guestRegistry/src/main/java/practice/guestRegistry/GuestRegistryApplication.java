@@ -103,8 +103,19 @@ public class GuestRegistryApplication implements CommandLineRunner {
 				location,
 				LocalDateTime.now(),
 				LocalDateTime.now(),
+				CardType.PERSONNEL));
+		cardService.addCard(new Card(ObjectId.get(),
+				"good number",
+				location,
+				LocalDateTime.now(),
+				LocalDateTime.now(),
+				CardType.PERSONNEL));
+		cardService.addCard(new Card(ObjectId.get(),
+				"soso serial",
+				location,
+				LocalDateTime.now(),
+				LocalDateTime.now(),
 				CardType.GUEST));
-
 
 
 		personService.deleteAll();

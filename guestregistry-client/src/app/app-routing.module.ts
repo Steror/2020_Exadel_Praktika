@@ -4,6 +4,9 @@ import { LocationListComponent } from './location/location-list/location-list.co
 import { LocationEditComponent } from './location/location-edit/location-edit.component';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { EventEditComponent } from './event/event-edit/event-edit.component';
+import {CardListDeleteComponent} from "./card/card-list-delete/card-list-delete.component";
+import {CardAddComponent} from "./card/card-add/card-add.component";
+import {CardUpdateComponent} from "./card/card-update/card-update.component";
 
 
 const routes: Routes = [
@@ -31,7 +34,11 @@ const routes: Routes = [
   {
     path: 'event-edit/:id',
     component: EventEditComponent
-  }
+  },
+
+  {path:"card/list", component:CardListDeleteComponent},
+  {path:"card/add", component:CardAddComponent},
+  {path:"card/update/:id", component:CardUpdateComponent},
 ];
 
 @NgModule({

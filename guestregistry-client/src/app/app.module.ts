@@ -9,6 +9,16 @@ import { LocationEditComponent } from './location/location-edit/location-edit.co
 import { FormsModule } from '@angular/forms';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { EventEditComponent } from './event/event-edit/event-edit.component';
+import { CardAddComponent } from './card/card-add/card-add.component';
+import { CardListDeleteComponent } from './card/card-list-delete/card-list-delete.component';
+import { CardUpdateComponent } from './card/card-update/card-update.component';
+import {OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+// import {Stuff1} from  '@angular/cdk/overlay';
+// import {Stuff2} from  '@angular/cdk/a11y';
+// import {Stuff3} from  '@angular/cdk/portal';
+
+
 
 @NgModule({
   declarations: [
@@ -16,15 +26,25 @@ import { EventEditComponent } from './event/event-edit/event-edit.component';
     LocationListComponent,
     LocationEditComponent,
     EventListComponent,
-    EventEditComponent
+    EventEditComponent,
+    CardAddComponent,
+    CardListDeleteComponent,
+    CardUpdateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    //full list of available angular locales: https://github.com/angular/angular/tree/master/packages/common/locales
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'lt'},
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
