@@ -7,12 +7,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { LocationListComponent } from './location/location-list/location-list.component';
 import { LocationEditComponent } from './location/location-edit/location-edit.component';
 import { FormsModule } from '@angular/forms';
+import { EventListComponent } from './event/event-list/event-list.component';
+import { EventEditComponent } from './event/event-edit/event-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LocationListComponent,
-    LocationEditComponent
+    LocationEditComponent,
+    EventListComponent,
+    EventEditComponent
   ],
   imports: [
     BrowserModule,

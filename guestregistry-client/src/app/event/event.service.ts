@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class LocationService {
-  public API = '//localhost:8080/api/location';
+export class EventService {
+  public API = '//localhost:8080/api/event';
 
   constructor(private http: HttpClient) { }
 
@@ -18,12 +18,12 @@ export class LocationService {
     return this.http.get(this.API + '/' + id.toString());
   }
 
-  save(location: any): Observable<any> {
+  save(event: any): Observable<any> {
     let result: Observable<any>;
-    if (location.id) {
-      result = this.http.put(this.API + '/' + location.id, location);
+    if (event.id) {
+      result = this.http.put(this.API + '/' + event.id, event);
     } else {
-      result = this.http.post(this.API, location);
+      result = this.http.post(this.API, event);
     }
     return result;
   }

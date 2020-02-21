@@ -1,6 +1,9 @@
 package practice.guestRegistry.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -23,7 +26,7 @@ public class Event {
     private int participants_amount;
     private LocalDateTime start_date_time;
     private LocalDateTime end_date_time;
-    @DBRef(db = "test", lazy = false)
+    @DBRef(db = "test")
     private Location location;
     //@DBRef
     //Worker event_owner;
