@@ -7,8 +7,9 @@ export class Card{
   public id:string;
   public serialNumber:string;
   public location:any;
-  public manufactured:DateTimeFormat;
-  public validUntil:DateTimeFormat;
+  public manufactured:any;
+  // public validUntil:DateTimeFormat;
+  public validUntil:any;
   public ctype:any;
 
   constructor() {}

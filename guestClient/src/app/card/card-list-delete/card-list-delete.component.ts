@@ -41,6 +41,6 @@ export class CardListDeleteComponent implements OnInit {
   }
 
   public goToPage(address) {
-    this.router.navigate([address]).catch();
+    this.router.navigate([address]).then(() => window.location.reload())
   }
 }

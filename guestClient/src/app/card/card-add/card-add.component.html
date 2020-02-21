@@ -4,6 +4,18 @@
 </button>
 
 
+<div>
+<label>
+  Date Time:
+  <input [owlDateTime]="dt1">
+  <span [owlDateTimeTrigger]="dt1">
+        <i class="fas fa-calendar-alt"></i>
+    </span>
+  <owl-date-time #dt1></owl-date-time>
+</label>
+</div>
+
+
 <div class="container">
   <div class="row">
     <div class="col-md-6">
@@ -13,19 +25,16 @@
                                 required *</small></span></legend>
 
           <div class="form-group">
-            <label for="Name"><span class="req">* </span> Name: <small>
-              best name in the world
-            </small> </label>
+            <label for="Serial number"><span class="req">* </span> Serial number </label>
             <input required type="text" [(ngModel)]="card.serialNumber" name="name" id="name"
                    class="form-control phone" maxlength="28" placeholder="Enter your fullname..." />
           </div>
 
-          <div class="form-group">
-            <label for="Type"><span class="req">* </span> Type: </label>
-            <input class="form-control" type="text" [(ngModel)]="card.location" name="type" id="txt" required
-                   placeholder="There should be type" />
-            <div id="errFirst"></div>
-          </div>
+          <div>
+            <p>
+              CIA BUS PRISKIRIAMA LOKACIJA NAUDOJANT LOKACIJOS SERVISA
+            </p>
+          </div>>
 
           <div class="form-group">
             <label> Select card type </label>
@@ -36,39 +45,24 @@
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="fromm"><span class="req">* </span> Date from : </label>
-            <input class="form-control" type="text" [(ngModel)]="card.manufactured" name="experience" id="txt"
-                   placeholder="date from" required />
-            <div id="errLast"></div>
-          </div>
-
-          <div class='col-md-6'>
-            <div class="form-group">
-              <label class="control-label">Appointment Time</label>
-              <div class='input-group date' id='datetimepicker1'>
-                <input type='text' class="form-control" [(ngModel)]="card.manufactured" name="experience" id="txt"/>
-                <span class="input-group-addon">
-                     <span class="glyphicon glyphicon-calendar"></span>
-                     </span>
-              </div>
-            </div>
-          </div>
+          <label>
+            Date Time Range From:
+            <input name="selectedMoments" [owlDateTimeTrigger]="dt12" [owlDateTime]="dt12"
+                   [(ngModel)]="selectedMoments"
+                   [selectMode]="'rangeFrom'">
+            <owl-date-time #dt12></owl-date-time>
+          </label>
 
           <div class="form-group">
-            <label for="too"><span class="req">* </span> Date to: </label>
-            <input class="form-control" required type="text" [(ngModel)]="card.validUntil" name="domain"
-                   id="email" placeholder="date to" />
-            <div class="status" id="status"></div>
+            <label>
+              Date Time Range To:
+              <input name="selectdMoments" [owlDateTimeTrigger]="dt13" [owlDateTime]="dt13"
+                     [(ngModel)]="selectedMoments"
+                     [selectMode]="'rangeTo'">
+              <owl-date-time #dt13></owl-date-time>
+            </label>
           </div>
 
-
-<!--          <div class="form-group">-->
-<!--            <label for="availability"><span class="req">* </span> availability: </label>-->
-<!--            <input class="form-control" required type="boolean" [(ngModel)]="card.availability" name="availability"-->
-<!--                   id="availability" placeholder="is it available" />-->
-<!--            &lt;!&ndash;            <div class="status" id="status"></div>&ndash;&gt;-->
-<!--          </div>-->
 
           <div class="form-group">
             <input class="btn btn-success" type="submit" name="submit_reg" value="Register" (click)="addCard()">
@@ -80,3 +74,6 @@
 
   </div>
 </div>
+
+
+

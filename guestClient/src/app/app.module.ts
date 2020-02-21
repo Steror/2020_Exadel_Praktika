@@ -11,6 +11,19 @@ import { CardListDeleteComponent } from './card/card-list-delete/card-list-delet
 import { CardAddComponent } from './card/card-add/card-add.component';
 import {FormsModule} from "@angular/forms";
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
+
+import {DateTimePickerAllModule} from "@syncfusion/ej2-angular-calendars";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+// import {Stuff} from  '@angular/cdk/overlay';
+// import {Stuff} from  '@angular/cdk/a11y';
+// import {Stuff} from  '@@angular/cdk/portal';
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,9 +33,14 @@ import {FormsModule} from "@angular/forms";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
+    BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   // providers: [CardServiceService],
   providers: [],

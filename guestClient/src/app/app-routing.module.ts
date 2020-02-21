@@ -9,7 +9,8 @@ import {CardUpdateComponent} from "./card/card-update/card-update.component";
 const routes: Routes = [
   {path:"card/list", component:CardListDeleteComponent},
   {path:"card/add", component:CardAddComponent},
-  {path:"card/update/:id", component:CardUpdateComponent}
+  {path:"card/update/:id", component:CardUpdateComponent},
+  // {path:"", component: DateTimePickerComponent}
 //  {path:"", redirectTo:"search", pathMatch:"full"},
 ];
 
