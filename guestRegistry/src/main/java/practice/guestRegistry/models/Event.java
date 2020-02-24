@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import practice.guestRegistry.config.ObjectID_Serializer;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,6 +29,8 @@ public class Event {
     private LocalDateTime end_date_time;
     @DBRef(db = "test")
     private Location location;
+    @DBRef(db = "test")
+    private List<Person> attendees;
     //@DBRef
     //Worker event_owner;
 }

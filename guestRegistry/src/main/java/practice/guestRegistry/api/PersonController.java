@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/person")
+@RequestMapping("/api/persons")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PersonController {
 
     PersonService service;
