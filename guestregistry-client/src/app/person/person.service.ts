@@ -6,8 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PersonService {
-
   public API = 'http://localhost:8080/api/person';
+
+>>>>>>> Changes to Event, Person. Add person service.
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
@@ -18,12 +19,12 @@ export class PersonService {
     return this.http.get(this.API + '/' + id.toString());
   }
 
-  save(location: any): Observable<any> {
+  save(person: any): Observable<any> {
     let result: Observable<any>;
-    if (location.id) {
-      result = this.http.put(this.API + '/' + location.id, location);
+    if (person.id) {
+      result = this.http.put(this.API + '/' + person.id, person);
     } else {
-      result = this.http.post(this.API, location);
+      result = this.http.post(this.API, person);
     }
     return result;
   }

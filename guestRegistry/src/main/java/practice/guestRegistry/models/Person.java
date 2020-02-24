@@ -3,11 +3,13 @@ package practice.guestRegistry.models;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 import practice.guestRegistry.config.ObjectID_Serializer;
 
 import java.net.URL;
+import java.util.List;
 
 @Document("person")
 public class Person {
@@ -23,6 +25,8 @@ public class Person {
     String email;
     String phoneNumber;
     //URL url;
+    @DBRef(db = "test")
+    private List<Event> events;
 
     public Person(ObjectId id, String firstName, String middleName, String lastName, String email, String phoneNumber) {
         this.id = id;
