@@ -1,0 +1,28 @@
+<h2>Person List</h2>
+<div>
+  <button [routerLink]="['/person-add']">Add</button>
+  <table>
+    <thead>
+    <tr>
+      <th scope="col"> No. </th>
+      <th scope="col"> First name </th>
+      <th scope="col"> Middle name </th>
+      <th scope="col"> Last name </th>
+      <th scope="col"> Email </th>
+      <th scope="col"> Phone number </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let person of persons">
+      <td> {{person.id}} </td>
+      <td> {{person.firstName}} </td>
+      <td> {{person.middleName}} </td>
+      <td> {{person.lastName}} </td>
+      <td> {{person.email}} </td>
+      <td> {{person.phoneNumber}} </td>
+      <td><button [routerLink]="['/person-edit', person.id]">Edit</button></td>
+      <td><button (click)="remove(person.id)">Delete</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

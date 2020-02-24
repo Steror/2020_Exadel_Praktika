@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/person")
+@CrossOrigin("*")
 public class PersonController {
 
     PersonService service;
