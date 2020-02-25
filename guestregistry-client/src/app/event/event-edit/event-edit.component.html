@@ -12,11 +12,15 @@
     <input placeholder="Number of participants" [(ngModel)]="event.participants_amount"
            required name="participants_amount" #participants_amount></label><br>
     <label>From
-    <input placeholder="From" [(ngModel)]="event.start_date_time"
-           name="start_date_time" #start_date_time></label><br>
+      <input name="start_date_time" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+             [(ngModel)]="event.start_date_time"
+             [selectMode]="'single'">
+      <owl-date-time #dt1></owl-date-time></label><br>
     <label>To
-    <input placeholder="To" [(ngModel)]="event.end_date_time"
-           name="end_date_time" #end_date_time></label><br>
+      <input name="end_date_time" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
+             [(ngModel)]="event.end_date_time"
+             [selectMode]="'single'">
+      <owl-date-time #dt2></owl-date-time></label><br>
     <label>Location*
     <select [(ngModel)]="event.location"
             required name="location" #location>
