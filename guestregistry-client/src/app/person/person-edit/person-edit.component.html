@@ -1,0 +1,24 @@
+<div>
+  <form #personForm="ngForm" (ngSubmit)="save(personForm.value)">
+    <h2>{{person.id ? 'Edit' : 'Add'}} Person</h2>
+    <input type="hidden" name="id" [(ngModel)]="person.id">
+    <label>First name
+      <input placeholder="First Name" [(ngModel)]="person.firstName"
+             required name="firstName" #name></label><br>
+    <label>Midlle name
+      <input placeholder="Middle Name" [(ngModel)]="person.middleName"
+             required name="middleName" #minddleName></label><br>
+    <label>Last name
+      <input placeholder="Last Name" [(ngModel)]="person.lastName"
+             required name="lastName" #lastName></label><br>
+    <label>Email
+      <input placeholder="Email" [(ngModel)]="person.email"
+             required name="email" #email></label><br>
+    <label>Phone number
+      <input placeholder="Phone Number" [(ngModel)]="person.phoneNumber"
+             required name="phoneNumber" #phoneNumber></label><br>
+    <button type="submit"
+            [disabled]="!personForm.valid">Save</button>
+    <a routerLink="/person-list">Cancel</a>
+  </form>
+</div>

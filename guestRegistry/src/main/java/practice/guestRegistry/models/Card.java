@@ -1,6 +1,5 @@
 package practice.guestRegistry.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.mongodb.lang.NonNull;
 import org.bson.types.ObjectId;
@@ -26,6 +25,8 @@ public class Card {
 //    @JsonProperty("ctype")
     CardType ctype;
 
+
+    public Card() {}
 
     public Card(ObjectId id, String serialNumber, Location location, LocalDateTime manufactured, LocalDateTime validUntil, CardType ctype) {
         this.id = id;

@@ -2,8 +2,11 @@ package practice.guestRegistry.api;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import practice.guestRegistry.dao.CardDao;
 import practice.guestRegistry.models.Card;
 import practice.guestRegistry.services.CardService;
 
@@ -13,13 +16,23 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/card")
 @CrossOrigin("*")
+/*
+@CrossOrigin(origins={"http://domain1.com", "http://domain2.com"},
+                 allowedHeaders="X-AUTH-TOKEN",
+                 allowCredentials="false",
+                 maxAge=15*60,
+                 methods={RequestMethod.GET, RequestMethod.POST }
+                )
+ */
 public class CardController {
 
     CardService service;
+    CardDao cardDao;
 
     @Autowired
-    public CardController(CardService service) {
+    public CardController(CardService service, CardDao cardDao) {
         this.service = service;
+        this.cardDao = cardDao;
     }
 
 //    @GetMapping("card")
@@ -37,22 +50,52 @@ public class CardController {
         return cards;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<Card> addCard(@RequestBody Card card) {
-        service.addCard(card);
-        return ResponseEntity.noContent().build();
+        Card savedCard = service.addCard(card);
+//        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCard);
     }
 
+    //update response?
     @PutMapping(path="{id}")
-    public void updateCard(@PathVariable("id") ObjectId id, @RequestBody Card newCard) {
-        System.out.println("I HAVE BEEN CALLED");
+    public ResponseEntity<Card> updateCard(@PathVariable("id") ObjectId id, @RequestBody Card newCard) {
         service.updateCard(id, newCard);
+        //grazina 204 jei nera kuno
+        //201 jei pridejo
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(null);
     }
 
+    //delete case returns 200 all the time? every time
     @DeleteMapping(path="{id}")
     public void deleteCard(@PathVariable ObjectId id) {
-        service.deleteCardById(id);
+        Card post = cardDao.findById(id).orElseThrow(() -> {
+            return new ResourceNotFoundException("No post found with id=" + id);
+        });
+        try {
+//            postRepository.deleteById(post.getId());
+           service.deleteCardById(id);
+        } catch (Exception e) {
+//            throw new PostDeletionException("Post with id="+id+" can't be deleted");
+        }
+        //404
+        //200
+//        service.deleteCardById(id);
     }
+
+//    @ExceptionHandler(PostDeletionException.class)
+//    public ResponseEntity<?> servletRequestBindingException(PostDeletionException e)
+//    {
+//        ErrorDetails errorDetails = new ErrorDetails();
+//        errorDetails.setErrorMessage(e.getMessage());
+//        StringWriter sw = new StringWriter();
+//        PrintWriter pw = new PrintWriter(sw);
+//        e.printStackTrace(pw);
+//        errorDetails.setDevErrorMessage(sw.toString());
+//        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+
 }
 
 

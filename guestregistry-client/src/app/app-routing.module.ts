@@ -7,6 +7,8 @@ import { EventEditComponent } from './event/event-edit/event-edit.component';
 import {CardListDeleteComponent} from "./card/card-list-delete/card-list-delete.component";
 import {CardAddComponent} from "./card/card-add/card-add.component";
 import {CardUpdateComponent} from "./card/card-update/card-update.component";
+import {PersonEditComponent} from "./person/person-edit/person-edit.component";
+import {PersonListComponent} from "./person/person-list/person-list.component";
 
 
 const routes: Routes = [
@@ -39,6 +41,9 @@ const routes: Routes = [
   {path:"card/list", component:CardListDeleteComponent},
   {path:"card/add", component:CardAddComponent},
   {path:"card/update/:id", component:CardUpdateComponent},
+  {path: 'person-list', component: PersonListComponent},
+  {path: 'person-add', component: PersonEditComponent},
+  {path: 'person-edit/:id', component: PersonEditComponent}
 ];
 
 @NgModule({

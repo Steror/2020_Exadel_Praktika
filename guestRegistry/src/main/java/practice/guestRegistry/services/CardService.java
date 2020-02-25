@@ -30,8 +30,9 @@ public class CardService {
         return dao.findAll();
     }
 
-    public void addCard (Card newCard) {
+    public Card addCard (Card newCard) {
         dao.save(newCard);
+        return newCard;
     }
 
     public void updateCard (ObjectId id, Card newCard) {

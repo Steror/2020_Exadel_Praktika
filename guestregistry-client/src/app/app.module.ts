@@ -14,6 +14,8 @@ import { CardListDeleteComponent } from './card/card-list-delete/card-list-delet
 import { CardUpdateComponent } from './card/card-update/card-update.component';
 import {OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { PersonEditComponent } from './person/person-edit/person-edit.component';
+import { PersonListComponent } from './person/person-list/person-list.component';
 // import {Stuff1} from  '@angular/cdk/overlay';
 // import {Stuff2} from  '@angular/cdk/a11y';
 // import {Stuff3} from  '@angular/cdk/portal';
@@ -29,7 +31,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     EventEditComponent,
     CardAddComponent,
     CardListDeleteComponent,
-    CardUpdateComponent
+    CardUpdateComponent,
+    PersonEditComponent,
+    PersonListComponent
   ],
   imports: [
     BrowserModule,
