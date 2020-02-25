@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 export class PersonService {
   public API = 'http://localhost:8080/api/person';
 
->>>>>>> Changes to Event, Person. Add person service.
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {

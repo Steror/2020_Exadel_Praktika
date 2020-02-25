@@ -1,23 +1,18 @@
 package practice.guestRegistry;
 
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import practice.guestRegistry.dao.LocationDao;
 import practice.guestRegistry.models.*;
-import practice.guestRegistry.services.CardService;
-import practice.guestRegistry.services.EventService;
-import practice.guestRegistry.services.LocationService;
-import practice.guestRegistry.services.PersonService;
+import practice.guestRegistry.services.*;
 
-import javax.annotation.PostConstruct;
 import java.io.PrintStream;
 import java.time.LocalDateTime;
 
@@ -37,8 +32,9 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	@Autowired
 	private EventService eventService;
 	@Autowired
-	MongoTemplate mongoTemplate;
-
+	private MongoTemplate mongoTemplate;
+	@Autowired
+	private WorkerService workerService;
 
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(GuestRegistryApplication.class);
@@ -70,6 +66,7 @@ public class GuestRegistryApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
 
 		locationService.deleteAllLocations();
 		Location location = new Location();
@@ -117,11 +114,14 @@ public class GuestRegistryApplication implements CommandLineRunner {
 				LocalDateTime.now(),
 				CardType.GUEST));
 
-
 		personService.deleteAll();
 		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
-		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
+		Person person = new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr");
+		personService.addPerson(person);
 
+		workerService.deleteAll();
+		workerService.addWorker(new Worker(ObjectId.get(), person, null));
+		workerService.addWorker(new Worker(ObjectId.get(), null, null));
 
 //		db clean up
 //		for (String name : mongoTemplate.getCollectionNames()) {

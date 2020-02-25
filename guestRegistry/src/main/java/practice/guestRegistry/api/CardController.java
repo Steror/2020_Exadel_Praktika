@@ -10,6 +10,7 @@ import practice.guestRegistry.dao.CardDao;
 import practice.guestRegistry.models.Card;
 import practice.guestRegistry.services.CardService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +53,14 @@ public class CardController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Card> addCard(@RequestBody Card card) {
-        Card savedCard = service.addCard(card);
+    public ResponseEntity<Card> addCard(@Valid @RequestBody Card card) {
+        Card savedCard;
+//        try {
+            savedCard = service.addCard(card);
+//        } catch (Exception ex) {
+//            System.out.println(ex.toString() + " SHIAT ");
+//            throw ex;
+//        }
 //        return ResponseEntity.noContent().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCard);
     }

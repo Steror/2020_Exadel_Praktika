@@ -5,13 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import practice.guestRegistry.models.Card;
-import practice.guestRegistry.models.Card;
-import practice.guestRegistry.models.SequenceId;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +47,6 @@ public class CardDaoImpl implements CardDao {
     public void save(Card card) {
 //        long temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
         card.setId(ObjectId.get());
-        System.out.println("Saving card:" + card);
         mongoTemplate.save(card);
     }
 

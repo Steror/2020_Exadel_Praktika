@@ -31,6 +31,9 @@ public class CardService {
     }
 
     public Card addCard (Card newCard) {
+//        if (newCard.getSerialNumber().isEmpty()) {
+//            throw new SequenceException("invalid serial");
+//        }
         dao.save(newCard);
         return newCard;
     }
