@@ -1,10 +1,10 @@
-package practice.guestRegistry.services;
+package practice.guestregistry.services;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import practice.guestRegistry.dao.CardDao;
-import practice.guestRegistry.models.Card;
+import practice.guestregistry.dao.CardDao;
+import practice.guestregistry.models.Card;
 
 import java.util.List;
 import java.util.Optional;

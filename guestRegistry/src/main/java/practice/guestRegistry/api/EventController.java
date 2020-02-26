@@ -1,10 +1,10 @@
-package practice.guestRegistry.api;
+package practice.guestregistry.api;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import practice.guestRegistry.models.Event;
-import practice.guestRegistry.services.EventService;
+import practice.guestregistry.models.Event;
+import practice.guestregistry.services.EventService;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,8 +30,8 @@ public class EventController {
     public void addEvent(@RequestBody Event event) {
         service.addEvent(event); }
 
-    @PutMapping(path="{id}")
-    public void updateEvent(@PathVariable ObjectId id, @RequestBody Event event) { service.updateEvent(id, event); }
+    @PutMapping
+    public void updateEvent(@RequestBody Event event) { service.updateEvent(event); }
 
     @DeleteMapping(path="{id}")
     public void deleteEvent(@PathVariable ObjectId id) { service.deleteEventById(id); }

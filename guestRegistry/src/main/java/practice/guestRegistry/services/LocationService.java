@@ -1,10 +1,10 @@
-package practice.guestRegistry.services;
+package practice.guestregistry.services;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import practice.guestRegistry.dao.LocationDao;
-import practice.guestRegistry.models.Location;
+import practice.guestregistry.dao.LocationDao;
+import practice.guestregistry.models.Location;
 
 import java.util.List;
 import java.util.Optional;

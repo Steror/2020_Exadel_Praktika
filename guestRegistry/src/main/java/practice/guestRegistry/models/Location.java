@@ -1,4 +1,4 @@
-package practice.guestRegistry.models;
+package practice.guestregistry.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bson.types.ObjectId;
@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import practice.guestRegistry.config.ObjectID_Serializer;
+import practice.guestregistry.config.ObjectID_Serializer;
 
 @Data
 @NoArgsConstructor

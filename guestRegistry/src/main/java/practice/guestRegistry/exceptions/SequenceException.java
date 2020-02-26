@@ -1,4 +1,4 @@
-package practice.guestRegistry.exceptions;
+package practice.guestregistry.exceptions;
 
 public class SequenceException extends RuntimeException {
 

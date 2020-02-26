@@ -1,6 +1,4 @@
-package practice.guestRegistry.models;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package practice.guestregistry.models;
 
 public enum CardType {
     PERSONNEL,

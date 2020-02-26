@@ -1,9 +1,8 @@
-package practice.guestRegistry.dao;
+package practice.guestregistry.dao;
 
 
 import org.bson.types.ObjectId;
-import practice.guestRegistry.models.Card;
-import practice.guestRegistry.models.Card;
+import practice.guestregistry.models.Card;
 
 import java.util.List;
 import java.util.Optional;

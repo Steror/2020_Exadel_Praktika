@@ -1,11 +1,11 @@
-package practice.guestRegistry;
+package practice.guestregistry;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import practice.guestRegistry.services.PersonService;
+import practice.guestregistry.services.PersonService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
