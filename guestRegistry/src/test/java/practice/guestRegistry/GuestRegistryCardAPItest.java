@@ -1,4 +1,4 @@
-package practice.guestRegistry;
+package practice.guestregistry;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import practice.guestRegistry.models.Card;
+import practice.guestregistry.models.Card;
 
 import java.util.Arrays;
 import java.util.List;

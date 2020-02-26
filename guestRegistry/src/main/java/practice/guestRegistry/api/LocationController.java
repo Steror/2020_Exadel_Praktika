@@ -1,10 +1,10 @@
-package practice.guestRegistry.api;
+package practice.guestregistry.api;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import practice.guestRegistry.models.Location;
-import practice.guestRegistry.services.LocationService;
+import practice.guestregistry.models.Location;
+import practice.guestregistry.services.LocationService;
 
 import java.util.List;
 import java.util.Optional;

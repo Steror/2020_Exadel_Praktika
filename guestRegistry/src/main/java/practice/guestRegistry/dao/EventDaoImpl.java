@@ -1,4 +1,4 @@
-package practice.guestRegistry.dao;
+package practice.guestregistry.dao;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import practice.guestRegistry.models.Event;
+import practice.guestregistry.models.Event;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -38,9 +38,8 @@ public class EventDaoImpl implements EventDao {
         mongoTemplate.save(event);
     }
 
-    public void update (ObjectId id, Event event) {
+    public void update (Event event) {
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Event.class)) {
-            event.setId(id);
             mongoTemplate.save(event);
         }
     }

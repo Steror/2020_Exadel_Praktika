@@ -1,7 +1,7 @@
-package practice.guestRegistry.dao;
+package practice.guestregistry.dao;
 
 import org.bson.types.ObjectId;
-import practice.guestRegistry.models.Location;
+import practice.guestregistry.models.Location;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,8 +1,8 @@
-package practice.guestRegistry.dao;
+package practice.guestregistry.dao;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import practice.guestRegistry.models.Person;
+import practice.guestregistry.models.Person;
 
 // No need implementation, just one interface, and you have CRUD, thanks Spring Data
 public interface PersonDao extends MongoRepository<Person, ObjectId> {

@@ -1,4 +1,4 @@
-package practice.guestRegistry.exceptions;
+package practice.guestregistry.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
