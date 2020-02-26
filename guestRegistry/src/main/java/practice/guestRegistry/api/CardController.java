@@ -1,4 +1,4 @@
-package practice.guestregistry.api;
+package practice.guestRegistry.api;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,9 +6,9 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import practice.guestregistry.dao.CardDao;
-import practice.guestregistry.models.Card;
-import practice.guestregistry.services.CardService;
+import practice.guestRegistry.dao.CardDao;
+import practice.guestRegistry.models.Card;
+import practice.guestRegistry.services.CardService;
 
 import java.util.List;
 import java.util.Optional;

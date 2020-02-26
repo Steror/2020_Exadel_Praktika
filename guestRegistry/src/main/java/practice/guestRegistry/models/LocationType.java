@@ -1,4 +1,4 @@
-package practice.guestregistry.models;
+package practice.guestRegistry.models;
 
 public enum LocationType {
     OFFICE,

@@ -1,6 +1,6 @@
-package practice.guestregistry.dao;
+package practice.guestRegistry.dao;
 
-import practice.guestregistry.exceptions.SequenceException;
+import practice.guestRegistry.exceptions.SequenceException;
 
 public interface SequenceDao {
     long getNextSequenceId (String key) throws SequenceException;

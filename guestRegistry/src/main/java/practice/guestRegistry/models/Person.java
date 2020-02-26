@@ -1,4 +1,4 @@
-package practice.guestregistry.models;
+package practice.guestRegistry.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bson.types.ObjectId;
@@ -6,8 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
-import practice.guestregistry.config.ObjectID_Serializer;
+import practice.guestRegistry.config.ObjectID_Serializer;
 
+import java.net.URL;
 import java.util.List;
 
 @Document("person")

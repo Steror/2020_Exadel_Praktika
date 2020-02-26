@@ -1,4 +1,4 @@
-package practice.guestregistry.dao;
+package practice.guestRegistry.dao;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import practice.guestregistry.models.Location;
-import practice.guestregistry.models.SequenceId;
+import practice.guestRegistry.models.Location;
+import practice.guestRegistry.models.SequenceId;
 
 import javax.annotation.PostConstruct;
 import java.util.List;

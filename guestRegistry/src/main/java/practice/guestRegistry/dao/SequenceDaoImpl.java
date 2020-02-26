@@ -1,14 +1,15 @@
-package practice.guestregistry.dao;
+package practice.guestRegistry.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import practice.guestregistry.exceptions.SequenceException;
-import practice.guestregistry.models.SequenceId;
+import practice.guestRegistry.exceptions.SequenceException;
+import practice.guestRegistry.models.SequenceId;
 
 @Repository
 public class SequenceDaoImpl implements SequenceDao {

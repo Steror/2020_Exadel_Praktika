@@ -1,4 +1,4 @@
-package practice.guestregistry;
+package practice.guestRegistry;
 
 import org.bson.types.ObjectId;
 import org.springframework.boot.ApplicationRunner;
@@ -10,16 +10,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import practice.guestregistry.models.*;
-import practice.guestregistry.services.CardService;
-import practice.guestregistry.services.EventService;
-import practice.guestregistry.services.LocationService;
-import practice.guestregistry.services.PersonService;
+import practice.guestRegistry.dao.LocationDao;
+import practice.guestRegistry.models.*;
+import practice.guestRegistry.services.CardService;
+import practice.guestRegistry.services.EventService;
+import practice.guestRegistry.services.LocationService;
+import practice.guestRegistry.services.PersonService;
 
+import javax.annotation.PostConstruct;
 import java.io.PrintStream;
 import java.time.LocalDateTime;
 
-import static practice.guestregistry.models.LocationType.OFFICE;
+import static practice.guestRegistry.models.LocationType.OFFICE;
 
 @SpringBootApplication(exclude = {
 //		MongoAutoConfiguration.class,

@@ -1,13 +1,16 @@
-package practice.guestregistry.models;
+package practice.guestRegistry.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import practice.guestregistry.config.ObjectID_Serializer;
+import practice.guestRegistry.config.ObjectID_Serializer;
 
 import java.time.LocalDateTime;
 import java.util.List;
