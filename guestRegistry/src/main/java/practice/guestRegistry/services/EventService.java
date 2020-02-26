@@ -22,8 +22,8 @@ public class EventService {
 
     public void addEvent(Event event) { dao.add(event); }
 
-    public void updateEvent(Event event) {
-        dao.update(event);
+    public void updateEvent(ObjectId id, Event event) {
+        dao.update(id, event);
     }
 
     public void deleteEventById(ObjectId id) { dao.deleteById(id); }

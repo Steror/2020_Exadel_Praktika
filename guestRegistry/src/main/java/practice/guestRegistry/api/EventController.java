@@ -30,8 +30,8 @@ public class EventController {
     public void addEvent(@RequestBody Event event) {
         service.addEvent(event); }
 
-    @PutMapping
-    public void updateEvent(@RequestBody Event event) { service.updateEvent(event); }
+    @PutMapping(path="{id}")
+    public void updateEvent(@PathVariable ObjectId id, @RequestBody Event event) { service.updateEvent(id, event); }
 
     @DeleteMapping(path="{id}")
     public void deleteEvent(@PathVariable ObjectId id) { service.deleteEventById(id); }

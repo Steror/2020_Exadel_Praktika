@@ -38,8 +38,9 @@ public class EventDaoImpl implements EventDao {
         mongoTemplate.save(event);
     }
 
-    public void update (Event event) {
+    public void update (ObjectId id, Event event) {
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Event.class)) {
+            event.setId(id);
             mongoTemplate.save(event);
         }
     }
