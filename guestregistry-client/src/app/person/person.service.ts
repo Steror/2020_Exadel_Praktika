@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PersonService {
-  public API = 'http://localhost:8080/api/person';
+  public API = '//localhost:8080/api/persons';
 
   constructor(private http: HttpClient) { }
 
@@ -29,6 +29,7 @@ export class PersonService {
   }
 
   remove(id: any) {
+    console.log(typeof id);
     return this.http.delete(this.API + '/' + id.toString());
   }
 }

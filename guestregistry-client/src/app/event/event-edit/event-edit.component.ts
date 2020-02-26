@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../event.service';
 import { LocationService } from '../../location/location.service';
 import { NgForm } from '@angular/forms';
+import { PersonService } from '../../person/person.service';
 
 @Component({
   selector: 'app-event-edit',
@@ -14,11 +15,13 @@ export class EventEditComponent implements OnInit {
   event: any = {};
   sub: Subscription;
   locations: Array<any>;
+  persons: Array<any>;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private eventService: EventService,
-              private locationService: LocationService) { }
+              private locationService: LocationService,
+              private personService: PersonService ) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -35,6 +38,12 @@ export class EventEditComponent implements OnInit {
           this.locations = locations;
         }
       });
+      this.personService.getAll().subscribe((persons: Array<any>) => {
+        if (persons) {
+          this.persons = persons;
+          // this.removeDuplicatePersons();
+        }
+      });
     });
   }
 
@@ -48,4 +57,16 @@ export class EventEditComponent implements OnInit {
   gotoList() {
     this.router.navigate(['/event-list']);
   }
+
+  // removeDuplicatePersons() {  // Removes all persons that match attendees assigned to event
+  //   if (this.event.attendees === undefined || this.event.attendees.length() === 0) {
+  //      this.persons = this.persons.filter( function(person) {
+  //        return !this.event.attendees.indexOf(person);
+  //      });
+  //   }
+  // }
+  //
+  // addPerson(person: any) {
+  //   this.event.attendees.push(person);
+  // }
 }

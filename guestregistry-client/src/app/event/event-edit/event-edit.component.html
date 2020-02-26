@@ -2,28 +2,71 @@
   <form #eventForm="ngForm" (ngSubmit)="save(eventForm.value)">
     <h2>{{event.id ? 'Edit' : 'Add'}} Event</h2>
     <input type="hidden" name="id" [(ngModel)]="event.id">
-    <label>Name
+    <label>Name*
     <input placeholder="Name" [(ngModel)]="event.name"
            required name="name" #name></label><br>
     <label>Description
     <input placeholder="Description" [(ngModel)]="event.description"
            name="description" #description></label><br>
-    <label>Invited people
-    <input placeholder="Invited people" [(ngModel)]="event.participants_amount"
+    <label>Number of participants*
+    <input placeholder="Number of participants" [(ngModel)]="event.participants_amount"
            required name="participants_amount" #participants_amount></label><br>
     <label>From
-    <input placeholder="From" [(ngModel)]="event.start_date_time"
-           name="start_date_time" #start_date_time></label><br>
+      <input name="start_date_time" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+             [(ngModel)]="event.start_date_time"
+             [selectMode]="'single'">
+      <owl-date-time #dt1></owl-date-time></label><br>
     <label>To
-    <input placeholder="To" [(ngModel)]="event.end_date_time"
-           name="end_date_time" #end_date_time></label><br>
-    <label>Location
+      <input name="end_date_time" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
+             [(ngModel)]="event.end_date_time"
+             [selectMode]="'single'">
+      <owl-date-time #dt2></owl-date-time></label><br>
+    <label>Location*
     <select [(ngModel)]="event.location"
             required name="location" #location>
       <option *ngFor="let location of locations" [ngValue]="location">
         {{location.name}}
       </option>
     </select></label><br>
+    <h2>Invited people</h2>
+    <table>
+      <thead>
+      <tr>
+        <th scope="col"> First name </th>
+        <th scope="col"> Middle name </th>
+        <th scope="col"> Last name </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let attendee of event.attendees">
+        <td> {{attendee.firstName}} </td>
+        <td> {{attendee.middleName}} </td>
+        <td> {{attendee.lastName}} </td>
+      </tr>
+      </tbody>
+    </table>
+    <h2>Available people</h2>
+    <select multiple name="attendees" [ngModel]="event.attendees">
+      <option *ngFor="let person of persons" [ngValue]="person">
+        {{ person.firstName + " " + person.middleName + " " + person.lastName }}
+      </option>
+    </select>
+    <!--    <table>-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th scope="col"> First name </th>-->
+<!--        <th scope="col"> Middle name </th>-->
+<!--        <th scope="col"> Last name </th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let person of persons" (click)="addPerson(person)">-->
+<!--        <td> {{person.firstName}} </td>-->
+<!--        <td> {{person.middleName}} </td>-->
+<!--        <td> {{person.lastName}} </td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
     <button type="submit"
             [disabled]="!eventForm.valid">Save</button>
     <a routerLink="/event-list">Cancel</a>
