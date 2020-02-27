@@ -65,7 +65,6 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		app.run(args);
 	}
 
-
 	@Override
 	public void run(String... args) throws Exception {
 

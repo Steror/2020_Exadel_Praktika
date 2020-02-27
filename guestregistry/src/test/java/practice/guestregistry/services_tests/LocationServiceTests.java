@@ -1,7 +1,7 @@
-package practice.guestregistry.services;
+package practice.guestregistry.services_tests;
 
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import practice.guestregistry.models.Location;
+import practice.guestregistry.services.LocationService;
 
 import java.util.List;
 
@@ -20,17 +21,12 @@ import static practice.guestregistry.models.LocationType.OFFICE;
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureDataMongo
 @ActiveProfiles("test")
-class LocationServiceTest {
+public class LocationServiceTests {
     @Autowired
     private LocationService locationService;
 
     @Autowired
-    MongoTemplate mongoTemplate;
-
-//    @Before
-//    public void init() {
-//        MockitoAnnotations.initMocks(this);
-//    }
+    private MongoTemplate mongoTemplate;
 
     @Before
     public void cleanUp() {
@@ -40,7 +36,10 @@ class LocationServiceTest {
     }
 
     @Test
-    void testGetAllLocations() {
+    public void testGetAllLocations() {
+        for (Location name : mongoTemplate.findAll(Location.class)) {
+            System.out.println(name.toString());
+        }
         Location location1 = new Location();
         location1.setName("A");
         location1.setCountry("Lietuva");
@@ -60,8 +59,16 @@ class LocationServiceTest {
         locationService.addLocation(location2);
 
         List<Location> locList = locationService.getAllLocations();
-        System.out.println(locList);
+
+        for (Location name : locList) {
+            System.out.println(name.toString());
+        }
 
         assertEquals(2, locList.size());
     }
+
+//    @Test
+//    public void testGetLocationById() {
+//
+//    }
 }
