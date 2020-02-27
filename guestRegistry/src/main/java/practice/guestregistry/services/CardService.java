@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.dao.CardDao;
+import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.models.Card;
 
 import java.util.List;
@@ -11,36 +12,50 @@ import java.util.Optional;
 
 @Service
 public class CardService {
-    private CardDao dao;
+    private CardDao cardDao;
 
     @Autowired
-    public CardService (CardDao dao) {
-        this.dao = dao;
+    public CardService (CardDao cardDao) {
+        this.cardDao = cardDao;
     }
 
     public void deleteAll () {
-        dao.deleteAll();
+        cardDao.deleteAll();
     }
 
     public Optional<Card> getCardById (ObjectId id) {
-        return dao.findById(id);
+        System.out.println(!cardDao.existById(id));
+        if (!cardDao.existById(id)) {
+            throw new ResourceNotFoundException("Card by this id doesn't exist");
+        }
+        return cardDao.findById(id);
     }
 
     public List<Card> getAllCards () {
-        return dao.findAll();
+        return cardDao.findAll();
     }
 
     public Card addCard (Card newCard) {
-        dao.save(newCard);
-        return newCard;
+//        if (newCard.getSerialNumber().isEmpty()) {
+//            throw new SomeException("invalid serial");
+//        }
+        return cardDao.save(newCard);
     }
 
     public void updateCard (ObjectId id, Card newCard) {
-        dao.update(id, newCard);
+        if (cardDao.existById(id)) {
+            cardDao.update(id, newCard);
+        } else {
+            throw new ResourceNotFoundException("Card by this id doesn't exist");
+        }
     }
 
     public void deleteCardById (ObjectId id) {
-        dao.deleteById(id);
+        if (cardDao.existById(id)) {
+            cardDao.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException("Card by this id doesn't exist");
+        }
     }
 
 }

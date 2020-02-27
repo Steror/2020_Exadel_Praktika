@@ -1,27 +1,38 @@
 package practice.guestregistry.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.lang.NonNull;
 import practice.guestregistry.config.ObjectID_Serializer;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 @Document("person")
 public class Person {
 
-    @NonNull
     @Id
+    @NotNull
     @JsonSerialize(using = ObjectID_Serializer.class)
     ObjectId id;
 
+    @NotEmpty
     String firstName;
     String middleName;
+    @NotEmpty
     String lastName;
+    @Email
     String email;
+    @Pattern(regexp = "[0-9]*")
     String phoneNumber;
     //URL url;
     @DBRef(db = "test")
@@ -33,67 +44,6 @@ public class Person {
         this.middleName = middleName;
         this.lastName = lastName;
         this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
-    }
-
-    @NonNull
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(@NonNull ObjectId id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

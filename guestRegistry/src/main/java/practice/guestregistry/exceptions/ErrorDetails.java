@@ -1,53 +1,22 @@
 package practice.guestregistry.exceptions;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ErrorDetails {
-    private String errorCode;
+    private int errorCode;
     private String errorMessage;
     private String devErrorMessage;
+    private Date timeStamp;
     private Map<String, Object> additionalData = new HashMap<>();
-
-    @Override
-    public String toString() {
-        return "ErrorDetails{" +
-                "errorCode='" + errorCode + '\'' +
-                ", errorMessage='" + errorMessage + '\'' +
-                ", devErrorMessage='" + devErrorMessage + '\'' +
-                ", additionalData=" + additionalData +
-                '}';
-    }
-
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    public String getDevErrorMessage() {
-        return devErrorMessage;
-    }
-
-    public void setDevErrorMessage(String devErrorMessage) {
-        this.devErrorMessage = devErrorMessage;
-    }
-
-    public Map<String, Object> getAdditionalData() {
-        return additionalData;
-    }
-
-    public void setAdditionalData(Map<String, Object> additionalData) {
-        this.additionalData = additionalData;
-    }
+//    private Map<String, List<ValidationError>> errors = new HashMap<String,
+//            List<ValidationError>>();
 }
