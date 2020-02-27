@@ -1,6 +1,6 @@
 package practice.guestregistry.services_tests;
 
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -16,6 +16,7 @@ import practice.guestregistry.models.Location;
 import practice.guestregistry.services.LocationService;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static practice.guestregistry.models.LocationType.OFFICE;
@@ -31,25 +32,11 @@ public class LocationServiceTests {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @MockBean
-    private LocationDaoImpl daoMock;
-
     @BeforeEach
     public void cleanUp() {
         for (String name : mongoTemplate.getCollectionNames()) {
             mongoTemplate.dropCollection(name);
         }
-    }
-
-    @Test
-    public void testAddLocation() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType(OFFICE);
-        location1.setPhoneNumber("851212345");
     }
 
     @Test
@@ -79,8 +66,20 @@ public class LocationServiceTests {
         assertEquals(2, locList.size());
     }
 
-//    @Test
-//    public void testGetLocationById() {
-//
-//    }
+    @Test
+    public void testGetLocationById() {
+        Location location1 = new Location();
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType(OFFICE);
+        location1.setPhoneNumber("851212345");
+
+        location1 = locationService.addLocation(location1);
+
+        Optional<Location> location2 = locationService.getLocationById(location1.getId());
+
+        assertEquals(location1, location2.orElse(null));
+    }
 }

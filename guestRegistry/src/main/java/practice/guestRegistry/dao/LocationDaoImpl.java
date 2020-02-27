@@ -33,17 +33,19 @@ public class LocationDaoImpl implements LocationDao {
         return mongoTemplate.findAll(Location.class);
     }
 
-    public void add (Location location) {
+    public Location add (Location location) {
         //ObjectId temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
         location.setId(ObjectId.get());
         mongoTemplate.save(location);
+        return location;
     }
 
-    public void update (ObjectId id, Location location) {
+    public Location update (ObjectId id, Location location) {
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Location.class)) {
             location.setId(id);
             mongoTemplate.save(location);
         }
+        return location;
     }
 
     public void deleteById(ObjectId id) {

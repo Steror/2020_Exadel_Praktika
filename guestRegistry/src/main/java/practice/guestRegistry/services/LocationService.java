@@ -20,7 +20,7 @@ public class LocationService {
 
     public List<Location> getAllLocations() { return dao.findAll(); }
 
-    public void addLocation(Location location) { dao.add(location); }
+    public Location addLocation(Location location) { return dao.add(location); }
 
     public void updateLocation(ObjectId id, Location location) {
         dao.update(id, location);
