@@ -68,56 +68,56 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		locationService.deleteAllLocations();
-		Location location = new Location();
-		location.setName("a");
-		location.setCountry("b");
-		location.setCity("c");
-		location.setAddress("d");
-		location.setLocationType(OFFICE);
-		location.setPhoneNumber("777");
-		locationService.addLocation(location);
-
-		eventService.deleteAllEvents();
-		Event event = new Event();
-		event.setName("a");
-		event.setDescription("b");
-		event.setParticipants_amount(10);
-		event.setStart_date_time(LocalDateTime.now());
-		event.setEnd_date_time(LocalDateTime.now());
-		event.setLocation(location);
-		eventService.addEvent(event);
-
-		cardService.deleteAll();
-		cardService.addCard(new Card(ObjectId.get(),
-				"serial",
-				location,
-				LocalDateTime.now(),
-				LocalDateTime.now(),
-				CardType.GUEST));
-		cardService.addCard(new Card(ObjectId.get(),
-				"SERIAL",
-				location,
-				LocalDateTime.now(),
-				LocalDateTime.now(),
-				CardType.PERSONNEL));
-		cardService.addCard(new Card(ObjectId.get(),
-				"good number",
-				location,
-				LocalDateTime.now(),
-				LocalDateTime.now(),
-				CardType.PERSONNEL));
-		cardService.addCard(new Card(ObjectId.get(),
-				"soso serial",
-				location,
-				LocalDateTime.now(),
-				LocalDateTime.now(),
-				CardType.GUEST));
-
-
-		personService.deleteAll();
-		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
-		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
+//		locationService.deleteAllLocations();
+//		Location location = new Location();
+//		location.setName("a");
+//		location.setCountry("b");
+//		location.setCity("c");
+//		location.setAddress("d");
+//		location.setLocationType(OFFICE);
+//		location.setPhoneNumber("777");
+//		locationService.addLocation(location);
+//
+//		eventService.deleteAllEvents();
+//		Event event = new Event();
+//		event.setName("a");
+//		event.setDescription("b");
+//		event.setParticipants_amount(10);
+//		event.setStart_date_time(LocalDateTime.now());
+//		event.setEnd_date_time(LocalDateTime.now());
+//		event.setLocation(location);
+//		eventService.addEvent(event);
+//
+//		cardService.deleteAll();
+//		cardService.addCard(new Card(ObjectId.get(),
+//				"serial",
+//				location,
+//				LocalDateTime.now(),
+//				LocalDateTime.now(),
+//				CardType.GUEST));
+//		cardService.addCard(new Card(ObjectId.get(),
+//				"SERIAL",
+//				location,
+//				LocalDateTime.now(),
+//				LocalDateTime.now(),
+//				CardType.PERSONNEL));
+//		cardService.addCard(new Card(ObjectId.get(),
+//				"good number",
+//				location,
+//				LocalDateTime.now(),
+//				LocalDateTime.now(),
+//				CardType.PERSONNEL));
+//		cardService.addCard(new Card(ObjectId.get(),
+//				"soso serial",
+//				location,
+//				LocalDateTime.now(),
+//				LocalDateTime.now(),
+//				CardType.GUEST));
+//
+//
+//		personService.deleteAll();
+//		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
+//		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
 
 
 //		db clean up

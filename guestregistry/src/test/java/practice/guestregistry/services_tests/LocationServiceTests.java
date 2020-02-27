@@ -2,13 +2,16 @@ package practice.guestregistry.services_tests;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import practice.guestregistry.dao.LocationDaoImpl;
 import practice.guestregistry.models.Location;
 import practice.guestregistry.services.LocationService;
 
@@ -28,7 +31,10 @@ public class LocationServiceTests {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Before
+    @MockBean
+    private LocationDaoImpl daoMock;
+
+    @BeforeEach
     public void cleanUp() {
         for (String name : mongoTemplate.getCollectionNames()) {
             mongoTemplate.dropCollection(name);
@@ -36,10 +42,18 @@ public class LocationServiceTests {
     }
 
     @Test
-    public void testGetAllLocations() {
-        for (Location name : mongoTemplate.findAll(Location.class)) {
-            System.out.println(name.toString());
-        }
+    public void testAddLocation() {
+        Location location1 = new Location();
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType(OFFICE);
+        location1.setPhoneNumber("851212345");
+    }
+
+    @Test
+    public void testGetAllLocations() {     // Testuoja ir addLocation metoda, tai yra integracinis testas
         Location location1 = new Location();
         location1.setName("A");
         location1.setCountry("Lietuva");
@@ -60,9 +74,7 @@ public class LocationServiceTests {
 
         List<Location> locList = locationService.getAllLocations();
 
-        for (Location name : locList) {
-            System.out.println(name.toString());
-        }
+        for (Location name : locList) { System.out.println(name.toString()); }
 
         assertEquals(2, locList.size());
     }
