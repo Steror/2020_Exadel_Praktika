@@ -19,5 +19,4 @@ public class ErrorDetails {
     private Map<String, Object> additionalData = new HashMap<>();
 //    private Map<String, List<ValidationError>> errors = new HashMap<String,
 //            List<ValidationError>>();
-
 }
