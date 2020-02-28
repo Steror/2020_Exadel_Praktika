@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import practice.guestregistry.config.ObjectID_Serializer;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @NoArgsConstructor
 @Document(collection = "location")
@@ -16,8 +18,11 @@ public class Location {
     @JsonSerialize(using = ObjectID_Serializer.class)
     private ObjectId id;
     private String name;
+    @NotNull
     private String country;
+    @NotNull
     private String city;
+    @NotNull
     private String address;
     private LocationType locationType;
     private String phoneNumber;

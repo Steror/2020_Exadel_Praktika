@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import practice.guestregistry.models.Location;
 import practice.guestregistry.services.LocationService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,11 +28,11 @@ public class LocationController {
     public List<Location> getLocations() { return service.getAllLocations(); }
 
     @PostMapping
-    public void addLocation(@RequestBody Location location) {
+    public void addLocation(@Valid @RequestBody Location location) {
         service.addLocation(location); }
 
     @PutMapping(path="{id}")
-    public void updateLocation(@PathVariable ObjectId id, @RequestBody Location location) {
+    public void updateLocation(@PathVariable ObjectId id, @Valid @RequestBody Location location) {
         service.updateLocation(id, location); }
 
     @DeleteMapping(path="{id}")
