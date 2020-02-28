@@ -1,14 +1,17 @@
 package practice.guestregistry.services_tests;
 
+import org.bson.types.ObjectId;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import practice.guestregistry.dao.LocationDaoImpl;
@@ -32,7 +35,7 @@ public class LocationServiceTests {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @BeforeEach
+    @Before
     public void cleanUp() {
         for (String name : mongoTemplate.getCollectionNames()) {
             mongoTemplate.dropCollection(name);
@@ -64,6 +67,32 @@ public class LocationServiceTests {
         for (Location name : locList) { System.out.println(name.toString()); }
 
         assertEquals(2, locList.size());
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void testDeleteLocationById() {
+        Location location1 = new Location();
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType(OFFICE);
+        location1.setPhoneNumber("851212345");
+        Location location2 = new Location();
+        location2.setName("B");
+        location2.setCountry("Lietuva");
+        location2.setCity("Kaunas");
+        location2.setAddress("Geliu 5");
+        location2.setLocationType(OFFICE);
+        location2.setPhoneNumber("851122222");
+
+        ObjectId idToDelete = locationService.addLocation(location1).getId();
+        locationService.addLocation(location2);
+
+        locationService.deleteLocationById(idToDelete);
+        assertEquals(1, locationService.getAllLocations().size());
+
+        locationService.getLocationById(idToDelete);
     }
 
     @Test
