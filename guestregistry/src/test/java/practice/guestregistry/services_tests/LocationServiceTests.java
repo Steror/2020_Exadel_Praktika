@@ -152,4 +152,28 @@ public class LocationServiceTests { // Integration testing
 
         locationService.getLocationById(idToDelete);
     }
+
+    @Test
+    public void testDeleteAllLocations() {
+        Location location1 = new Location();
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType(OFFICE);
+        location1.setPhoneNumber("851212345");
+        Location location2 = new Location();
+        location2.setName("B");
+        location2.setCountry("Lietuva");
+        location2.setCity("Kaunas");
+        location2.setAddress("Geliu 5");
+        location2.setLocationType(OFFICE);
+        location2.setPhoneNumber("851122222");
+
+        locationService.addLocation(location1);
+        locationService.addLocation(location2);
+
+        locationService.deleteAllLocations();
+        assertEquals(0, locationService.getAllLocations().size());
+    }
 }
