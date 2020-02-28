@@ -20,9 +20,8 @@ public class LocationService {
     public Optional<Location> getLocationById(ObjectId id) {
         if (dao.findById(id).isPresent())
             return dao.findById(id);
-        else {
+        else
             throw new ResourceNotFoundException("Location with this id doesn't exist");
-        }
     }
 
     public List<Location> getAllLocations() { return dao.findAll(); }

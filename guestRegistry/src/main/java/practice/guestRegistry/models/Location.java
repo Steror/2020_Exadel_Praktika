@@ -18,7 +18,6 @@ public class Location {
     @JsonSerialize(using = ObjectID_Serializer.class)
     private ObjectId id;
     private String name;
-    @NotNull
     private String country;
     @NotNull
     private String city;
