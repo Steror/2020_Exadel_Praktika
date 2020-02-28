@@ -153,14 +153,6 @@ public class WorkerServiceTests {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void update_not_existing_worker_by_id() {
-        Worker savedWorker = mongoTemplate.save(new Worker(ObjectId.get(), null, null));
-        savedWorker.setPerson(new Person());
-        savedWorker.setId(new ObjectId());
-        workerService.updateWorker(savedWorker);
-    }
-
-    @Test(expected = ResourceNotFoundException.class)
     public void dont_update_not_existing_id() {
         Worker savedWorker = mongoTemplate.save(new Worker(ObjectId.get(), null, null));
         savedWorker.setId(ObjectId.get());
@@ -188,7 +180,7 @@ public class WorkerServiceTests {
     }
 
     @Test
-    public void update_when_person_is_in_db_correct_update() {
+    public void update_when_person_is_in_db_correct() {
         //adding person
         Person person = new Person();
         person.setId(ObjectId.get());

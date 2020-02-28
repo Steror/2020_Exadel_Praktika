@@ -52,7 +52,7 @@ public class CardController {
     @PutMapping(path="{id}")
 //    public ResponseEntity<Card> updateCard(@PathVariable("id") ObjectId id, @Valid @RequestBody Card newCard) {
     public ResponseEntity<Card> updateCard(@Valid @RequestBody Card newCard) {
-        cardService.updateCard(newCard.getId(), newCard);
+        cardService.updateCard(newCard);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

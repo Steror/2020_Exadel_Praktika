@@ -51,9 +51,8 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public void update(ObjectId id, Card card) {
+    public void update(Card card) {
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Card.class)) {
-            card.setId(id);
             mongoTemplate.save(card);
         }
     }

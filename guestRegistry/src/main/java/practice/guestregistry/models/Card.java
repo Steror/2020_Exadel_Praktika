@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class Card {
 
     @Id
-    @NotNull
+//    @NotNull
     @JsonSerialize(using = ObjectID_Serializer.class)
     private ObjectId id;
 
@@ -29,7 +29,7 @@ public class Card {
     private String serialNumber;
 
     @DBRef(db = "test", lazy = false)
-    @NotNull
+//    @NotNull
     private Location location;
     @NotNull
     private LocalDateTime manufactured;
