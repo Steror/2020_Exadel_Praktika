@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.dao.CardDao;
+import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.models.Card;
 
@@ -13,10 +14,12 @@ import java.util.Optional;
 @Service
 public class CardService {
     private CardDao cardDao;
+    private LocationService locationService;
 
     @Autowired
-    public CardService (CardDao cardDao) {
+    public CardService (CardDao cardDao, LocationService locationService) {
         this.cardDao = cardDao;
+        this.locationService = locationService; //ar reikia tokio patikrinimo
     }
 
     public void deleteAll () {
@@ -24,7 +27,6 @@ public class CardService {
     }
 
     public Optional<Card> getCardById (ObjectId id) {
-        System.out.println(!cardDao.existById(id));
         if (!cardDao.existById(id)) {
             throw new ResourceNotFoundException("Card by this id doesn't exist");
         }
@@ -36,15 +38,21 @@ public class CardService {
     }
 
     public Card addCard (Card newCard) {
-//        if (newCard.getSerialNumber().isEmpty()) {
-//            throw new SomeException("invalid serial");
-//        }
-        return cardDao.save(newCard);
+        if (validateCardFields(newCard)) {
+            return cardDao.save(newCard);
+        }
+        //TODO:add details?
+        throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
     }
 
-    public void updateCard (ObjectId id, Card newCard) {
-        if (cardDao.existById(id)) {
-            cardDao.update(id, newCard);
+    public void updateCard (Card newCard) {
+        if (cardDao.existById(newCard.getId())) {
+            if (validateCardFields(newCard)) {
+                cardDao.update(newCard);
+            } else {
+                //TODO:add details?
+                throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
+            }
         } else {
             throw new ResourceNotFoundException("Card by this id doesn't exist");
         }
@@ -56,6 +64,16 @@ public class CardService {
         } else {
             throw new ResourceNotFoundException("Card by this id doesn't exist");
         }
+    }
+
+    //TODO: duplicate NotEmpty? Numbers/Digits?
+    //possible date validation
+    private boolean validateCardFields(Card card) {
+        if (card.getLocation() != null &&
+                locationService.getLocationById(card.getLocation().getId()).isPresent()) {
+            return true;
+        }
+        return false;
     }
 
 }

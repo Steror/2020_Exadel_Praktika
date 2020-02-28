@@ -13,7 +13,7 @@ public interface CardDao {
     Optional<Card> findById (ObjectId id);
     List<Card> findAll ();
     Card save (Card card);
-    void update (ObjectId id, Card card);
+    void update (Card card);
     void deleteById (ObjectId id);
     boolean existById(ObjectId id);
 }
