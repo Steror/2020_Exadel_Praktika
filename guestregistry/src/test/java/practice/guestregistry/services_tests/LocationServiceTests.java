@@ -28,7 +28,7 @@ import static practice.guestregistry.models.LocationType.OFFICE;
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureDataMongo
 @ActiveProfiles("test")
-public class LocationServiceTests {
+public class LocationServiceTests { // Integration testing
     @Autowired
     private LocationService locationService;
 
@@ -40,6 +40,21 @@ public class LocationServiceTests {
         for (String name : mongoTemplate.getCollectionNames()) {
             mongoTemplate.dropCollection(name);
         }
+    }
+
+    @Test
+    public void testAddLocation() {
+        Location location1 = new Location();
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType(OFFICE);
+        location1.setPhoneNumber("851212345");
+
+        Location location2 = locationService.addLocation(location1);
+        assertEquals(location1.getCity(), location2.getCity());
+        assertEquals(location1.getAddress(), location2.getAddress());
     }
 
     @Test
@@ -69,6 +84,49 @@ public class LocationServiceTests {
         assertEquals(2, locList.size());
     }
 
+    @Test
+    public void testGetLocationById() {
+        Location location1 = new Location();
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType(OFFICE);
+        location1.setPhoneNumber("851212345");
+
+        location1 = locationService.addLocation(location1);
+
+        Optional<Location> location2 = locationService.getLocationById(location1.getId());
+
+        assertEquals(location1, location2.orElse(null));
+    }
+
+    @Test
+    public void testUpdateLocation() {
+        Location location1 = new Location();
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType(OFFICE);
+        location1.setPhoneNumber("851212345");
+
+        ObjectId idToUpdate = locationService.addLocation(location1).getId();
+
+        Location location2 = new Location();
+        location2.setName("B");
+        location2.setCountry("Lietuva");
+        location2.setCity("Kaunas");
+        location2.setAddress("Geliu 5");
+        location2.setLocationType(OFFICE);
+        location2.setPhoneNumber("851122222");
+
+        locationService.updateLocation(idToUpdate, location2);
+
+        location2.setId(idToUpdate);
+        assertEquals(location2, locationService.getLocationById(idToUpdate).get());
+    }
+
     @Test(expected = ResourceNotFoundException.class)
     public void testDeleteLocationById() {
         Location location1 = new Location();
@@ -93,22 +151,5 @@ public class LocationServiceTests {
         assertEquals(1, locationService.getAllLocations().size());
 
         locationService.getLocationById(idToDelete);
-    }
-
-    @Test
-    public void testGetLocationById() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType(OFFICE);
-        location1.setPhoneNumber("851212345");
-
-        location1 = locationService.addLocation(location1);
-
-        Optional<Location> location2 = locationService.getLocationById(location1.getId());
-
-        assertEquals(location1, location2.orElse(null));
     }
 }

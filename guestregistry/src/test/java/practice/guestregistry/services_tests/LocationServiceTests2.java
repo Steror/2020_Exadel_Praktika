@@ -19,7 +19,7 @@ import static practice.guestregistry.models.LocationType.OFFICE;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class LocationServiceTests2 {
+public class LocationServiceTests2 {    // Unit testing
     @Autowired
     private LocationService locationService;
 
