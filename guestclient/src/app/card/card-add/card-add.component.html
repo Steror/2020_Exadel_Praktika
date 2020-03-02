@@ -1,0 +1,79 @@
+<p>card-add works!</p>
+<button class="btn btn-success btn-sl"(click)="gotoPage('card/list')">
+  <span>Back to card list</span>
+</button>
+
+
+<div>
+<label>
+  Date Time:
+  <input [owlDateTime]="dt1">
+  <span [owlDateTimeTrigger]="dt1">
+        <i class="fas fa-calendar-alt"></i>
+    </span>
+  <owl-date-time #dt1></owl-date-time>
+</label>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form>
+        <fieldset>
+          <legend class="text-center">Valid information is required to register. <span class="req"><small>
+                                required *</small></span></legend>
+
+          <div class="form-group">
+            <label for="Serial number"><span class="req">* </span> Serial number </label>
+            <input required type="text" [(ngModel)]="card.serialNumber" name="name" id="name"
+                   class="form-control phone" maxlength="28" placeholder="Enter your fullname..." />
+          </div>
+
+          <div>
+            <p>
+              CIA BUS PRISKIRIAMA LOKACIJA NAUDOJANT LOKACIJOS SERVISA
+            </p>
+          </div>>
+
+          <div class="form-group">
+            <label> Select card type </label>
+            <select placeholder="Location Type" [(ngModel)]="card.ctype"
+                    required name="ctype" #ctype>
+              <option value="GUEST">Guest</option>
+              <option value="PERSONNEL">Personnel</option>
+            </select>
+          </div>
+
+          <label>
+            Date Time Range From:
+            <input name="selectedMoments" [owlDateTimeTrigger]="dt12" [owlDateTime]="dt12"
+                   [(ngModel)]="selectedMoments"
+                   [selectMode]="'rangeFrom'">
+            <owl-date-time #dt12></owl-date-time>
+          </label>
+
+          <div class="form-group">
+            <label>
+              Date Time Range To:
+              <input name="selectdMoments" [owlDateTimeTrigger]="dt13" [owlDateTime]="dt13"
+                     [(ngModel)]="selectedMoments"
+                     [selectMode]="'rangeTo'">
+              <owl-date-time #dt13></owl-date-time>
+            </label>
+          </div>
+
+
+          <div class="form-group">
+            <input class="btn btn-success" type="submit" name="submit_reg" value="Register" (click)="addCard()">
+          </div>
+        </fieldset>
+      </form><!-- ends register form -->
+      <!-- second for to fiter user-->
+    </div><!-- ends col-6 -->
+
+  </div>
+</div>
+
+
+
