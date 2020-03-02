@@ -15,16 +15,16 @@ import java.util.Optional;
 @Repository
 public class CardDaoImpl implements CardDao {
     MongoTemplate mongoTemplate;
-    SequenceDao sequenceDao;
+//    SequenceDao sequenceDao;
     private static final String HOSTING_SEQ_KEY = "card";
 
     @Autowired
     public CardDaoImpl(
-            MongoTemplate mongoTemplate,
-            SequenceDao sequenceDao
+            MongoTemplate mongoTemplate
+//            SequenceDao sequenceDao
     ) {
         this.mongoTemplate = mongoTemplate;
-        this.sequenceDao = sequenceDao;
+//        this.sequenceDao = sequenceDao;
     }
 
     @Override
@@ -44,17 +44,15 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public void save(Card card) {
+    public Card save(Card card) {
 //        long temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
         card.setId(ObjectId.get());
-        System.out.println("Saving card:" + card);
-        mongoTemplate.save(card);
+        return mongoTemplate.save(card);
     }
 
     @Override
-    public void update(ObjectId id, Card card) {
+    public void update(Card card) {
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Card.class)) {
-            card.setId(id);
             mongoTemplate.save(card);
         }
     }
@@ -63,13 +61,18 @@ public class CardDaoImpl implements CardDao {
     public void deleteById(ObjectId id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
-//        mongoTemplate.findAllAndRemove(Query.query(new Criteria().where("id").is(id)),Card.class);
         mongoTemplate.findAllAndRemove(query, Card.class);
+    }
+
+    @Override
+    public boolean existById(ObjectId id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id));
+        return mongoTemplate.exists(query, Card.class);
     }
 
 //    @PostConstruct
 //    private void after() {
-//
 //        if (!mongoTemplate.collectionExists(Card.class)   ) {
 //            sequenceDao.initCollection(HOSTING_SEQ_KEY);
 //        }

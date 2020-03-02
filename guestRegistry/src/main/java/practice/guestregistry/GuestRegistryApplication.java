@@ -1,25 +1,20 @@
 package practice.guestregistry;
 
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import practice.guestregistry.models.*;
-import practice.guestregistry.services.CardService;
-import practice.guestregistry.services.EventService;
-import practice.guestregistry.services.LocationService;
-import practice.guestregistry.services.PersonService;
+import practice.guestregistry.services.*;
 
 import java.io.PrintStream;
 import java.time.LocalDateTime;
-
-import static practice.guestregistry.models.LocationType.OFFICE;
 
 @SpringBootApplication(exclude = {
 //		MongoAutoConfiguration.class,
@@ -35,8 +30,9 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	@Autowired
 	private EventService eventService;
 	@Autowired
-	MongoTemplate mongoTemplate;
-
+	private MongoTemplate mongoTemplate;
+	@Autowired
+	private WorkerService workerService;
 
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(GuestRegistryApplication.class);
@@ -65,61 +61,65 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		app.run(args);
 	}
 
+//	@Profile("test")
 	@Override
 	public void run(String... args) throws Exception {
 
-//		locationService.deleteAllLocations();
-//		Location location = new Location();
-//		location.setName("a");
-//		location.setCountry("b");
-//		location.setCity("c");
-//		location.setAddress("d");
-//		location.setLocationType(OFFICE);
-//		location.setPhoneNumber("777");
-//		locationService.addLocation(location);
-//
-//		eventService.deleteAllEvents();
-//		Event event = new Event();
-//		event.setName("a");
-//		event.setDescription("b");
-//		event.setParticipants_amount(10);
-//		event.setStart_date_time(LocalDateTime.now());
-//		event.setEnd_date_time(LocalDateTime.now());
-//		event.setLocation(location);
-//		eventService.addEvent(event);
-//
-//		cardService.deleteAll();
-//		cardService.addCard(new Card(ObjectId.get(),
-//				"serial",
-//				location,
-//				LocalDateTime.now(),
-//				LocalDateTime.now(),
-//				CardType.GUEST));
-//		cardService.addCard(new Card(ObjectId.get(),
-//				"SERIAL",
-//				location,
-//				LocalDateTime.now(),
-//				LocalDateTime.now(),
-//				CardType.PERSONNEL));
-//		cardService.addCard(new Card(ObjectId.get(),
-//				"good number",
-//				location,
-//				LocalDateTime.now(),
-//				LocalDateTime.now(),
-//				CardType.PERSONNEL));
-//		cardService.addCard(new Card(ObjectId.get(),
-//				"soso serial",
-//				location,
-//				LocalDateTime.now(),
-//				LocalDateTime.now(),
-//				CardType.GUEST));
-//
-//
-//		personService.deleteAll();
-//		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
-//		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
+		locationService.deleteAllLocations();
+		Location location = new Location();
+		location.setName("a");
+		location.setCountry("b");
+		location.setCity("c");
+		location.setAddress("d");
+		location.setLocationType(LocationType.OFFICE);
+		location.setPhoneNumber("777");
+		locationService.addLocation(location);
 
+		eventService.deleteAllEvents();
+		Event event = new Event();
+		event.setName("a");
+		event.setDescription("b");
+		event.setParticipants_amount(10);
+		event.setStart_date_time(LocalDateTime.now());
+		event.setEnd_date_time(LocalDateTime.now());
+		event.setLocation(location);
+		eventService.addEvent(event);
 
+		cardService.deleteAll();
+		cardService.addCard(new Card(ObjectId.get(),
+				"serial",
+				location,
+				LocalDateTime.now(),
+				LocalDateTime.now(),
+				CardType.GUEST));
+		cardService.addCard(new Card(ObjectId.get(),
+				"SERIAL",
+				location,
+				LocalDateTime.now(),
+				LocalDateTime.now(),
+				CardType.PERSONNEL));
+		cardService.addCard(new Card(ObjectId.get(),
+				"good number",
+				location,
+				LocalDateTime.now(),
+				LocalDateTime.now(),
+				CardType.PERSONNEL));
+		cardService.addCard(new Card(ObjectId.get(),
+				"soso serial",
+				location,
+				LocalDateTime.now(),
+				LocalDateTime.now(),
+				CardType.GUEST));
+
+		personService.deleteAll();
+		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
+		Person person = new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr");
+		personService.addPerson(person);
+
+		workerService.deleteAll();
+		workerService.addWorker(new Worker(ObjectId.get(), person, null));
+		workerService.addWorker(new Worker(ObjectId.get(), person, null));
+		System.out.println("from app.run()");
 //		db clean up
 //		for (String name : mongoTemplate.getCollectionNames()) {
 //			System.out.println(name);
