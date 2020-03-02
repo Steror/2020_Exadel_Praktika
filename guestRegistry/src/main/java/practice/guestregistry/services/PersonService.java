@@ -31,8 +31,9 @@ public class PersonService {
         return dao.findAll();
     }
 
-    public void addPerson (Person newPerson) {
+    public Person addPerson (Person newPerson) {
         dao.save(newPerson);
+        return newPerson;
     }
 
     public void updatePerson (ObjectId id, Person newPerson) {
