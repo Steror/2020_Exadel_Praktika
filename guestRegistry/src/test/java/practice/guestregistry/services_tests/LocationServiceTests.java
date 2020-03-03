@@ -96,9 +96,9 @@ public class LocationServiceTests { // Integration testing
 
         location1 = locationService.addLocation(location1);
 
-        Optional<Location> location2 = locationService.getLocationById(location1.getId());
+        Location location2 = locationService.getLocationById(location1.getId()).get();
 
-        assertEquals(location1, location2.orElse(null));
+        assertEquals(location1, location2);
     }
 
     @Test
