@@ -104,7 +104,7 @@ public class GuestRegistryApplication implements CommandLineRunner {
 				LocalDateTime.now(),
 				LocalDateTime.now(),
 				CardType.PERSONNEL));
-		cardService.addCard(new Card(ObjectId.get(),
+		Card savedCard = cardService.addCard(new Card(ObjectId.get(),
 				"soso serial",
 				location,
 				LocalDateTime.now(),
@@ -117,8 +117,25 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		personService.addPerson(person);
 
 		workerService.deleteAll();
-		workerService.addWorker(new Worker(ObjectId.get(), person, null));
-		workerService.addWorker(new Worker(ObjectId.get(), person, null));
+		workerService.addWorker(new Worker(null, person, savedCard));
+		workerService.addWorker(new Worker(null, person, null));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		System.out.println("from app.run()");
 //		db clean up
 //		for (String name : mongoTemplate.getCollectionNames()) {

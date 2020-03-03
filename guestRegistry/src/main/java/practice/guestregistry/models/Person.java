@@ -23,17 +23,17 @@ public class Person {
     @Id
     @NotNull
     @JsonSerialize(using = ObjectID_Serializer.class)
-    ObjectId id;
+    private ObjectId id;
 
     @NotEmpty
-    String firstName;
-    String middleName;
+    private String firstName;
+    private String middleName;
     @NotEmpty
-    String lastName;
+    private String lastName;
     @Email
-    String email;
+    private String email;
     @Pattern(regexp = "[0-9]*")
-    String phoneNumber;
+    private String phoneNumber;
     //URL url;
     @DBRef(db = "test")
     private List<Event> events;

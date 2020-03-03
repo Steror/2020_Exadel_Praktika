@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class WorkerService {
+public class WorkerService implements IBasicService<Worker>{
     WorkerDao workerDao;
     PersonService personService;
     CardService cardService;
