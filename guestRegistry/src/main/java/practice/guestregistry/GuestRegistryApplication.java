@@ -74,7 +74,7 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		location.setAddress("d");
 		location.setLocationType(LocationType.OFFICE);
 		location.setPhoneNumber("777");
-		Location locationForEvent = locationService.addLocation(location);
+		location = locationService.addLocation(location);
 
 		cardService.deleteAll();
 		cardService.addCard(new Card(ObjectId.get(),
@@ -114,7 +114,7 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		event.setParticipants_amount(10);
 		event.setStart_date_time(LocalDateTime.now());
 		event.setEnd_date_time(LocalDateTime.now());
-		event.setLocation(locationForEvent);
+		event.setLocation(location);
 		event.setAttendees(Collections.singletonList(personForEvent));
 		eventService.addEvent(event);
 
