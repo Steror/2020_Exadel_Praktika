@@ -2,10 +2,15 @@ package practice.guestregistry.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
+//@EnableGlobalMethodSecurity(
+//        prePostEnabled = true,
+//        securedEnabled = true,
+//        jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -18,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("javatechie").password("{noop}jt143").roles("USER");
+        auth.inMemoryAuthentication().withUser("user").password("pass").roles("USER");
     }
 
 }
