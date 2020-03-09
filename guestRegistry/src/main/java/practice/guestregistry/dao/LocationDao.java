@@ -9,8 +9,8 @@ import java.util.Optional;
 public interface LocationDao {
     Optional<Location> findById (ObjectId id);
     List<Location> findAll ();
-    void add (Location location);
-    void update (ObjectId id, Location location);
+    Location add (Location location);
+    Location update (ObjectId id, Location location);
     void deleteById (ObjectId id);
     void deleteAll ();
 }

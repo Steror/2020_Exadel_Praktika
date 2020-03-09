@@ -11,7 +11,7 @@ public interface IBasicService <Entity> {
     public Optional<Entity> getWorkerById (ObjectId id);
     public List<Entity> getAllWorkers ();
     public Worker addWorker (Entity newEntity);
-    public void updateWorker (Entity newEntity);
+    public Worker updateWorker (Entity newEntity);
     public void deleteWorkerById (ObjectId id);
 }
 

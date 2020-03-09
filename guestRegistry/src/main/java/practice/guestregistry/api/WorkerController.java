@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import practice.guestregistry.exceptions.InvalidDocumentStateException;
+import practice.guestregistry.models.Person;
 import practice.guestregistry.models.Worker;
+import practice.guestregistry.services.PersonService;
 import practice.guestregistry.services.WorkerService;
 import practice.guestregistry.tdo.WorkerDTO;
 import practice.guestregistry.tdo.WorkerDTOMapper;
@@ -23,12 +26,15 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:4200")
 public class WorkerController {
     private WorkerService workerService;
+    private PersonService personService;
     private WorkerDTOMapper workerDTOMapper;
 
     @Autowired
     WorkerController(WorkerService workerService,
+                     PersonService personService,
                      WorkerDTOMapper workerDTOMapper) {
         this.workerService = workerService;
+        this.personService = personService;
         this.workerDTOMapper = workerDTOMapper;
     }
 
@@ -52,24 +58,48 @@ public class WorkerController {
     @PostMapping
 //    public ResponseEntity<Worker> addWorker(@Valid @RequestBody Worker worker) {
     public ResponseEntity<Worker> addWorker( @RequestBody WorkerDTO workerDTO) {
-//        Worker savedWorker = workerService.addWorker(worker);
-        Worker reverseMapped = reverseMap(workerDTO);
-        Worker savedWorker = workerService.addWorker(reverseMapped);
-
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(ServletUriComponentsBuilder.
-                fromCurrentRequest().
-                path("/{id}").
-                buildAndExpand(savedWorker.getId().toString())
-                .toUri());
+//        Worker savedWorker = workerService.addWorker(worker);
+        Worker convertedToWorker = convertToWorker(workerDTO);
+//        System.out.println("convertedToWorker:" + convertedToWorker);
+
+        ObjectId personId = convertedToWorker.getPerson().getId();
+        if ( personId == null) {
+            Person addedPerson = personService.addPerson(convertedToWorker.getPerson());
+//            System.out.println("added person: " + addedPerson);
+            convertedToWorker.setPerson(addedPerson);
+//            System.out.println("convertedToWorker:" + convertedToWorker);
+            Worker savedWorker = workerService.addWorker(convertedToWorker);
+            responseHeaders.setLocation(ServletUriComponentsBuilder.
+                    fromCurrentRequest().
+                    path("/{id}").
+                    buildAndExpand(savedWorker.getId().toString())
+                    .toUri());
+//            System.out.println("savedWorker:" + savedWorker);
+        } else if (!personService.getPersonById(personId).isPresent()) {
+            throw new InvalidDocumentStateException("This person doesnt exist");
+        } else {
+            //person exist
+            //TODO: should person be updated?? probably not
+        }
+
+
         return new ResponseEntity<Worker>(null, responseHeaders, HttpStatus.CREATED);
     }
 
 
     @PutMapping(path="{id}")
-//    public ResponseEntity<@Valid Worker> updateWorker(@PathVariable ObjectId id, @Valid @RequestBody Worker newWorker) {
-    public ResponseEntity<@Valid Worker> updateWorker(@Valid @RequestBody Worker newWorker) {
-        workerService.updateWorker(newWorker);
+//    public ResponseEntity<@Valid Worker> updateWorker(@Valid @RequestBody Worker newWorker) {
+    public ResponseEntity<@Valid WorkerDTO> updateWorker(@Valid @RequestBody WorkerDTO workerDTO) {
+        System.out.println("ALOCHAAA");
+        System.out.println(workerDTO);
+        Worker worker = new Worker();
+        workerDTOMapper.map(workerDTO, worker);
+
+        System.out.println("updating worker: " + worker);
+        Worker updatedWorker = workerService.updateWorker(worker);
+        System.out.println("updated worker: " + updatedWorker);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -85,11 +115,11 @@ public class WorkerController {
         return null;
     }
 
-    private Worker reverseMap(WorkerDTO workerDTO) {
-        System.out.println("Im getting this :D");
+    private Worker convertToWorker(WorkerDTO workerDTO) {
+        System.out.println("convert to worker");
         System.out.println(workerDTO);
         Worker worker = new Worker();
-        System.out.println("new and improved\n" + worker);
+        workerDTOMapper.map(workerDTO, worker);
         return worker;
     }
 }

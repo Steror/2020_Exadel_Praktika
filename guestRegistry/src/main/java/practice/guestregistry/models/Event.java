@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import practice.guestregistry.config.ObjectID_Serializer;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,11 +23,15 @@ public class Event {
     private String name;
     private String description;
     private int participants_amount;
+    @NotNull
     private LocalDateTime start_date_time;
+    @NotNull
     private LocalDateTime end_date_time;
     @DBRef(db = "test")
+    @NotNull
     private Location location;
     @DBRef(db = "test")
+    @NotNull
     private List<Person> attendees;
     //@DBRef
     //Worker event_owner;
