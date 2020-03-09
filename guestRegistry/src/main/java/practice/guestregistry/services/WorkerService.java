@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class WorkerService {
+public class WorkerService implements IBasicService<Worker>{
     WorkerDao workerDao;
     PersonService personService;
     CardService cardService;
@@ -50,10 +50,10 @@ public class WorkerService {
         }
     }
 
-    public void updateWorker (Worker newWorker) {
+    public Worker updateWorker (Worker newWorker) {
         if (workerDao.existById(newWorker.getId())) {
             if (validateWorkerFields(newWorker)) {
-                workerDao.save(newWorker);
+                return workerDao.update(newWorker);
             } else {
                 throw new InvalidDocumentStateException("Invalid fields: person || card doesn't exist");
             }

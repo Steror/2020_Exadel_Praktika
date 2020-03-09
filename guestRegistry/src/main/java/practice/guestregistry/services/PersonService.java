@@ -32,8 +32,7 @@ public class PersonService {
     }
 
     public Person addPerson (Person newPerson) {
-        dao.save(newPerson);
-        return newPerson;
+        return dao.save(newPerson);
     }
 
     public void updatePerson (ObjectId id, Person newPerson) {

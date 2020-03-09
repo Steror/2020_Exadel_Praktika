@@ -12,7 +12,7 @@ public interface WorkerDao {
     Optional<Worker> findById (ObjectId id);
     List<Worker> findAll ();
     Worker save (Worker worker);
-    void update (ObjectId id, Worker worker);
+    Worker update(Worker worker);
     void deleteById (ObjectId id);
     boolean existById(ObjectId id);
 }
