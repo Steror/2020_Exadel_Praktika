@@ -37,6 +37,7 @@ public class WorkerDTOMapping {
 //        System.out.println(worker);
 //        System.out.println(workerDTO);
         assertThat(workerDTO.workerId).isEqualTo(worker.getId().toString());
+//        assertThat(workerDTO.id).isEqualTo(worker.getId().toString());
         assertThat(workerDTO.personId).isEqualTo(person.getId().toString());
         assertThat(workerDTO.firstName).isEqualTo(person.getFirstName());
         assertThat(workerDTO.middleName).isEqualTo(person.getMiddleName());
@@ -72,6 +73,7 @@ public class WorkerDTOMapping {
         System.out.println(card);
         System.out.println(person);
         System.out.println(worker);
+        System.out.println(workerDTO);
         System.out.println(mappedWorker);
         assertThat(mappedWorker.getId()).isEqualTo(worker.getId());
         assertThat(mappedWorker.getPerson().getId()).isEqualTo(person.getId());

@@ -8,14 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.models.Card;
+import practice.guestregistry.models.CardType;
 import practice.guestregistry.models.Person;
 import practice.guestregistry.models.Worker;
 import practice.guestregistry.services.WorkerService;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 //@DataMongoTest
@@ -200,5 +206,50 @@ public class WorkerServiceTests {
         assertThat(savedWorker).isEqualTo(mongoTemplate.findAll(Worker.class).get(0));
     }
 
-//        workerService.updateWorker(newWorker));
+
+
+    //sitas ir neturi veikti, nes servise validacija bus paleista anksciau, nei cascadingSave issaugos person db
+    @Test
+    public void cascadeSave_on_saving() {
+        ObjectId dummyId = new ObjectId();
+        Person person = new Person(dummyId,
+                "first",
+                "second",
+                "thidrd",
+                "email@email.com",
+                "111111");
+        Card card = new Card();
+        card.setSerialNumber("a");
+        card.setCtype(CardType.PERSONNEL);
+        card.setManufactured(LocalDateTime.now());
+        card.setValidUntil(LocalDateTime.now());
+        Worker worker =  new Worker(null, person, card);
+        workerService.addWorker(worker);
+
+        List<Person> personInDb = mongoTemplate.find(Query.query(Criteria.where("firstName").is(person.getFirstName())),Person.class);
+        System.out.println(personInDb.get(0));
+        assertThat(personInDb.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void cascadeSave_on_updating() {
+        ObjectId dummyId = new ObjectId();
+        Person person = new Person(dummyId,
+                "first",
+                "second",
+                "thidrd",
+                "email@email.com",
+                "111111");
+        Worker worker =  new Worker(null, person, null);
+        mongoTemplate.save(person);
+        Worker savedWorker = workerService.addWorker(worker);
+
+        person.setLastName("LAST");
+        workerService.updateWorker(worker);
+
+        List<Worker> personInDb = mongoTemplate.find(Query.query(Criteria.where("id").is(savedWorker.getId())), Worker.class);
+
+        System.out.println(personInDb.get(0));
+        assertThat(workerService.getWorkerById(savedWorker.getId()).get().getPerson().getLastName()).isEqualTo("LAST");
+    }
 }

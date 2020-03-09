@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import practice.guestregistry.models.Event;
 import practice.guestregistry.services.EventService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,11 +28,11 @@ public class EventController {
     public List<Event> getEvents() { return service.getAllEvents(); }
 
     @PostMapping
-    public void addEvent(@RequestBody Event event) {
+    public void addEvent(@Valid @RequestBody Event event) {
         service.addEvent(event); }
 
     @PutMapping(path="{id}")
-    public void updateEvent(@PathVariable ObjectId id, @RequestBody Event event) { service.updateEvent(id, event); }
+    public void updateEvent(@PathVariable ObjectId id, @Valid @RequestBody Event event) { service.updateEvent(id, event); }
 
     @DeleteMapping(path="{id}")
     public void deleteEvent(@PathVariable ObjectId id) { service.deleteEventById(id); }

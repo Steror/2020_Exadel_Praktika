@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class WorkerDaoImpl implements WorkerDao{
+public class WorkerDaoImpl implements WorkerDao {
     MongoTemplate mongoTemplate;
     //    SequenceDao sequenceDao;
     private static final String HOSTING_SEQ_KEY = "worker";
@@ -44,11 +44,12 @@ public class WorkerDaoImpl implements WorkerDao{
     }
 
     @Override
-    public void update(ObjectId id, Worker worker) {
-        if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Worker.class)) {
-            worker.setId(id);
-            mongoTemplate.save(worker);
+    public Worker update(Worker worker) {
+        if (mongoTemplate.exists(Query.query(Criteria.where("id").is(worker.getId())), Worker.class)) {
+            worker.setId(worker.getId());
+            return mongoTemplate.save(worker);
         }
+        return null;
     }
 
     @Override

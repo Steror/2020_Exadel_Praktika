@@ -43,9 +43,9 @@ public class WorkerDTOMapper {
                 field("person.email", "email").
                 field("person.phoneNumber", "phoneNumber").
                 register();
-        this.mapperFactory.classMap(Person.class, WorkerDTO.class).
-                exclude("id").
-                byDefault().register();
+//        this.mapperFactory.classMap(Person.class, WorkerDTO.class).
+//                exclude("id").
+//                byDefault().register();
 //        this.mapperFactory.classMap(Worker.class, WorkerDTO.class).
 ////                mapNulls(false).
 //                mapNullsInReverse(false).
@@ -83,6 +83,7 @@ public class WorkerDTOMapper {
 
         this.mapperFactory.getMapperFacade(WorkerDTO.class, Worker.class).map(workerDTO, worker);
 //        this.mapperFactory.getMapperFacade(WorkerDTO.class, Card.class).map(workerDTO, worker.getCard());
+//        return worker;
     }
     public void map (WorkerDTO workerDTO, Person person) {
         this.mapperFactory.getMapperFacade(WorkerDTO.class, Person.class).map(workerDTO, person);

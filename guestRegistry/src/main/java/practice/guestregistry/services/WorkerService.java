@@ -50,10 +50,10 @@ public class WorkerService implements IBasicService<Worker>{
         }
     }
 
-    public void updateWorker (Worker newWorker) {
+    public Worker updateWorker (Worker newWorker) {
         if (workerDao.existById(newWorker.getId())) {
             if (validateWorkerFields(newWorker)) {
-                workerDao.save(newWorker);
+                return workerDao.update(newWorker);
             } else {
                 throw new InvalidDocumentStateException("Invalid fields: person || card doesn't exist");
             }

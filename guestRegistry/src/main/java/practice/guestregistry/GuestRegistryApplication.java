@@ -15,6 +15,7 @@ import practice.guestregistry.services.*;
 
 import java.io.PrintStream;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 @SpringBootApplication(exclude = {
 //		MongoAutoConfiguration.class,
@@ -29,8 +30,8 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	private LocationService locationService;
 	@Autowired
 	private EventService eventService;
-	@Autowired
-	private MongoTemplate mongoTemplate;
+//	@Autowired
+//	private MongoTemplate mongoTemplate;
 	@Autowired
 	private WorkerService workerService;
 
@@ -73,17 +74,7 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		location.setAddress("d");
 		location.setLocationType(LocationType.OFFICE);
 		location.setPhoneNumber("777");
-		locationService.addLocation(location);
-
-		eventService.deleteAllEvents();
-		Event event = new Event();
-		event.setName("a");
-		event.setDescription("b");
-		event.setParticipants_amount(10);
-		event.setStart_date_time(LocalDateTime.now());
-		event.setEnd_date_time(LocalDateTime.now());
-		event.setLocation(location);
-		eventService.addEvent(event);
+		Location locationForEvent = locationService.addLocation(location);
 
 		cardService.deleteAll();
 		cardService.addCard(new Card(ObjectId.get(),
@@ -112,9 +103,20 @@ public class GuestRegistryApplication implements CommandLineRunner {
 				CardType.GUEST));
 
 		personService.deleteAll();
-		personService.addPerson(new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr"));
-		Person person = new Person(ObjectId.get(), "firstName", "mname", "lname", "emaill", "phone_nr");
-		personService.addPerson(person);
+		personService.addPerson(new Person(ObjectId.get(), "firstPerson", "mname", "lname", "emaill", "phone_nr"));
+		Person person = new Person(ObjectId.get(), "secondPerson", "mname", "lname", "emaill", "phone_nr");
+		Person personForEvent = personService.addPerson(person);
+
+		eventService.deleteAllEvents();
+		Event event = new Event();
+		event.setName("a");
+		event.setDescription("b");
+		event.setParticipants_amount(10);
+		event.setStart_date_time(LocalDateTime.now());
+		event.setEnd_date_time(LocalDateTime.now());
+		event.setLocation(locationForEvent);
+		event.setAttendees(Collections.singletonList(personForEvent));
+		eventService.addEvent(event);
 
 		workerService.deleteAll();
 		workerService.addWorker(new Worker(null, person, savedCard));
