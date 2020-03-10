@@ -19,6 +19,7 @@ import java.util.Collections;
 
 @SpringBootApplication(exclude = {
 //		MongoAutoConfiguration.class,
+//	RepositoryRestMvcAutoConfiguration.class
 })
 public class GuestRegistryApplication implements CommandLineRunner {
 
@@ -124,20 +125,6 @@ public class GuestRegistryApplication implements CommandLineRunner {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		System.out.println("from app.run()");
 //		db clean up
 //		for (String name : mongoTemplate.getCollectionNames()) {
@@ -163,17 +150,9 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		};
 	}
 
-	//	@Bean
-//	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-//		return args -> {
-//			System.out.println("Let's inspect the beans provided by Spring Boot:");
-//
-//			String[] beanNames = ctx.getBeanDefinitionNames();
-//			Arrays.sort(beanNames);
-//			for (String beanName : beanNames) {
-//				System.out.println(beanName);
-//			}
-//			System.out.println("______________________________");
-//		};
+//	@Bean
+//	public Docket productApi() {
+//		return new Docket(DocumentationType.SWAGGER_2).select()
+//				.apis(RequestHandlerSelectors.basePackage("practice.guestregistry")).build();
 //	}
 }

@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("api/worker")
 @CrossOrigin(origins = "http://localhost:4200")
+//@Api(tags = "worker")
+//@Api(value="Language API", description="Operations pertaining to Language")
 public class WorkerController {
     private WorkerService workerService;
     private PersonService personService;

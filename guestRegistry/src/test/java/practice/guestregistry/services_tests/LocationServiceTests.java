@@ -1,20 +1,16 @@
 package practice.guestregistry.services_tests;
 
 import org.bson.types.ObjectId;
-import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import practice.guestregistry.dao.LocationDaoImpl;
+import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.models.Location;
 import practice.guestregistry.services.LocationService;
 
@@ -23,6 +19,8 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static practice.guestregistry.models.LocationType.OFFICE;
+
+//import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)

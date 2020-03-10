@@ -33,12 +33,12 @@ public class WorkerService implements IBasicService<Worker>{
     }
 
     public void deleteAll () {
-        log.trace("called:" + this.getClass().getEnclosingMethod().getName());
+//        //log.trace("called:" + this.getClass().getEnclosingMethod().getName());
         workerDao.deleteAll();
     }
 
     public Optional<Worker> getWorkerById (ObjectId id) {
-        log.trace("called:" + this.getClass().getEnclosingMethod().getName());
+        //log.trace("called:" + this.getClass().getEnclosingMethod().getName());
         if (workerDao.existById(id)) {
             return workerDao.findById(id);
         } else {
@@ -47,12 +47,12 @@ public class WorkerService implements IBasicService<Worker>{
     }
 
     public List<Worker> getAllWorkers () {
-        log.trace("called:" + this.getClass().getEnclosingMethod().getName());
+        //log.trace("called:" + this.getClass().getEnclosingMethod().getName());
         return workerDao.findAll();
     }
 
     public Worker addWorker (Worker newWorker) {
-        log.trace("called:" + this.getClass().getEnclosingMethod().getName());
+        //log.trace("called:" + this.getClass().getEnclosingMethod().getName());
         if (validateWorkerFields(newWorker)) {
             return workerDao.save(newWorker);
         } else {
@@ -61,7 +61,7 @@ public class WorkerService implements IBasicService<Worker>{
     }
 
     public Worker updateWorker (@NotNull Worker newWorker) {
-        log.trace("called:" + this.getClass().getEnclosingMethod().getName());
+        //log.trace("called:" + this.getClass().getEnclosingMethod().getName());
         if (workerDao.existById(newWorker.getId())) {
             if (validateWorkerFields(newWorker)) {
                 return workerDao.update(newWorker);
@@ -74,7 +74,7 @@ public class WorkerService implements IBasicService<Worker>{
     }
 
     public void deleteWorkerById (ObjectId id) {
-        log.trace("called:" + this.getClass().getEnclosingMethod().getName());
+        //log.trace("called:" + this.getClass().getEnclosingMethod().getName());
         if (workerDao.existById(id)) {
             workerDao.deleteById(id);
         } else {
@@ -85,7 +85,7 @@ public class WorkerService implements IBasicService<Worker>{
     //person must exist
     //if card exist it should be valid
     private boolean validateWorkerFields(@NotNull Worker newWorker) {
-        log.trace("called:" + this.getClass().getEnclosingMethod().getName());
+        //log.trace("called:" + this.getClass().getEnclosingMethod().getName());
         log.trace("validating worker: " + newWorker);
         Optional<Person> personInDb = personService.getPersonById(newWorker.getPerson().getId());
         if (newWorker.getPerson() != null && personInDb.isPresent()) {
