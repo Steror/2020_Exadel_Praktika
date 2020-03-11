@@ -1,4 +1,4 @@
-package practice.guestregistry.event;
+package practice.guestregistry.listeners;
 
 
 import lombok.Data;

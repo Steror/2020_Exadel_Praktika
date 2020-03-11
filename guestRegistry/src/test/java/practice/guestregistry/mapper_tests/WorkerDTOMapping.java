@@ -5,14 +5,14 @@ import org.junit.Test;
 import practice.guestregistry.models.Card;
 import practice.guestregistry.models.Person;
 import practice.guestregistry.models.Worker;
-import practice.guestregistry.tdo.WorkerDTO;
-import practice.guestregistry.tdo.WorkerDTOMapper;
+import practice.guestregistry.dto.WorkerDTO;
+import practice.guestregistry.dto.WorkerDTOMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WorkerDTOMapping {
 
-    public WorkerDTOMapper personMapper = new WorkerDTOMapper();
+    public WorkerDTOMapper workerMapper = new WorkerDTOMapper();
 
     @Test
     public void mappingForward() {
@@ -31,7 +31,7 @@ public class WorkerDTOMapping {
         worker.setCard(card);
         worker.setPerson(person);
 
-        WorkerDTO workerDTO = personMapper.map(worker);
+        WorkerDTO workerDTO = workerMapper.map(worker);
 //        System.out.println(card);
 //        System.out.println(person);
 //        System.out.println(worker);
@@ -65,10 +65,10 @@ public class WorkerDTOMapping {
         worker.setCard(card);
         worker.setPerson(person);
 
-        WorkerDTO workerDTO = personMapper.map(worker);
+        WorkerDTO workerDTO = workerMapper.map(worker);
 
         Worker mappedWorker = new Worker();
-        personMapper.map(workerDTO, mappedWorker);
+        workerMapper.map(workerDTO, mappedWorker);
         System.out.println("ANOTHER VARIANT\n\n\n\n");
         System.out.println(card);
         System.out.println(person);

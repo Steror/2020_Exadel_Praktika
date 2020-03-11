@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import practice.guestregistry.dto.WorkerDTO;
+import practice.guestregistry.dto.WorkerDTOMapper;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.models.Card;
@@ -36,8 +38,9 @@ public class WorkerServiceTests {
     @Autowired
     private WorkerService workerService;
     @Autowired
-    MongoTemplate mongoTemplate;
-
+    private MongoTemplate mongoTemplate;
+    @Autowired
+    private WorkerDTOMapper mapper = new WorkerDTOMapper();
 //    @Before
 //    public void init() {
 //        MockitoAnnotations.initMocks(this);
@@ -52,18 +55,34 @@ public class WorkerServiceTests {
     }
 
     @Test
+    public void add_worker_no_id() {
+        ObjectId dummyId = new ObjectId();
+        Person person = new Person(dummyId,
+                "first",
+                "second",
+                "thidrd",
+                "email@email.com",
+                "111111");
+        Worker worker =  new Worker(null, person, null);
+        mongoTemplate.save(person);
+        WorkerDTO savedWorker = workerService.addWorker(mapper.map(worker));
+
+        assertThat(savedWorker.getWorkerId()).isNotNull();
+    }
+    @Test
     public void add_worker_when_person_exist_in_db() {
         Person person = new Person(ObjectId.get(), "first", "second", "thidrd", "email@email.com", "111111");
         mongoTemplate.save(person);
         Worker worker = new Worker(ObjectId.get(), person, null);
-        Worker savedWorker = workerService.addWorker(worker);
+        WorkerDTO savedWorker = workerService.addWorker(mapper.map(worker));
 
         long collectionSize = mongoTemplate.findAll(Worker.class).size();
-        assertThat(savedWorker.getId()).isNotNull();
+        assertThat(savedWorker.getWorkerId()).isNotNull();
         assertThat(collectionSize).isEqualTo(1);
     }
 
-    @Test(expected = InvalidDocumentStateException.class)
+//    @Test(expected = InvalidDocumentStateException.class)
+    @Test
     public void add_worker_when_person_dont_exist_in_Db() {
         Person person = new Person(ObjectId.get(),
                 "first",
@@ -71,7 +90,7 @@ public class WorkerServiceTests {
                 "thidrd",
                 "email@email.com",
                 "111111");
-        workerService.addWorker(new Worker(ObjectId.get(), person, null));
+        workerService.addWorker(mapper.map(new Worker(ObjectId.get(), person, null)));
     }
 
     @Test
@@ -82,10 +101,10 @@ public class WorkerServiceTests {
         card.setId(ObjectId.get());
         mongoTemplate.save(card);
         Worker worker = new Worker(ObjectId.get(), person, card);
-        Worker savedWorker = workerService.addWorker(worker);
+        WorkerDTO savedWorker = workerService.addWorker(mapper.map(worker));
 
         long collectionSize = mongoTemplate.findAll(Worker.class).size();
-        assertThat(savedWorker.getId()).isNotNull();
+        assertThat(savedWorker.getWorkerId()).isNotNull();
         assertThat(collectionSize).isEqualTo(1);
     }
 
@@ -99,13 +118,13 @@ public class WorkerServiceTests {
                 "111111");
         Card card = new Card();
         card.setId(ObjectId.get());
-        workerService.addWorker(new Worker(ObjectId.get(), person, card));
+        workerService.addWorker(mapper.map(new Worker(ObjectId.get(), person, card)));
     }
 
     @Test(expected = InvalidDocumentStateException.class)
     public void add_worker_when_person_null() {
         Worker worker = new Worker(ObjectId.get(), null, null);
-        workerService.addWorker(worker);
+        WorkerDTO savedWorker = workerService.addWorker(mapper.map(worker));
     }
 
     @Test
@@ -124,7 +143,8 @@ public class WorkerServiceTests {
         Worker savedWorker = mongoTemplate.save(new Worker(ObjectId.get(), null, null));
 
         assertThat(mongoTemplate.findAll(Worker.class).size()).isEqualTo(3);
-        assertThat(workerService.getWorkerById(savedWorker.getId()).get()).isEqualTo(savedWorker);
+//        assertThat(workerService.getWorkerById(savedWorker.getId()).get()).isEqualTo(savedWorker);
+        assertThat(workerService.getWorkerById(savedWorker.getId()).get()).isEqualTo(mapper.map(savedWorker));
     }
 
     @Test(expected = ResourceNotFoundException.class)
@@ -160,15 +180,15 @@ public class WorkerServiceTests {
     public void dont_update_not_existing_id() {
         Worker savedWorker = mongoTemplate.save(new Worker(ObjectId.get(), null, null));
         savedWorker.setId(ObjectId.get());
-        workerService.updateWorker(savedWorker);
+        workerService.updateWorker(mapper.map(savedWorker));
     }
 
     @Test(expected = InvalidDocumentStateException.class)
     public void update_when_person_is_null() {
         Person person = new Person();
         person.setId(ObjectId.get());
-        Worker savedWorker = workerService.addWorker(new Worker(ObjectId.get(), person, null));
-        workerService.updateWorker(new Worker(ObjectId.get(), null, null));
+        WorkerDTO savedWorker = workerService.addWorker(mapper.map(new Worker(ObjectId.get(), person, null)));
+        workerService.updateWorker(mapper.map(new Worker(new ObjectId(savedWorker.getWorkerId()), null, null)));
     }
 
     @Test(expected = InvalidDocumentStateException.class)
@@ -176,11 +196,11 @@ public class WorkerServiceTests {
         Person person = new Person();
         person.setId(ObjectId.get());
         mongoTemplate.save(person);
-        Worker savedWorker = workerService.addWorker(new Worker(null, person, null));
+        WorkerDTO savedWorker = workerService.addWorker(mapper.map(new Worker(null, person, null)));
         Person personNotInDb = new Person();
         // because person id @NotNull
         personNotInDb.setId(ObjectId.get());
-        workerService.updateWorker(new Worker(savedWorker.getId(), personNotInDb, null));
+        workerService.updateWorker(mapper.map(new Worker(new ObjectId(savedWorker.getWorkerId()), personNotInDb, null)));
     }
 
     @Test
@@ -189,20 +209,23 @@ public class WorkerServiceTests {
         Person person = new Person();
         person.setId(ObjectId.get());
         Person savedPerson = mongoTemplate.save(person);
-        Worker savedWorker = workerService.addWorker(new Worker(null, person, null));
+        WorkerDTO savedWorker = workerService.addWorker(mapper.map(new Worker(null, person, null)));
 
         //creating new person to update, and add him to db
         Person updatingWithPerson = new Person();
         updatingWithPerson.setId(ObjectId.get());
-        mongoTemplate.save(updatingWithPerson);
+        Person savedPerson1 = mongoTemplate.save(updatingWithPerson);
 
+//        System.out.println(updatingWithPerson);
+//        System.out.println(savedPerson1);
+        System.out.println(mongoTemplate.exists(Query.query(Criteria.byExample(savedPerson1)), Person.class));
         // updating to new Worker
-        Worker newWorker = new Worker(savedWorker.getId(), updatingWithPerson, null);
+        WorkerDTO newWorker = mapper.map(new Worker(new ObjectId(savedWorker.getWorkerId()), updatingWithPerson, null));
         workerService.updateWorker(newWorker);
 
         System.out.println(mongoTemplate.findAll(Worker.class));
         assertThat(mongoTemplate.findAll(Worker.class).size()).isEqualTo(1);
-        assertThat(newWorker).isEqualTo(mongoTemplate.findAll(Worker.class).get(0));
+        assertThat(newWorker).isEqualTo(mapper.map(mongoTemplate.findAll(Worker.class).get(0)));
     }
 
 
@@ -236,19 +259,24 @@ public class WorkerServiceTests {
         Person person = new Person(dummyId,
                 "first",
                 "second",
-                "thidrd",
+                "third",
                 "email@email.com",
                 "111111");
-        Worker worker =  new Worker(null, person, null);
-        mongoTemplate.save(person);
-        Worker savedWorker = workerService.addWorker(worker);
+        Person savedPerson = mongoTemplate.save(person);
+        WorkerDTO savedWorker = workerService.addWorker(mapper.map(new Worker(null, savedPerson, null)));
+        savedWorker.setLastName("LAST");
 
-        person.setLastName("LAST");
-        workerService.updateWorker(worker);
+        Worker test = new Worker();
+        mapper.map(savedWorker, test);
+//        System.out.println("person from mapped" + test.getPerson());
+        System.out.println(mongoTemplate.exists(Query.query(Criteria.byExample(test.getPerson())), Person.class));
+//        System.out.println("test" + savedWorker);
+        workerService.updateWorker(savedWorker);
 
-        List<Worker> personInDb = mongoTemplate.find(Query.query(Criteria.where("id").is(savedWorker.getId())), Worker.class);
+        List<Worker> personInDb = mongoTemplate.find(Query.query(Criteria.where("id").is(new ObjectId(savedWorker.getWorkerId()))), Worker.class);
 
         System.out.println(personInDb.get(0));
-        assertThat(workerService.getWorkerById(savedWorker.getId()).get().getPerson().getLastName()).isEqualTo("LAST");
+        assertThat(workerService.getWorkerById(new ObjectId(savedWorker.getWorkerId())).get().getLastName()).isEqualTo("LAST");
     }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import practice.guestregistry.dto.WorkerDTOMapper;
 import practice.guestregistry.models.*;
 import practice.guestregistry.services.*;
 
@@ -35,6 +36,8 @@ public class GuestRegistryApplication implements CommandLineRunner {
 //	private MongoTemplate mongoTemplate;
 	@Autowired
 	private WorkerService workerService;
+	@Autowired
+	private WorkerDTOMapper workerDTOMapper;
 
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(GuestRegistryApplication.class);
@@ -120,8 +123,8 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		eventService.addEvent(event);
 
 		workerService.deleteAll();
-		workerService.addWorker(new Worker(null, person, savedCard));
-		workerService.addWorker(new Worker(null, person, null));
+		workerService.addWorker(workerDTOMapper.map(new Worker(null, person, savedCard)));
+		workerService.addWorker(workerDTOMapper.map(new Worker(null, person, null)));
 
 
 

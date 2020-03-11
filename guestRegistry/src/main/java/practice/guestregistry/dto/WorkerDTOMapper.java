@@ -1,4 +1,4 @@
-package practice.guestregistry.tdo;
+package practice.guestregistry.dto;
 
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;

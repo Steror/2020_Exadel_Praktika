@@ -71,6 +71,12 @@ public class CardDaoImpl implements CardDao {
         return mongoTemplate.exists(query, Card.class);
     }
 
+    @Override
+    public boolean exist(Card card) {
+        return mongoTemplate.exists(Query.query(Criteria.byExample(card)), Card.class);
+    }
+
+
 //    @PostConstruct
 //    private void after() {
 //        if (!mongoTemplate.collectionExists(Card.class)   ) {
