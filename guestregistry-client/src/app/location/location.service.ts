@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,29 +7,61 @@ import { Observable } from 'rxjs';
 })
 export class LocationService {
   public API = '//localhost:8080/api/location';
+  public options;
+
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get(this.API);
+    this.createHeader();
+    return this.http.get(this.API, this.options);
   }
 
   get(id: any) {
-    return this.http.get(this.API + '/' + id.toString());
+    this.createHeader();
+    return this.http.get(this.API + '/' + id.toString(), this.options);
   }
 
   save(location: any): Observable<any> {
+    this.createHeader();
     let result: Observable<any>;
     if (location.id) {
-      result = this.http.put(this.API + '/' + location.id, location);
+      result = this.http.put(this.API + '/' + location.id, location, this.options);
     } else {
-      result = this.http.post(this.API, location);
+      result = this.http.post(this.API, location, this.options);
     }
     return result;
   }
 
   remove(id: any) {
-    console.log(typeof id);
-    return this.http.delete(this.API + '/' + id.toString());
+    this.createHeader();
+    return this.http.delete(this.API + '/' + id.toString(), this.options);
+  }
+
+  authorize() {
+    const url = 'http://localhost:8080/user';
+
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: 'Basic ' + sessionStorage.getItem('token')
+    });
+
+    const options = { headers };
+    this.http.post<Observable<any>>(url, {}, options).
+    subscribe(principal => {
+        console.log(principal['name']);
+      },
+      error => {
+        if (error.status === 401) {
+          alert('Unauthorized');
+        }
+      }
+    );
+  }
+
+  createHeader() {
+  const headers: HttpHeaders = new HttpHeaders({
+      Authorization: 'Basic ' + sessionStorage.getItem('token')
+    });
+  this.options = { headers };
   }
 }

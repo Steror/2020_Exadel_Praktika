@@ -12,6 +12,7 @@ export class LocationListComponent implements OnInit {
   constructor(private locationService: LocationService) { }
 
   ngOnInit() {
+    this.locationService.authorize();
     this.loadLocations();
   }
 

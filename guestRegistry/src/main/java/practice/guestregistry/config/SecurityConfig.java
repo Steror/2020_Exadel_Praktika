@@ -1,19 +1,29 @@
 package practice.guestregistry.config;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
 //@Order(SecurityProperties.BASIC_AUTH_ORDER)    // ACCESS_OVERRIDE_ORDER undefined, probably old spring
-//@EnableGlobalMethodSecurity(
-//        prePostEnabled = true,
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true)
 //        securedEnabled = true,
 //        jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -22,25 +32,50 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //        http.cors();
 //        http.csrf().disable();
-        http.cors()
+        http
+//        .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+//                .and()
+                .cors()
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/**").hasRole("USER")
+                .antMatchers("/api/*").hasRole("USER")
+                .antMatchers("/login", "/user").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .httpBasic();
+        http
+                .sessionManagement()
+                .maximumSessions(1);
 //                .and().formLogin();
 //                .anyRequest().authenticated()
 //                .and().csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());;
     }
 
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication().withUser("user").password("{noop}pass").roles("USER");
+//    }
+
+    @Bean
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("pass").roles("USER");
+    public UserDetailsService userDetailsService() {
+        UserDetails user =
+                User.withDefaultPasswordEncoder()
+                        .username("user")
+                        .password("pass")
+                        .roles("USER")
+                        .build();
+
+        return new InMemoryUserDetailsManager(user);
     }
 
+    // Register HttpSessionEventPublisher
+//    @Bean
+//    public static ServletListenerRegistrationBean httpSessionEventPublisher() {
+//        return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
+//    }
 }
