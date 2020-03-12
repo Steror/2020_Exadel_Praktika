@@ -10,20 +10,20 @@ export class PersonListComponent implements OnInit {
 
   persons: Array<any>;
 
-  constructor(private locationService: PersonService) { }
+  constructor(private personService: PersonService) { }
 
   ngOnInit() {
     this.loadLocations();
   }
 
   remove(id) {
-    this.locationService.remove(id).subscribe(result => {
+    this.personService.remove(id).subscribe(result => {
       this.loadLocations();
     });
   }
 
   loadLocations() {
-    this.locationService.getAll().subscribe(data => {
+    this.personService.getAll().subscribe(data => {
       console.log(data);
       this.persons = data;
     });

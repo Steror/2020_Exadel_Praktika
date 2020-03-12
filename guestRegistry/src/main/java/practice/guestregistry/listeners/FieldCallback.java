@@ -1,4 +1,4 @@
-package practice.guestregistry.event;
+package practice.guestregistry.listeners;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.util.ReflectionUtils;

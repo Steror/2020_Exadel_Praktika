@@ -1,4 +1,4 @@
-package practice.guestregistry.event;
+package practice.guestregistry.listeners;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

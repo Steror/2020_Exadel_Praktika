@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import practice.guestregistry.dto.WorkerDTOMapper;
 import practice.guestregistry.models.*;
 import practice.guestregistry.services.*;
 
@@ -19,6 +20,7 @@ import java.util.Collections;
 
 @SpringBootApplication(exclude = {
 //		MongoAutoConfiguration.class,
+//	RepositoryRestMvcAutoConfiguration.class
 })
 public class GuestRegistryApplication implements CommandLineRunner {
 
@@ -34,6 +36,8 @@ public class GuestRegistryApplication implements CommandLineRunner {
 //	private MongoTemplate mongoTemplate;
 	@Autowired
 	private WorkerService workerService;
+	@Autowired
+	private WorkerDTOMapper workerDTOMapper;
 
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(GuestRegistryApplication.class);
@@ -119,22 +123,8 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		eventService.addEvent(event);
 
 		workerService.deleteAll();
-		workerService.addWorker(new Worker(null, person, savedCard));
-		workerService.addWorker(new Worker(null, person, null));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		workerService.addWorker(workerDTOMapper.map(new Worker(null, person, savedCard)));
+		workerService.addWorker(workerDTOMapper.map(new Worker(null, person, null)));
 
 
 
@@ -163,17 +153,9 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		};
 	}
 
-	//	@Bean
-//	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-//		return args -> {
-//			System.out.println("Let's inspect the beans provided by Spring Boot:");
-//
-//			String[] beanNames = ctx.getBeanDefinitionNames();
-//			Arrays.sort(beanNames);
-//			for (String beanName : beanNames) {
-//				System.out.println(beanName);
-//			}
-//			System.out.println("______________________________");
-//		};
+//	@Bean
+//	public Docket productApi() {
+//		return new Docket(DocumentationType.SWAGGER_2).select()
+//				.apis(RequestHandlerSelectors.basePackage("practice.guestregistry")).build();
 //	}
 }

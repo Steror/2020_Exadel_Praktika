@@ -1,4 +1,4 @@
-package practice.guestregistry.tdo;
+package practice.guestregistry.dto;
 
 import lombok.Data;
 
@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 public class WorkerDTO {
 //    @JsonSerialize(using = ObjectID_Serializer.class)
 //    ObjectId id;
+   @NotEmpty
    public String workerId;
    public String personId;
    @NotEmpty
@@ -21,7 +22,9 @@ public class WorkerDTO {
    public String email;
    @Pattern(regexp = "[0-9]*")
    public String phoneNumber;
+   @NotEmpty
    public String cardId;
+   @NotEmpty
    public String cardSerialNumber;
     //smth with position
 }

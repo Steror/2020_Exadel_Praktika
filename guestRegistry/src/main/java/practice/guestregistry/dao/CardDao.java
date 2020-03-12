@@ -16,6 +16,7 @@ public interface CardDao {
     void update (Card card);
     void deleteById (ObjectId id);
     boolean existById(ObjectId id);
+    boolean exist(Card card);
 }
 
 

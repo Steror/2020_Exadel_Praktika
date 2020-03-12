@@ -1,0 +1,132 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form>
+        <fieldset>
+          <legend class="text-center"> Updating card <span class="req"><small>
+                                required *</small></span></legend>
+
+          <h2>{{worker.workerId ? 'Edit' : 'Add'}} Worker</h2>
+
+          <div class="form-group">
+            <label for="firstName"><span class="req">* </span> First name:  </label>
+            <input required type="text" [(ngModel)]="worker.firstName" name="firstName" id="txt" required
+                   class="form-control phone" maxlength="33" placeholder="Enter your first name..." />
+          </div>
+          <div class="form-group">
+            <label for="middleName"><span class="req">* </span> Middle name:  </label>
+            <input type="text" [(ngModel)]="worker.middleName" name="middleName" id="txt" required
+                   class="form-control phone" maxlength="33" placeholder="Enter your middle name..." />
+          </div>
+          <div class="form-group">
+            <label for="lastName"><span class="req">* </span> Last name:  </label>
+            <input required type="text" [(ngModel)]="worker.lastName" name="lastName" id="txt" required
+                   class="form-control phone" maxlength="33" placeholder="Enter your last name..." />
+          </div>
+
+          <div class="form-group">
+            <label for="email"><span class="req">* </span> Email:  </label>
+            <input required type="text" [(ngModel)]="worker.email" name="email" id="email" required
+                   class="form-control phone" placeholder="Enter your last name..." />
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber"><span class="req">* </span> Phone number:  </label>
+            <input required type="text" [(ngModel)]="worker.phoneNumber" name="phoneNumber" id="txt" required
+                   class="form-control phone" placeholder="Enter phone number..." />
+          </div>
+
+
+           <div>   <label>Current card Id : {{worker.cardId}}</label><br> </div>
+
+          <div class="form-group">
+            <label>Location
+              <select [(ngModel)]="worker.cardId"
+                      require name="location" #cardId>
+                <option *ngFor="let card of cards" [ngValue]="cardId" [value]="card.id">
+                  {{card.id + " | " + card.serialNumber + "\t| " + card.validUntil}}
+                </option>
+              </select></label>
+          </div>
+
+
+
+          <div class="form-group">
+            <input class="btn btn-success" type="submit" name="submit_reg" value="Submit" (click)="updateWorker()">
+            <input class="btn btn-success btn-sl" type="button" name="submit_back" value="Back to card list" (click)="gotoList()">
+          </div>
+        </fieldset>
+      </form><!-- ends register form -->
+
+
+      <!-- second for to fiter user-->
+    </div><!-- ends col-6 -->
+  </div>
+</div>
+
+<!--<div>-->
+<!--&lt;!&ndash;  <form #workerForm="ngForm">&ndash;&gt;-->
+<!--  <form #workerForm="ngForm" (ngSubmit)="save(workerForm.value)">-->
+<!--    <h2>{{worker.id ? 'Edit' : 'Add'}} Worker</h2>-->
+<!--    <input type="hidden" name="id" [(ngModel)]="worker.id">-->
+<!--    <label>First name-->
+<!--      <input placeholder="First Name" [(ngModel)]="worker.firstName"-->
+<!--             required name="firstName" #name></label><br>-->
+<!--    <label>Midlle name-->
+<!--      <input placeholder="Middle Name" [(ngModel)]="worker.middleName"-->
+<!--             required name="middleName" #minddleName></label><br>-->
+<!--    <label>Last name-->
+<!--      <input placeholder="Last Name" [(ngModel)]="worker.lastName"-->
+<!--             required name="lastName" #lastName></label><br>-->
+<!--    <label>Email-->
+<!--      <input placeholder="Email" [(ngModel)]="worker.email"-->
+<!--             required name="email" #email></label><br>-->
+<!--    <label>Phone number-->
+<!--      <input placeholder="Phone Number" [(ngModel)]="worker.phoneNumber"-->
+<!--             required name="phoneNumber" #phoneNumber></label><br>-->
+
+<!--    <label>Current card Id-->
+<!--      <input placeholder="Card Id" [(ngModel)]="worker.cardId"-->
+<!--             required name="singleCardId" #singleCardId></label><br>-->
+<!--    <label>Current card Id : {{worker.cardId}}</label><br>-->
+<!--      <input placeholder="Card Id" [(ngModel)]="worker.cardId"-->
+<!--             required name="singleCardId" #singleCardId></label><br>-->
+
+<!--      <label>Card Id-->
+<!--        <select [(ngModel)]="cards"-->
+<!--                require name="cardId" #card>-->
+<!--          <option *ngFor="let card of cards" [ngValue]="card">-->
+<!--            {{card.id + " | " + card.serialNumber + " | valid until:" + card.validUntil }}-->
+<!--          </option>-->
+<!--        </select></label><br>-->
+
+<!--    <div class="form-group">-->
+<!--      <label>Location-->
+<!--        <select [(ngModel)]="worker.cardId"-->
+<!--          <select [(ngModel)]="cardID"-->
+<!--                requireworker.cardId name="cardId" #cardId>-->
+<!--          <option *ngFor="let card of cards" [ngValue]="cardId">-->
+<!--            {{card.id + " " + card.serialNumber}}-->
+<!--          </option>-->
+<!--        </select></label>-->
+<!--    </div>-->
+
+<!--&lt;!&ndash;    <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;      <input class="btn btn-success" type="submit" name="submit_reg" value="Update" (click)="updateWorker()">&ndash;&gt;-->
+<!--&lt;!&ndash;      <input class="btn btn-success" type="submit" name="submit_reg" value="Update" >&ndash;&gt;-->
+<!--&lt;!&ndash;      <input class="btn btn-success btn-sl" type="button" name="submit_back" value="Back to card list" (click)="gotoList()">&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--    <button type="submit"-->
+<!--            [disabled]="!workerForm.valid">Save</button>-->
+<!--    <a routerLink="/worker-list">Cancel</a>-->
+<!--  </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;<h2>Available people</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;<select multiple name="cards" [ngModel]="cards">&ndash;&gt;-->
+<!--&lt;!&ndash;  <option *ngFor="let card of cards" [ngValue]="card">&ndash;&gt;-->
+<!--&lt;!&ndash;    {{ card.id + " " + card.serialNumber }}&ndash;&gt;-->
+<!--&lt;!&ndash;  </option>&ndash;&gt;-->
+<!--&lt;!&ndash;</select>&ndash;&gt;-->
+

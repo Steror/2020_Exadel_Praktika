@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PersonService {
-  public API = '//localhost:8080/api/person';
+export class WorkerService {
+
+  public API = '//localhost:8080/api/worker';
 
   constructor(private http: HttpClient) { }
 
@@ -18,18 +19,18 @@ export class PersonService {
     return this.http.get(this.API + '/' + id.toString());
   }
 
-  save(person: any): Observable<any> {
+  save(worker: any): Observable<any> {
     let result: Observable<any>;
-    if (person.id) {
-      result = this.http.put(this.API + '/' + person.id, person);
+    if (worker.workerId) {
+      result = this.http.put(this.API + '/' + worker.workerId, worker);
     } else {
-      result = this.http.post(this.API, person);
+      result = this.http.post(this.API, worker);
     }
     return result;
   }
 
   remove(id: any) {
-    console.log(typeof id);
+    // console.log(typeof id);
     return this.http.delete(this.API + '/' + id.toString());
   }
 }

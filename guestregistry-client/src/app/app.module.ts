@@ -16,6 +16,8 @@ import {OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule} from '
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PersonEditComponent } from './person/person-edit/person-edit.component';
 import { PersonListComponent } from './person/person-list/person-list.component';
+import { WorkerEditComponent } from './worker/worker-edit/worker-edit.component';
+import { WorkerListComponent } from './worker/worker-list/worker-list.component';
 // import {Stuff1} from  '@angular/cdk/overlay';
 // import {Stuff2} from  '@angular/cdk/a11y';
 // import {Stuff3} from  '@angular/cdk/portal';
@@ -33,7 +35,9 @@ import { PersonListComponent } from './person/person-list/person-list.component'
     CardListDeleteComponent,
     CardUpdateComponent,
     PersonEditComponent,
-    PersonListComponent
+    PersonListComponent,
+    WorkerEditComponent,
+    WorkerListComponent
   ],
   imports: [
     BrowserModule,

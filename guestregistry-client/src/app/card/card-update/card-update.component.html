@@ -17,7 +17,7 @@
           <div class="form-group">
             <label>Location
               <select [(ngModel)]="card.location"
-                      required name="location" #location>
+                      requireworker.cardIdd name="location" #location>
                 <option *ngFor="let location of locations" [ngValue]="location">
                   {{location.name}}
                 </option>

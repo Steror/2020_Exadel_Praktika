@@ -2,9 +2,9 @@ package practice.guestregistry.services;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.dao.LocationDao;
+import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.models.Location;
 
 import java.util.List;

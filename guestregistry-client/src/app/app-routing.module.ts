@@ -9,6 +9,8 @@ import {CardAddComponent} from "./card/card-add/card-add.component";
 import {CardUpdateComponent} from "./card/card-update/card-update.component";
 import {PersonEditComponent} from "./person/person-edit/person-edit.component";
 import {PersonListComponent} from "./person/person-list/person-list.component";
+import {WorkerEditComponent} from "./worker/worker-edit/worker-edit.component";
+import {WorkerListComponent} from "./worker/worker-list/worker-list.component";
 
 
 const routes: Routes = [
@@ -43,7 +45,10 @@ const routes: Routes = [
   {path:"card/update/:id", component:CardUpdateComponent},
   {path: 'person-list', component: PersonListComponent},
   {path: 'person-add', component: PersonEditComponent},
-  {path: 'person-edit/:id', component: PersonEditComponent}
+  {path: 'person-edit/:id', component: PersonEditComponent},
+  {path: 'worker-list', component: WorkerListComponent},
+  {path: 'worker-add', component: WorkerEditComponent},
+  {path: 'worker-edit/:id', component: WorkerEditComponent}
 ];
 
 @NgModule({
