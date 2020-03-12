@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import practice.guestregistry.annotations.CascadeSave;
 import practice.guestregistry.config.ObjectID_Serializer;
 
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,7 @@ public class Worker {
     private ObjectId id;
     @DBRef
     @NotNull
+    @CascadeSave
     private Person person;
     @DBRef
     private Card card;

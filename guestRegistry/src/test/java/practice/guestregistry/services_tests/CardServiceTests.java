@@ -260,5 +260,18 @@ public class CardServiceTests {
         assertThat(savedCard).isEqualTo(mongoTemplate.findAll(Card.class).get(0));
     }
 
+    @Test
+    public void card_exist() {
+        Location location1 = new Location();
+        location1.setId(ObjectId.get());
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType(OFFICE);
+        location1.setPhoneNumber("851212345");
+        Card savedCard = mongoTemplate.save(new Card(ObjectId.get(), "s3", location1, LocalDateTime.now(), LocalDateTime.now(), CardType.PERSONNEL));
+        assertThat(cardService.cardExist(savedCard)).isTrue();
+    }
 
 }

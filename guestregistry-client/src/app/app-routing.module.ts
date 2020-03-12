@@ -10,7 +10,8 @@ import {CardUpdateComponent} from './card/card-update/card-update.component';
 import {PersonEditComponent} from './person/person-edit/person-edit.component';
 import {PersonListComponent} from './person/person-list/person-list.component';
 import {LoginComponent} from './login/login/login.component';
-
+import {WorkerEditComponent} from './worker/worker-edit/worker-edit.component';
+import {WorkerListComponent} from './worker/worker-list/worker-list.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -27,7 +28,10 @@ const routes: Routes = [
   {path: 'person-list', component: PersonListComponent},
   {path: 'person-add', component: PersonEditComponent},
   {path: 'person-edit/:id', component: PersonEditComponent},
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'worker-list', component: WorkerListComponent},
+  {path: 'worker-add', component: WorkerEditComponent},
+  {path: 'worker-edit/:id', component: WorkerEditComponent}
 ];
 
 @NgModule({

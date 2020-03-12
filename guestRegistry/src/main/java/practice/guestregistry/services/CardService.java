@@ -1,6 +1,8 @@
 package practice.guestregistry.services;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.dao.CardDao;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class CardService {
     private CardDao cardDao;
     private LocationService locationService;
+    private static final Logger log = LoggerFactory.getLogger(CardService.class);
 
     @Autowired
     public CardService (CardDao cardDao, LocationService locationService) {
@@ -76,4 +79,8 @@ public class CardService {
         return false;
     }
 
+    public boolean cardExist(Card card) {
+        log.trace("card Exist " + card + " " +  cardDao.equals(card));
+        return cardDao.exist(card);
+    }
 }

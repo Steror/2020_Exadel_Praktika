@@ -18,6 +18,8 @@ import { PersonEditComponent } from './person/person-edit/person-edit.component'
 import { PersonListComponent } from './person/person-list/person-list.component';
 import { LoginComponent } from './login/login/login.component';
 import {AppService} from './app.service';
+import { WorkerEditComponent } from './worker/worker-edit/worker-edit.component';
+import { WorkerListComponent } from './worker/worker-list/worker-list.component';
 // import {Stuff1} from  '@angular/cdk/overlay';
 // import {Stuff2} from  '@angular/cdk/a11y';
 // import {Stuff3} from  '@angular/cdk/portal';
@@ -45,7 +47,9 @@ export class XhrInterceptor implements HttpInterceptor {
     CardUpdateComponent,
     PersonEditComponent,
     PersonListComponent,
-    LoginComponent
+    LoginComponent,
+    WorkerEditComponent,
+    WorkerListComponent
   ],
   imports: [
     BrowserModule,

@@ -7,7 +7,7 @@ import {AppService} from '../app.service';
   providedIn: 'root'
 })
 export class PersonService {
-  public API = '//localhost:8080/api/persons';
+  public API = '//localhost:8080/api/person';
 
   constructor(private http: HttpClient, private appService: AppService) { }
 
