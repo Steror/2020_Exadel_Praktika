@@ -3,12 +3,18 @@
     Guest Registry
   </h1>
 </div>
-<button [routerLink]="['/event-list']">Events</button>
-<button [routerLink]="['/card/list']">Cards</button>
+<div class="container">
+  <ul class="nav nav-pills">
+    <li *ngIf="app.authenticated">Hello, {{app.principal['name']}}</li>
+    <li><a routerLinkActive="active" routerLink="/login">Login</a></li>
+    <li><a (click)="logout()">Logout</a></li>
+  </ul>
+</div>
+<button [routerLink]="['/location-list']">Locations</button>
 <button [routerLink]="['/person-list']"><u><b>Person</b></u></button>
 <button [routerLink]="['/worker-list']"><u><b>Worker</b></u></button>
-<button [routerLink]="['/location-list']">Locations</button>
+<button [routerLink]="['/card/list']">Cards</button>
+<button [routerLink]="['/event-list']">Events</button>
 
-<p>Visus zmones darom kartu? Ar jiems koki filtra galvot reikia? Ar darom 2 sarasus?</p>
 
 <router-outlet></router-outlet>
