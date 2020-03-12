@@ -67,8 +67,7 @@ public class WorkerDTOMapping {
 
         WorkerDTO workerDTO = workerMapper.map(worker);
 
-        Worker mappedWorker = new Worker();
-        workerMapper.map(workerDTO, mappedWorker);
+        Worker mappedWorker = workerMapper.map(workerDTO);
         System.out.println("ANOTHER VARIANT\n\n\n\n");
         System.out.println(card);
         System.out.println(person);

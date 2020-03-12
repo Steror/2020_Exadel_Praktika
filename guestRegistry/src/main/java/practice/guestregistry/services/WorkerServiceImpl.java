@@ -65,6 +65,7 @@ public class WorkerServiceImpl implements WorkerService {
 
         if (validCard(convertedToWorker.getCard())
                 && convertedToWorker.getPerson() != null) {
+            //TODO: email should be different
             if (!personService.personExist(convertedToWorker.getPerson())) {
                 Person addedPerson = personService.addPerson(convertedToWorker.getPerson());
                 convertedToWorker.setPerson(addedPerson);
@@ -117,9 +118,7 @@ public class WorkerServiceImpl implements WorkerService {
 
     private Worker convertToWorker(WorkerDTO workerDTO) {
         log.trace("converting to worker got: " + workerDTO);
-        Worker worker = new Worker();
-        workerDTOMapper.map(workerDTO, worker);
-        return worker;
+        return workerDTOMapper.map(workerDTO);
     }
 }
 

@@ -231,8 +231,8 @@ public class WorkerServiceTests {
 
 
     //sitas ir neturi veikti, nes servise validacija bus paleista anksciau, nei cascadingSave issaugos person db
-    @Test
-    public void cascadeSave_on_saving() {
+//    @Test
+//    public void cascadeSave_on_saving() {
 //        ObjectId dummyId = new ObjectId();
 //        Person person = new Person(dummyId,
 //                "first",
@@ -246,12 +246,12 @@ public class WorkerServiceTests {
 //        card.setManufactured(LocalDateTime.now());
 //        card.setValidUntil(LocalDateTime.now());
 //        Worker worker =  new Worker(null, person, card);
-//        workerService.addWorker(worker);
+//        workerService.addWorker(mapper.map(worker));
 //
 //        List<Person> personInDb = mongoTemplate.find(Query.query(Criteria.where("firstName").is(person.getFirstName())),Person.class);
 //        System.out.println(personInDb.get(0));
 //        assertThat(personInDb.size()).isEqualTo(1);
-    }
+//    }
 
     @Test
     public void cascadeSave_on_updating() {
@@ -266,8 +266,7 @@ public class WorkerServiceTests {
         WorkerDTO savedWorker = workerService.addWorker(mapper.map(new Worker(null, savedPerson, null)));
         savedWorker.setLastName("LAST");
 
-        Worker test = new Worker();
-        mapper.map(savedWorker, test);
+        Worker test = mapper.map(savedWorker);
 //        System.out.println("person from mapped" + test.getPerson());
         System.out.println(mongoTemplate.exists(Query.query(Criteria.byExample(test.getPerson())), Person.class));
 //        System.out.println("test" + savedWorker);

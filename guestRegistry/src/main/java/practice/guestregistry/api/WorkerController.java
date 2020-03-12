@@ -79,7 +79,6 @@ public class WorkerController {
         log.trace("updating worker: " + workerDTO);
         WorkerDTO updatedWorker = workerService.updateWorker(workerDTO);
         log.trace("updated worker: " + updatedWorker);
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
