@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LocationService } from '../location.service';
+import {AppService} from '../../app.service';
 
 @Component({
   selector: 'app-location-list',
@@ -9,10 +10,10 @@ import { LocationService } from '../location.service';
 export class LocationListComponent implements OnInit {
   locations: Array<any>;
 
-  constructor(private locationService: LocationService) { }
+  constructor(private locationService: LocationService, private appService: AppService) { }
 
   ngOnInit() {
-    this.locationService.authorize();
+    this.appService.authorize();
     this.loadLocations();
   }
 

@@ -15,10 +15,11 @@ export class LoginComponent {
   constructor(private app: AppService, private http: HttpClient, private router: Router) { }
 
   // https://spring.io/guides/tutorials/spring-security-and-angular-js/
-  error: any;
   login() {
     this.app.authenticate(this.credentials, () => {
-      this.router.navigateByUrl('/location-list');
+      if (this.app.authenticated) {
+        this.router.navigateByUrl('/location-list');
+      }
     });
     // return false;
   }

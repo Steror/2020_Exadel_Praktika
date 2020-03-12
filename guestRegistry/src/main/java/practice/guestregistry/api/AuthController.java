@@ -8,7 +8,6 @@ import java.security.Principal;
 import java.util.Base64;
 
 @RestController
-//@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 

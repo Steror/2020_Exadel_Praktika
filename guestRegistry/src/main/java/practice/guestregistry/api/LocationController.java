@@ -2,9 +2,7 @@ package practice.guestregistry.api;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
-import practice.guestregistry.annotation.IsUser;
 import practice.guestregistry.models.Location;
 import practice.guestregistry.services.LocationService;
 
@@ -12,8 +10,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-//@IsUser
-//@Scope("session")
 @RestController
 @RequestMapping("/api/location")
 @CrossOrigin(origins = "http://localhost:4200")

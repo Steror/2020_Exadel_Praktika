@@ -11,13 +11,14 @@ import { finalize } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'guestregistry-client';
-  constructor(private app: AppService, private http: HttpClient, private router: Router) {
+  constructor(public app: AppService, private http: HttpClient, private router: Router) {
     // this.app.authenticate(undefined, undefined);
   }
   logout() {
-    this.http.post('logout', {}).pipe( finalize(() => {
-      this.app.authenticated = false;
+      sessionStorage.removeItem('token');
       this.router.navigateByUrl('/login');
-    })).subscribe();
+      this.app.authenticated = false;
+    // this.http.post('logout', {}).pipe( finalize(() => {
+    // })).subscribe();
   }
 }

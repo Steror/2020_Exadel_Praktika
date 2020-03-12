@@ -7,37 +7,51 @@ import {Observable} from 'rxjs';
 }*/)
 export class AppService {
 
-  authenticated = false;
-  public API = '//localhost:8080/login';
+  public authenticated = false;
+  public options = {};
+  public principal;
+  public loginUrl = '//localhost:8080/login';
+  public userUrl = '//localhost:8080/user';
 
   constructor(private http: HttpClient) { }
 
-  // authenticate(credentials, callback) {
-  //   const headers = new HttpHeaders(credentials ? {
-  //     authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-  //   } : {});
-  //   this.http.post<Observable<boolean>>(this.API, {headers}).subscribe(response => {
-  //     /* tslint:disable:no-string-literal */
-  //     if (response['name']) { // tslint doesn't like string literals
-  //       this.authenticated = true;
-  //     } else {
-  //       this.authenticated = false;
-  //     }
-  //     /* tslint:disable:no-string-literal */
-  //     return callback && callback();
-  //   });
-  // }
   authenticate(credentials, callback) {
-    this.http.post<Observable<boolean>>(this.API, {
+    this.http.post<Observable<boolean>>(this.loginUrl, {
       userName: credentials.username,
       password: credentials.password
     }).subscribe(isValid => {
       if (isValid) {
+        this.authenticated = true;
         sessionStorage.setItem('token', btoa(credentials.username + ':' + credentials.password));
+        this.createHeader();
       } else {
         alert('Authentication failed.');
       }
       return callback && callback();
     });
+  }
+
+  authorize() {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: 'Basic ' + sessionStorage.getItem('token')
+    });
+    const options = { headers };
+    this.http.post<Observable<any>>(this.userUrl, {}, options).
+    subscribe(principal => {
+        this.principal = principal;
+      },
+      error => {
+        if (error.status === 401) {
+          alert('Unauthorized');
+        }
+      }
+    );
+  }
+
+  createHeader() {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: 'Basic ' + sessionStorage.getItem('token')
+    });
+    this.options = { headers };
   }
 }

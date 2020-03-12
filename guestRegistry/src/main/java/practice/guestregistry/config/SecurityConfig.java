@@ -30,12 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.cors();
-//        http.csrf().disable();
         http
-//        .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-//                .and()
                 .cors()
                 .and()
                 .csrf().disable()
@@ -46,19 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .httpBasic();
-        http
-                .sessionManagement()
-                .maximumSessions(1);
-//                .and().formLogin();
-//                .anyRequest().authenticated()
-//                .and().csrf()
-//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());;
     }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("user").password("{noop}pass").roles("USER");
-//    }
 
     @Bean
     @Override
@@ -72,10 +55,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         return new InMemoryUserDetailsManager(user);
     }
-
-    // Register HttpSessionEventPublisher
-//    @Bean
-//    public static ServletListenerRegistrationBean httpSessionEventPublisher() {
-//        return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
-//    }
 }
