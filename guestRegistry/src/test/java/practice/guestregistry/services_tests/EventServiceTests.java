@@ -1,6 +1,5 @@
 package practice.guestregistry.services_tests;
 
-import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +17,6 @@ import practice.guestregistry.services.LocationService;
 import practice.guestregistry.services.PersonService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
