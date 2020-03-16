@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Document(collection = "event")
-public class Event {
+public class EventEntity {
     @Id
     @JsonSerialize(using = ObjectID_Serializer.class)
     private ObjectId id;
@@ -29,10 +29,10 @@ public class Event {
     private LocalDateTime end_date_time;
     @DBRef(db = "test")
     @NotNull
-    private Location location;
+    private LocationEntity locationEntity;
     @DBRef(db = "test")
     @NotNull
-    private List<Person> attendees;
+    private List<PersonEntity> attendees;
     //@DBRef
     //Worker event_owner;
 }

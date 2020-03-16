@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import entities.Event;
+import entities.EventEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,33 +21,33 @@ public class EventDaoImpl implements EventDao {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public Optional<Event> findById (ObjectId id) {
-        return Optional.ofNullable(mongoTemplate.findById(id, Event.class));
+    public Optional<EventEntity> findById (ObjectId id) {
+        return Optional.ofNullable(mongoTemplate.findById(id, EventEntity.class));
     }
 
-    public List<Event> findAll () {
-        return mongoTemplate.findAll(Event.class);
+    public List<EventEntity> findAll () {
+        return mongoTemplate.findAll(EventEntity.class);
     }
 
-    public void add (Event event) {
-        event.setId(ObjectId.get());
-        mongoTemplate.save(event);
+    public void add (EventEntity eventEntity) {
+        eventEntity.setId(ObjectId.get());
+        mongoTemplate.save(eventEntity);
     }
 
-    public void update (ObjectId id, Event event) {
-        if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), Event.class)) {
-            event.setId(id);
-            mongoTemplate.save(event);
+    public void update (ObjectId id, EventEntity eventEntity) {
+        if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), EventEntity.class)) {
+            eventEntity.setId(id);
+            mongoTemplate.save(eventEntity);
         }
     }
 
     public void deleteById(ObjectId id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
-        mongoTemplate.remove(query, Event.class);
+        mongoTemplate.remove(query, EventEntity.class);
     }
 
     public void deleteAll() {
-        mongoTemplate.findAllAndRemove(Query.query(Criteria.where("id").exists(true)), Event.class);
+        mongoTemplate.findAllAndRemove(Query.query(Criteria.where("id").exists(true)), EventEntity.class);
     }
 }

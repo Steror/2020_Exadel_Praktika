@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "worker")
-public class Worker {
+public class WorkerEntity {
     @Id
     @NotNull
     @JsonSerialize(using = ObjectID_Serializer.class)
@@ -25,8 +25,8 @@ public class Worker {
     @DBRef
     @NotNull
     @CascadeSave
-    private Person person;
+    private PersonEntity personEntity;
     @DBRef
-    private Card card;
+    private CardEntity cardEntity;
     // POSITION
 }

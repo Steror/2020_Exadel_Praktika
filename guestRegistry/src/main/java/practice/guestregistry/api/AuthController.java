@@ -2,6 +2,7 @@ package practice.guestregistry.api;
 
 import org.springframework.web.bind.annotation.*;
 import practice.guestregistry.models.User;
+import org.springframework.security.core.userdetails.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -14,7 +15,7 @@ public class AuthController {
     @RequestMapping("/login")
     public boolean login(@RequestBody User user) {
         return
-                user.getUserName().equals("user") && user.getPassword().equals("pass");
+                user.getUsername().equals("user") && user.getPassword().equals("pass");
     }
 
     @RequestMapping("/user")

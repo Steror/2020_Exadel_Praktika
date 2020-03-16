@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "card")
-public class Card {
+public class CardEntity {
 
     @Id
 //    @NotNull
@@ -30,7 +30,7 @@ public class Card {
 
     @DBRef(db = "test", lazy = false)
 //    @NotNull
-    private Location location;
+    private LocationEntity locationEntity;
     @NotNull
     private LocalDateTime manufactured;
     @NotNull

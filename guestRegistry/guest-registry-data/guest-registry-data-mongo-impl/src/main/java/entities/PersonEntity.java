@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Document("person")
-public class Person {
+public class PersonEntity {
 
     @Id
     @NotNull
@@ -36,9 +36,9 @@ public class Person {
     private String phoneNumber;
     //URL url;
     @DBRef(db = "test")
-    private List<Event> events;
+    private List<EventEntity> eventEntities;
 
-    public Person(ObjectId id, String firstName, String middleName, String lastName, String email, String phoneNumber) {
+    public PersonEntity(ObjectId id, String firstName, String middleName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
