@@ -1,6 +1,7 @@
 package eu.exadel.practice.guestregistration.data.dao.impl;
 
 import eu.exadel.practice.guestregistration.data.dao.CardDao;
+import eu.exadel.practice.guestregistration.data.domain.Card;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -70,7 +71,8 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public boolean exist(CardEntity cardEntity) {
+    public boolean exist(Card card) {
+        CardEntity cardEntity = card;
         return mongoTemplate.exists(Query.query(Criteria.byExample(cardEntity)), CardEntity.class);
     }
 }

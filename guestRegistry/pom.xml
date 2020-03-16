@@ -5,8 +5,8 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>guest-registry-data</module>
-		<module>guest-registry-data/guest-registry-data-api</module>
-		<module>guest-registry-data-mongo-impl</module>
+<!--		<module>guest-registry-data/guest-registry-data-api</module>-->
+<!--		<module>guest-registry-data/guest-registry-data-mongo-impl</module>-->
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -100,6 +100,12 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+		<dependency>
+			<groupId>practice</groupId>
+			<artifactId>guest-registry-data-mongo-impl</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- swagger config -->
 	</dependencies>
 

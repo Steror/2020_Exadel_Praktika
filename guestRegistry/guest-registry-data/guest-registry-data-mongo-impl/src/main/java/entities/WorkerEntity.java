@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import practice.guestregistry.annotations.CascadeSave;
+import annotations.CascadeSave;
 import config.ObjectID_Serializer;
 
 import javax.validation.constraints.NotNull;

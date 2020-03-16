@@ -4,9 +4,9 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import practice.guestregistry.models.Card;
-import practice.guestregistry.models.Person;
-import practice.guestregistry.models.Worker;
+import eu.exadel.practice.guestregistration.data.domain.Card;
+import eu.exadel.practice.guestregistration.data.domain.Person;
+import eu.exadel.practice.guestregistration.data.domain.Worker;
 
 @Component
 public class WorkerDTOMapper {

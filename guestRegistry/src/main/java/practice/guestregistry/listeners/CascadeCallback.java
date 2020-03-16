@@ -5,7 +5,7 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.util.ReflectionUtils;
-import practice.guestregistry.annotations.CascadeSave;
+import annotations.CascadeSave;
 
 import java.lang.reflect.Field;
 

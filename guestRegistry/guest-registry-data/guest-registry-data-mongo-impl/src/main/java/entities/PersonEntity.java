@@ -35,8 +35,6 @@ public class PersonEntity {
     @Pattern(regexp = "[0-9]*")
     private String phoneNumber;
     //URL url;
-    @DBRef(db = "test")
-    private List<EventEntity> eventEntities;
 
     public PersonEntity(ObjectId id, String firstName, String middleName, String lastName, String email, String phoneNumber) {
         this.id = id;

@@ -1,11 +1,11 @@
 package eu.exadel.practice.guestregistration.data.dao;
 
-import org.bson.types.ObjectId;
+import eu.exadel.practice.guestregistration.data.domain.Person;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
-import entities.Person;
 
 // No need implementation, just one interface, and you have CRUD, thanks Spring Data
-public interface PersonDao extends MongoRepository<Person, ObjectId> {
+public interface PersonDao extends MongoRepository<Person, String> {
 //    Card findFirstByDomain(String domain);
 //    Card findByDomainAndDisplayAds(String domain, boolean displayAds);
 
