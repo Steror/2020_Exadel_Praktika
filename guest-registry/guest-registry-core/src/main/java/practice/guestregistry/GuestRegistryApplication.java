@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 import org.springframework.core.env.Environment;
 
 import java.io.PrintStream;
@@ -17,7 +19,10 @@ import java.io.PrintStream;
 @SpringBootApplication(exclude = {
 //		MongoAutoConfiguration.class,
 //	RepositoryRestMvcAutoConfiguration.class
-})
+},
+scanBasePackages = "practice.guestregistry"
+)
+//@ComponentScan({"practice.guestregistry"})
 public class GuestRegistryApplication implements CommandLineRunner {
 
 //	@Autowired

@@ -19,6 +19,7 @@
 	<description>Demo project for Spring Boot</description>
 
 	<modules>
+		<module>guest-registry-core</module>
 		<module>guest-registry-data</module>
 		<module>guest-registry-service</module>
 		<module>guest-registry-controller</module>
@@ -30,6 +31,7 @@
 <!--	</configuration>-->
 
 	<properties>
+		<start-class>practice.guestregistry.GuestRegistryApplication</start-class>
         <guest-registry.version>1.0.0-RELEASE</guest-registry.version>
 <!--		<exec.mainClass>practice.guestregistry.GuestRegistryApplication</exec.mainClass>-->
 <!--        <start-class>practice.guestregistry.GuestRegistryApplication</start-class>-->
@@ -160,6 +162,17 @@
 			<plugin>
 			<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>repackage</id>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+							<configuration>
+								<classifier>exec</classifier>
+							</configuration>
+						</execution>
+					</executions>
 <!--					<executions>-->
 <!--						<execution>-->
 <!--							<goals>-->

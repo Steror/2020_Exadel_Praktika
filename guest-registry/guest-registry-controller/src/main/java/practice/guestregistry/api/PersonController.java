@@ -12,7 +12,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/person")
 @CrossOrigin(origins = "http://localhost:4200")
-@ComponentScan({"practice.guestregistry.service"})
+//@ComponentScan({"practice.guestregistry.service"})
 public class PersonController {
     private PersonService personService;
 
