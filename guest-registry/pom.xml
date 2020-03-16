@@ -6,7 +6,6 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.4.RELEASE</version>
-<!--		<version>2.2.2.RELEASE</version>-->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -25,16 +24,10 @@
 		<module>guest-registry-controller</module>
 	</modules>
 
-
-<!--	<configuration>-->
-<!--		<mainClass> practice.guestregistry.GuestRegistryApplication</mainClass>-->
-<!--	</configuration>-->
-
 	<properties>
 		<start-class>practice.guestregistry.GuestRegistryApplication</start-class>
         <guest-registry.version>1.0.0-RELEASE</guest-registry.version>
 <!--		<exec.mainClass>practice.guestregistry.GuestRegistryApplication</exec.mainClass>-->
-<!--        <start-class>practice.guestregistry.GuestRegistryApplication</start-class>-->
 		<java.version>1.8</java.version>
 		<springfox-swagger2.version>2.9.2</springfox-swagger2.version>
 		<springfor-swagger-ui.version>2.9.2</springfor-swagger-ui.version>
@@ -43,34 +36,17 @@
 	</properties>
 
 	<dependencies>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!--		<dependency>-->
-		<!--			<groupId>org.springframework.plugin</groupId>-->
-		<!--			<artifactId>spring-plugin-core</artifactId>-->
-<!--			<version>1.2.0.RELEASE</version>-->
-<!--		</dependency>-->
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-data-rest</artifactId>-->
+<!--			<artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--			<optional>true</optional>-->
 <!--		</dependency>-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -81,8 +57,12 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfor-swagger-ui.version}</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!--		<dependency>-->
+		<!--			<groupId>org.springframework.boot</groupId>-->
 <!--			<artifactId>spring-boot-starter-actuator</artifactId>-->
 <!--		</dependency>-->
 
@@ -108,11 +88,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <scope>test</scope>
-        </dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
 			<artifactId>orika-core</artifactId>
@@ -124,29 +99,6 @@
 <!--			<version>19.0.0</version>-->
 			<version>LATEST</version>
         </dependency>
-<!--		<dependency>-->
-<!--			<groupId>practice.data.impl</groupId>-->
-<!--			<artifactId>guest-registry-data-impl</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--			<scope>compile</scope>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>practice.service</groupId>-->
-<!--			<artifactId>guest-registry-service</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--			<scope>compile</scope>-->
-<!--		</dependency>-->
-		<!--		<dependency>-->
-<!--			<groupId>practice.data</groupId>-->
-<!--			<artifactId>guest-registry-data-impl</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>practice.data</groupId>-->
-<!--			<artifactId>guest-registry-data-api</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--		</dependency>-->
-		<!-- swagger config -->
 	</dependencies>
 
 <!--	<repositories>-->
@@ -159,6 +111,15 @@
 
 	<build>
 		<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
+
 			<plugin>
 			<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -173,6 +134,33 @@
 							</configuration>
 						</execution>
 					</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--					<executions>-->
 <!--						<execution>-->
 <!--							<goals>-->
@@ -183,47 +171,7 @@
 <!--							</configuration>-->
 <!--						</execution>-->
 <!--					</executions>-->
-                <configuration>
-					<skip>true</skip>
-					<mainClass> **undefined**</mainClass>
-				</configuration>
-			</plugin>
-
-
-<!--			<plugin>-->
-<!--				<groupId>org.springframework.boot</groupId>-->
-<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<goals>-->
-<!--							<goal>repackage</goal>-->
-<!--						</goals>-->
-<!--						<configuration>-->
-<!--							<classifier>exec</classifier>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--			</plugin>-->
-
-
-		</plugins>
-	</build>
-
-<!--	<build>-->
-<!--		<plugins>-->
-<!--			<plugin>-->
-<!--				&lt;!&ndash; Build an executable JAR &ndash;&gt;-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-jar-plugin</artifactId>-->
-<!--				<version>2.4</version>-->
-<!--				<configuration>-->
-<!--					<archive>-->
-<!--						<manifest>-->
-<!--							<mainClass>com.mcnz.maven.App</mainClass>-->
-<!--						</manifest>-->
-<!--					</archive>-->
+<!--                <configuration>-->
+<!--					<skip>true</skip>-->
+<!--					<mainClass> **undefined**</mainClass>-->
 <!--				</configuration>-->
-<!--			</plugin>-->
-<!--		</plugins>-->
-<!--	</build>-->
-</project>

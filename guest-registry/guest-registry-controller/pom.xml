@@ -11,39 +11,21 @@
 
     <modelVersion>4.0.0</modelVersion>
     <!--    <groupId>practice.guestregistry.controller</groupId>-->
-    <groupId>practice.guestregistry</groupId>
     <artifactId>guest-registry-controller</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
 
-
     <dependencies>
         <dependency>
-            <groupId>practice.guestregistry.data.api</groupId>
+            <groupId>practice.guestregistry.data</groupId>
             <artifactId>guest-registry-data-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-<!--            <scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>practice.guestregistry</groupId>
             <artifactId>guest-registry-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!--        <dependency>-->
-<!--            <groupId>practice.guestregistry</groupId>-->
-<!--            <artifactId>guest-registry-service</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--        </dependency>-->
-        <!--        <dependency>-->
-<!--            <groupId>practice.guestregistry.service</groupId>-->
-<!--            <artifactId>guest-registry-service</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>practice.guestregistry.data</groupId>-->
-<!--            <artifactId>guest-registry-data</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--        </dependency>-->
     </dependencies>
 
 

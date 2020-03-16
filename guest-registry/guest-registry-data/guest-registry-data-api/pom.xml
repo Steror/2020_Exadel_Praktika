@@ -10,7 +10,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>practice.guestregistry.data.api</groupId>
+<!--    <groupId>practice.guestregistry.data.api</groupId>-->
     <artifactId>guest-registry-data-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
