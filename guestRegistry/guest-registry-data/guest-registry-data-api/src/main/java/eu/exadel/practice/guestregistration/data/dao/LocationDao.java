@@ -12,7 +12,7 @@ public interface LocationDao {
 
     Location add(Location location);
 
-    Location update(String id, Location location);
+    Location update(Location location);
 
     void deleteById(String id);
 

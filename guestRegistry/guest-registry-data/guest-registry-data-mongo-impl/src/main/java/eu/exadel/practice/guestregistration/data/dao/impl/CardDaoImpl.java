@@ -1,5 +1,7 @@
 package eu.exadel.practice.guestregistration.data.dao.impl;
 
+import eu.exadel.practice.guestregistration.data.Mappers.CardMapper;
+import eu.exadel.practice.guestregistration.data.Mappers.LocationMapper;
 import eu.exadel.practice.guestregistration.data.dao.CardDao;
 import eu.exadel.practice.guestregistration.data.domain.Card;
 import org.bson.types.ObjectId;
@@ -12,17 +14,18 @@ import eu.exadel.practice.guestregistration.data.entities.CardEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Repository
 public class CardDaoImpl implements CardDao {
     MongoTemplate mongoTemplate;
+    CardMapper cardMapper;
 
     @Autowired
-    public CardDaoImpl(
-            MongoTemplate mongoTemplate
-    ) {
+    public CardDaoImpl(MongoTemplate mongoTemplate, CardMapper cardMapper) {
         this.mongoTemplate = mongoTemplate;
+        this.cardMapper = cardMapper;
     }
 
     @Override
@@ -32,39 +35,43 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public Optional<CardEntity> findById(ObjectId id) {
-        CardEntity entity = mongoTemplate.findById(id, CardEntity.class);
-       //CardDTO
-        return Optional.ofNullable (entity);
+    public Optional<Card> findById(String id) {
+        CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
+        Card card = cardMapper.entityToDomain(cardEntity);
+        return Optional.ofNullable(card);
     }
 
     @Override
-    public List<CardEntity> findAll() {
-        return mongoTemplate.findAll(CardEntity.class);
+    public List<Card> findAll() {
+        return mongoTemplate.findAll(CardEntity.class).stream().map( cardEntity ->
+                cardMapper.entityToDomain(cardEntity)
+        ).collect(Collectors.toList());
     }
 
     @Override
-    public CardEntity save(CardEntity cardEntity) {
+    public Card save(Card card) {
+        CardEntity cardEntity = cardMapper.domainToEntity(card);
         cardEntity.setId(ObjectId.get());
-        return mongoTemplate.save(cardEntity);
+        return cardMapper.entityToDomain(mongoTemplate.save(cardEntity));
     }
 
     @Override
-    public void update(CardEntity cardEntity) {
+    public void update(Card card) {
+        CardEntity cardEntity = cardMapper.domainToEntity(card);
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), CardEntity.class)) {
             mongoTemplate.save(cardEntity);
         }
     }
 
     @Override
-    public void deleteById(ObjectId id) {
+    public void deleteById(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
         mongoTemplate.findAllAndRemove(query, CardEntity.class);
     }
 
     @Override
-    public boolean existById(ObjectId id) {
+    public boolean existById(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
         return mongoTemplate.exists(query, CardEntity.class);
@@ -72,7 +79,7 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public boolean exist(Card card) {
-        CardEntity cardEntity = card;
+        CardEntity cardEntity = cardMapper.domainToEntity(card);
         return mongoTemplate.exists(Query.query(Criteria.byExample(cardEntity)), CardEntity.class);
     }
 }

@@ -37,7 +37,6 @@ public class LocationDaoImpl implements LocationDao {
         LocationEntity entity = findById(new ObjectId(id)).get();
         Location domain = new Location();
         domain.setId(entity.getId().toString());
-
         return Optional.of(domain);
     }
 
@@ -50,7 +49,7 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public Location add (Location location) {
-        LocationEntity locationEntity = this.locationMapper.domainToEntity(location);
+        LocationEntity locationEntity = locationMapper.domainToEntity(location);
         locationEntity.setId(ObjectId.get());
         mongoTemplate.save(locationEntity);
         location = this.locationMapper.entityToDomain(locationEntity);
@@ -58,14 +57,12 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public Location update (String id, Location location) {
-        LocationEntity locationEntity = this.locationMapper.domainToEntity(location);
+    public Location update (Location location) {
+        LocationEntity locationEntity = locationMapper.domainToEntity(location);
         if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), LocationEntity.class)) {
-            locationEntity.setId(new ObjectId(id));
             mongoTemplate.save(locationEntity);
         }
-        location = this.locationMapper.entityToDomain(locationEntity);
-        return location;
+        return locationMapper.entityToDomain(locationEntity);
     }
 
     @Override
