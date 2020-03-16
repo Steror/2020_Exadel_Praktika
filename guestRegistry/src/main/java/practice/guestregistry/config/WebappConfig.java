@@ -1,6 +1,6 @@
 package practice.guestregistry.config;
 
-//import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+//import org.springframework.web.servlet.eu.exadel.practice.guestregistration.data.config.annotation.WebMvcConfigurerAdapter;
 
 
 //@Configuration

@@ -1,4 +1,4 @@
-package entities;
+package eu.exadel.practice.guestregistration.data.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import annotations.CascadeSave;
-import config.ObjectID_Serializer;
+import eu.exadel.practice.guestregistration.data.annotations.CascadeSave;
+import eu.exadel.practice.guestregistration.data.config.ObjectID_Serializer;
 
 import javax.validation.constraints.NotNull;
 

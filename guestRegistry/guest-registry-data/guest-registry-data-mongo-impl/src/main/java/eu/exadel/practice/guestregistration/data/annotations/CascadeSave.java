@@ -1,4 +1,4 @@
-package annotations;
+package eu.exadel.practice.guestregistration.data.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

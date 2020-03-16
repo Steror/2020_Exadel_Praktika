@@ -1,6 +1,6 @@
 package eu.exadel.practice.guestregistration.data.dao.impl;
 
-import entities.WorkerEntity;
+import eu.exadel.practice.guestregistration.data.entities.WorkerEntity;
 import eu.exadel.practice.guestregistration.data.dao.WorkerDao;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;

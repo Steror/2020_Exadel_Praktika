@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import entities.EventEntity;
+import eu.exadel.practice.guestregistration.data.entities.EventEntity;
 
 import java.util.List;
 import java.util.Optional;

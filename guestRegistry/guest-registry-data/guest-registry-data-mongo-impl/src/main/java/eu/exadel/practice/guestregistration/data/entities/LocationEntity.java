@@ -1,4 +1,4 @@
-package entities;
+package eu.exadel.practice.guestregistration.data.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bson.types.ObjectId;
@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import config.ObjectID_Serializer;
+import eu.exadel.practice.guestregistration.data.config.ObjectID_Serializer;
 
 import javax.validation.constraints.NotNull;
 

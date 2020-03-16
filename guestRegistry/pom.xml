@@ -106,7 +106,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-		<!-- swagger config -->
+		<!-- swagger eu.exadel.practice.guestregistration.data.config -->
 	</dependencies>
 
 	<repositories>

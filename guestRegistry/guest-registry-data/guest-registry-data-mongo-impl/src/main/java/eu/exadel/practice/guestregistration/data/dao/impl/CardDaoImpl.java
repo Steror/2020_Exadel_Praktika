@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import entities.CardEntity;
+import eu.exadel.practice.guestregistration.data.entities.CardEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class CardDaoImpl implements CardDao {
     @Override
     public Optional<CardEntity> findById(ObjectId id) {
         CardEntity entity = mongoTemplate.findById(id, CardEntity.class);
-       CardDTO
+       //CardDTO
         return Optional.ofNullable (entity);
     }
 
