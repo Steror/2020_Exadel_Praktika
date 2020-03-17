@@ -1,10 +1,10 @@
 package practice.guestregistry.mapper_tests;
 
+import eu.exadel.practice.guestregistration.data.domain.Card;
+import eu.exadel.practice.guestregistration.data.domain.Person;
+import eu.exadel.practice.guestregistration.data.domain.Worker;
 import org.bson.types.ObjectId;
 import org.junit.Test;
-import practice.guestregistry.models.Card;
-import practice.guestregistry.models.Person;
-import practice.guestregistry.models.Worker;
 import practice.guestregistry.dto.WorkerDTO;
 import practice.guestregistry.dto.WorkerDTOMapper;
 
@@ -18,16 +18,16 @@ public class WorkerDTOMapping {
     public void mappingForward() {
 
         Card card = new Card();
-        card.setId(ObjectId.get());
+        card.setId(null);
         card.setSerialNumber("numver");
 
         Person person = new Person();
-        person.setId(ObjectId.get());
+        person.setId(null);
         person.setFirstName("first name");
         person.setLastName("last name");
 
         Worker worker = new Worker();
-        worker.setId(ObjectId.get());
+        worker.setId(null);
         worker.setCard(card);
         worker.setPerson(person);
 
@@ -52,16 +52,16 @@ public class WorkerDTOMapping {
     public void mappedForwardAndBackwards() {
 
         Card card = new Card();
-        card.setId(ObjectId.get());
+        card.setId(null);
         card.setSerialNumber("numver");
 
         Person person = new Person();
-        person.setId(ObjectId.get());
+        person.setId(null);
         person.setFirstName("first name");
         person.setLastName("last name");
 
         Worker worker = new Worker();
-        worker.setId(ObjectId.get());
+        worker.setId(null);
         worker.setCard(card);
         worker.setPerson(person);
 

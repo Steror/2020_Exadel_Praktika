@@ -1,9 +1,8 @@
 package practice.guestregistry.api;
 
-import org.bson.types.ObjectId;
+import eu.exadel.practice.guestregistration.data.domain.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import practice.guestregistry.models.Event;
 import practice.guestregistry.services.EventService;
 
 import javax.validation.Valid;
@@ -20,7 +19,7 @@ public class EventController {
     public EventController(EventService service) { this.service = service; }
 
     @GetMapping(path="{id}")
-    public Optional<Event> getEvent(@PathVariable ObjectId id) {
+    public Optional<Event> getEvent(@PathVariable String id) {
         return service.getEventById(id);
     }
 
@@ -31,9 +30,9 @@ public class EventController {
     public void addEvent(@Valid @RequestBody Event event) {
         service.addEvent(event); }
 
-    @PutMapping(path="{id}")
-    public void updateEvent(@PathVariable ObjectId id, @Valid @RequestBody Event event) { service.updateEvent(id, event); }
+    @PutMapping //Pakeist update event request angular front-end
+    public void updateEvent(@Valid @RequestBody Event event) { service.updateEvent(event); }
 
     @DeleteMapping(path="{id}")
-    public void deleteEvent(@PathVariable ObjectId id) { service.deleteEventById(id); }
+    public void deleteEvent(@PathVariable String id) { service.deleteEventById(id); }
 }

@@ -1,13 +1,12 @@
 package practice.guestregistry.services;
 
-import org.bson.types.ObjectId;
+import eu.exadel.practice.guestregistration.data.dao.PersonDao;
+import eu.exadel.practice.guestregistration.data.domain.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import practice.guestregistry.dao.PersonDao;
-import practice.guestregistry.models.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class PersonService {
         dao.deleteAll();
     }
 
-    public Optional<Person> getPersonById (ObjectId id) {
+    public Optional<Person> getPersonById (String id) {
         return dao.findById(id);
     }
 
@@ -39,12 +38,11 @@ public class PersonService {
         return dao.save(newPerson);
     }
 
-    public void updatePerson (ObjectId id, Person newPerson) {
-        newPerson.setId(id);
+    public void updatePerson (Person newPerson) {
         dao.save(newPerson);
     }
 
-    public void deletePersonById (ObjectId id) {
+    public void deletePersonById (String id) {
         dao.deleteById(id);
     }
 

@@ -1,12 +1,12 @@
 package practice.guestregistry.services;
 
+import eu.exadel.practice.guestregistration.data.dao.EventDao;
+import eu.exadel.practice.guestregistration.data.domain.Event;
+import eu.exadel.practice.guestregistration.data.domain.Person;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import practice.guestregistry.dao.EventDao;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
-import practice.guestregistry.models.Event;
-import practice.guestregistry.models.Person;
 
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -25,7 +25,7 @@ public class EventService {
         this.personService = personService;
     }
 
-    public Optional<Event> getEventById(ObjectId id) {
+    public Optional<Event> getEventById(String id) {
         if (dao.findById(id).isPresent())
             return dao.findById(id);
         else
@@ -51,14 +51,14 @@ public class EventService {
         return event;
     }
 
-    public void updateEvent(ObjectId id, Event event) {
-        if (dao.findById(id).isPresent())
-        dao.update(id, event);
+    public void updateEvent(Event event) {
+        if (dao.findById(event.getId()).isPresent())
+        dao.update(event);
         else
             throw new ResourceNotFoundException("Location with this id doesn't exist");
     }
 
-    public void deleteEventById(ObjectId id) {
+    public void deleteEventById(String id) {
         if (dao.findById(id).isPresent())
             dao.deleteById(id);
         else

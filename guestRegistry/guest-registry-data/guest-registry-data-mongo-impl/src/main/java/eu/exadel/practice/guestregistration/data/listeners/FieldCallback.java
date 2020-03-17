@@ -1,4 +1,4 @@
-package practice.guestregistry.listeners;
+package eu.exadel.practice.guestregistration.data.listeners;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.util.ReflectionUtils;

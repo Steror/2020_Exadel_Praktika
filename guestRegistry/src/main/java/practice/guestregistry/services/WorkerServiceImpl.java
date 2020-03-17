@@ -1,19 +1,18 @@
 package practice.guestregistry.services;
 
-import org.bson.types.ObjectId;
+import eu.exadel.practice.guestregistration.data.dao.WorkerDao;
+import eu.exadel.practice.guestregistration.data.domain.Card;
+import eu.exadel.practice.guestregistration.data.domain.Person;
+import eu.exadel.practice.guestregistration.data.domain.Worker;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import practice.guestregistry.dao.WorkerDao;
 import practice.guestregistry.dto.WorkerDTO;
 import practice.guestregistry.dto.WorkerDTOMapper;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
-import practice.guestregistry.models.Card;
-import practice.guestregistry.models.Person;
-import practice.guestregistry.models.Worker;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +41,7 @@ public class WorkerServiceImpl implements WorkerService {
         workerDao.deleteAll();
     }
 
-    public Optional<WorkerDTO> getWorkerById (ObjectId id) {
+    public Optional<WorkerDTO> getWorkerById (String id) {
         if (workerDao.existById(id)) {
             return convertToDto(workerDao.findById(id).get());
         } else {
@@ -79,7 +78,7 @@ public class WorkerServiceImpl implements WorkerService {
 
     public WorkerDTO updateWorker (@NotNull WorkerDTO workerDTO) {
         Worker newWorker = convertToWorker(workerDTO);
-        if (workerDao.existById( new ObjectId(workerDTO.getWorkerId()))) {
+        if (workerDao.existById(workerDTO.getWorkerId())) {
             if (newWorker.getPerson() != null
                     && personService.getPersonById(newWorker.getPerson().getId()).isPresent()
                     && validCard(newWorker.getCard())) {
@@ -92,7 +91,7 @@ public class WorkerServiceImpl implements WorkerService {
         }
     }
 
-    public void deleteWorkerById (ObjectId id) {
+    public void deleteWorkerById (String id) {
         //log.trace("called:" + this.getClass().getEnclosingMethod().getName());
         if (workerDao.existById(id)) {
             workerDao.deleteById(id);

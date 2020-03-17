@@ -1,9 +1,8 @@
 package practice.guestregistry.api;
 
-import org.bson.types.ObjectId;
+import eu.exadel.practice.guestregistration.data.domain.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import practice.guestregistry.models.Location;
 import practice.guestregistry.services.LocationService;
 
 import javax.validation.Valid;
@@ -20,7 +19,7 @@ public class LocationController {
     public LocationController(LocationService service) { this.service = service; }
 
     @GetMapping(path="{id}")
-    public Optional<Location> getLocation(@PathVariable ObjectId id) {
+    public Optional<Location> getLocation(@PathVariable String id) {
         return service.getLocationById(id);
     }
 
@@ -31,10 +30,10 @@ public class LocationController {
     public void addLocation(@Valid @RequestBody Location location) {
         service.addLocation(location); }
 
-    @PutMapping(path="{id}")
-    public void updateLocation(@PathVariable ObjectId id, @Valid @RequestBody Location location) {
-        service.updateLocation(id, location); }
+    @PutMapping
+    public void updateLocation(@Valid @RequestBody Location location) {
+        service.updateLocation(location); }
 
     @DeleteMapping(path="{id}")
-    public void deleteLocation(@PathVariable ObjectId id) { service.deleteLocationById(id); }
+    public void deleteLocation(@PathVariable String id) { service.deleteLocationById(id); }
 }

@@ -1,9 +1,8 @@
 package practice.guestregistry.api;
 
-import org.bson.types.ObjectId;
+import eu.exadel.practice.guestregistration.data.domain.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import practice.guestregistry.models.Person;
 import practice.guestregistry.services.PersonService;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class PersonController {
 
 //    @GetMapping("person")
     @GetMapping(path="{id}")
-    public Optional<Person> getPerson(@PathVariable ObjectId id) {
+    public Optional<Person> getPerson(@PathVariable String id) {
         return service.getPersonById(id);
     }
 
@@ -37,13 +36,13 @@ public class PersonController {
         service.addPerson(person);
     }
 
-    @PutMapping(path="{id}")
-    public void updatePerson(@PathVariable("id") ObjectId id, @RequestBody Person newPerson) {
-        service.updatePerson(id, newPerson);
+    @PutMapping
+    public void updatePerson(@RequestBody Person newPerson) {
+        service.updatePerson(newPerson);
     }
 
     @DeleteMapping(path="{id}")
-    public void deletePerson(@PathVariable ObjectId id) {
+    public void deletePerson(@PathVariable String id) {
         service.deletePersonById(id);
     }
 }

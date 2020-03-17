@@ -1,4 +1,4 @@
-package practice.guestregistry.listeners;
+package eu.exadel.practice.guestregistration.data.listeners;
 
 
 import lombok.Data;

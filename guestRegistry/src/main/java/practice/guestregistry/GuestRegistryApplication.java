@@ -1,6 +1,6 @@
 package practice.guestregistry;
 
-import org.bson.types.ObjectId;
+import eu.exadel.practice.guestregistration.data.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
@@ -11,17 +11,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import practice.guestregistry.dto.WorkerDTOMapper;
-import practice.guestregistry.models.*;
 import practice.guestregistry.services.*;
 
 import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-@SpringBootApplication(exclude = {
-//		MongoAutoConfiguration.class,
-//	RepositoryRestMvcAutoConfiguration.class
-})
+@SpringBootApplication//(scanBasePackages = {"eu.exadel.practice.guestregistration.data.dao"})
+//(exclude = {
+////		MongoAutoConfiguration.class,
+////	RepositoryRestMvcAutoConfiguration.class
+//})
 public class GuestRegistryApplication implements CommandLineRunner {
 
 	@Autowired
@@ -76,39 +76,39 @@ public class GuestRegistryApplication implements CommandLineRunner {
 		location.setCountry("b");
 		location.setCity("c");
 		location.setAddress("d");
-		location.setLocationType(LocationType.OFFICE);
+		location.setLocationType("OFFICE");
 		location.setPhoneNumber("777");
 		location = locationService.addLocation(location);
 
 		cardService.deleteAll();
-		cardService.addCard(new Card(ObjectId.get(),
+		cardService.addCard(new Card( null,
 				"serial",
 				location,
 				LocalDateTime.now(),
 				LocalDateTime.now(),
-				CardType.GUEST));
-		cardService.addCard(new Card(ObjectId.get(),
+				"GUEST"));
+		cardService.addCard(new Card(null,
 				"SERIAL",
 				location,
 				LocalDateTime.now(),
 				LocalDateTime.now(),
-				CardType.PERSONNEL));
-		cardService.addCard(new Card(ObjectId.get(),
+				"PERSONNEL"));
+		cardService.addCard(new Card(null,
 				"good number",
 				location,
 				LocalDateTime.now(),
 				LocalDateTime.now(),
-				CardType.PERSONNEL));
-		Card savedCard = cardService.addCard(new Card(ObjectId.get(),
+				"PERSONNEL"));
+		Card savedCard = cardService.addCard(new Card(null,
 				"soso serial",
 				location,
 				LocalDateTime.now(),
 				LocalDateTime.now(),
-				CardType.GUEST));
+				"GUEST"));
 
 		personService.deleteAll();
-		personService.addPerson(new Person(ObjectId.get(), "firstPerson", "mname", "lname", "emaill", "phone_nr"));
-		Person person = new Person(ObjectId.get(), "secondPerson", "mname", "lname", "emaill", "phone_nr");
+		personService.addPerson(new Person(null, "firstPerson", "mname", "lname", "emaill", "phone_nr"));
+		Person person = new Person(null, "secondPerson", "mname", "lname", "emaill", "phone_nr");
 		Person personForEvent = personService.addPerson(person);
 
 		eventService.deleteAllEvents();

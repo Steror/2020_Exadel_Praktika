@@ -1,7 +1,6 @@
 package practice.guestregistry.api;
 
 import org.springframework.web.bind.annotation.*;
-import practice.guestregistry.models.User;
 import org.springframework.security.core.userdetails.User;
 
 import javax.servlet.http.HttpServletRequest;

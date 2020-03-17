@@ -1,13 +1,13 @@
-package practice.guestregistry.listeners;
+package eu.exadel.practice.guestregistration.data.listeners;
 
 
+import eu.exadel.practice.guestregistration.data.domain.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
-import practice.guestregistry.models.Worker;
 
 @Component
 public class CascadeSaveMongoEventListener extends AbstractMongoEventListener<Worker> {

@@ -106,6 +106,12 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>practice</groupId>
+			<artifactId>guest-registry-data-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- swagger eu.exadel.practice.guestregistration.data.config -->
 	</dependencies>
 

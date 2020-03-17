@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class WorkerController {
     }
 
     @GetMapping(path="{id}")
-    public Optional<WorkerDTO> getWorker(@PathVariable ObjectId id) {
+    public Optional<WorkerDTO> getWorker(@PathVariable String id) {
         return workerService.getWorkerById(id);
     }
 
@@ -83,7 +82,7 @@ public class WorkerController {
     }
 
     @DeleteMapping(path="{id}")
-    public void deleteWorker(@PathVariable ObjectId id) {
+    public void deleteWorker(@PathVariable String id) {
         workerService.deleteWorkerById(id);
     }
 
