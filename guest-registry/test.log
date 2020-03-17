@@ -279,7 +279,7 @@ Positive matches:
 
    ValidationAutoConfiguration matched:
       - @ConditionalOnClass found required class 'javax.validation.executable.ExecutableValidator' (OnClassCondition)
-      - @ConditionalOnResource found location classpath:META-INF/services/javax.validation.spi.ValidationProvider (OnResourceCondition)
+      - @ConditionalOnResource found locationEntity classpath:META-INF/services/javax.validation.spi.ValidationProvider (OnResourceCondition)
 
    ValidationAutoConfiguration#defaultValidator matched:
       - @ConditionalOnBean (types: javax.validation.Validator; SearchStrategy: all) did not find any beans (OnBeanCondition)
@@ -646,7 +646,7 @@ Negative matches:
 
    ProjectInfoAutoConfiguration#buildProperties:
       Did not match:
-         - @ConditionalOnResource did not find resource '${spring.info.build.location:classpath:META-INF/build-info.properties}' (OnResourceCondition)
+         - @ConditionalOnResource did not find resource '${spring.info.build.locationEntity:classpath:META-INF/build-info.properties}' (OnResourceCondition)
 
    ProjectInfoAutoConfiguration#gitProperties:
       Did not match:

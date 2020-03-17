@@ -23,7 +23,7 @@
         <dependency>
             <groupId>practice.guestregistry.data</groupId>
 <!--            <groupId>practice.guestregistry.data.impl</groupId>-->
-            <artifactId>guest-registry-data-impl</artifactId>
+            <artifactId>guest-registry-data-mongo-impl</artifactId>
             <version>0.0.1-SNAPSHOT</version>
 <!--            <scope>compile</scope>-->
         </dependency>
