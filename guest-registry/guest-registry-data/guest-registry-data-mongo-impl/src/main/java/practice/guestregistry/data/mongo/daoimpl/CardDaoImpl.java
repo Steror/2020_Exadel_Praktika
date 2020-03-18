@@ -8,81 +8,78 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.CardDao;
 import practice.guestregistry.data.api.domain.Card;
+import practice.guestregistry.data.mongo.entities.CardEntity;
+import practice.guestregistry.data.mongo.mappers.CardMapper;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Repository
 public class CardDaoImpl implements CardDao {
     MongoTemplate mongoTemplate;
-//    SequenceDao sequenceDao;
-    private static final String HOSTING_SEQ_KEY = "card";
+    CardMapper cardMapper;
 
     @Autowired
-    public CardDaoImpl(
-            MongoTemplate mongoTemplate
-//            SequenceDao sequenceDao
-    ) {
+    public CardDaoImpl(MongoTemplate mongoTemplate, CardMapper cardMapper) {
         this.mongoTemplate = mongoTemplate;
-//        this.sequenceDao = sequenceDao;
+        this.cardMapper = cardMapper;
     }
 
     @Override
     public void deleteAll() {
 //        mongoTemplate.remove(Card.class);   <<--- this one doesn't remove Document data
-        mongoTemplate.findAllAndRemove(Query.query(new Criteria().where("id").exists(true)), Card.class);
+        mongoTemplate.findAllAndRemove(Query.query(new Criteria().where("id").exists(true)), CardEntity.class);
     }
 
     @Override
-    public Optional<Card> findById(ObjectId id) {
-        return Optional.ofNullable (mongoTemplate.findById(id, Card.class));
+    public Optional<Card> findById(String id) {
+        CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
+        Card card = cardMapper.entityToDomain(cardEntity);
+        return Optional.ofNullable(card);
     }
 
     @Override
     public List<Card> findAll() {
-        return mongoTemplate.findAll(Card.class);
+        return mongoTemplate.findAll(CardEntity.class).stream().map( cardEntity ->
+                cardMapper.entityToDomain(cardEntity)
+        ).collect(Collectors.toList());
     }
 
     @Override
     public Card save(Card card) {
-//        long temp = sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY);
-        card.setId(ObjectId.get().toHexString());
-        return mongoTemplate.save(card);
+        CardEntity cardEntity = cardMapper.domainToEntity(card);
+        cardEntity.setId(ObjectId.get());
+        return cardMapper.entityToDomain(mongoTemplate.save(cardEntity));
     }
 
     @Override
     public Card update(Card card) {
-        if (mongoTemplate.exists(Query.query(Criteria.where("id").is(card.getId())), Card.class)) {
-            return mongoTemplate.save(card);
+        CardEntity cardEntity = cardMapper.domainToEntity(card);
+        if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), CardEntity.class)) {
+            mongoTemplate.save(cardEntity);
         }
-        return null;
+        return cardMapper.entityToDomain(cardEntity);
     }
 
     @Override
-    public void deleteById(ObjectId id) {
+    public void deleteById(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
-        mongoTemplate.findAllAndRemove(query, Card.class);
+        mongoTemplate.findAllAndRemove(query, CardEntity.class);
     }
 
     @Override
-    public boolean existById(ObjectId id) {
+    public boolean existById(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
-        return mongoTemplate.exists(query, Card.class);
+        return mongoTemplate.exists(query, CardEntity.class);
     }
 
     @Override
     public boolean exist(Card card) {
-        return mongoTemplate.exists(Query.query(Criteria.byExample(card)), Card.class);
+        CardEntity cardEntity = cardMapper.domainToEntity(card);
+        return mongoTemplate.exists(Query.query(Criteria.byExample(cardEntity)), CardEntity.class);
     }
-
-
-//    @PostConstruct
-//    private void after() {
-//        if (!mongoTemplate.collectionExists(Card.class)   ) {
-//            sequenceDao.initCollection(HOSTING_SEQ_KEY);
-//        }
-//    }
 }

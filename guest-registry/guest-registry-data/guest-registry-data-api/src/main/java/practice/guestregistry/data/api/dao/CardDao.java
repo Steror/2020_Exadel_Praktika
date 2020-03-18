@@ -10,12 +10,12 @@ import java.util.Optional;
 // No need implementation, just one interface, and you have CRUD, thanks Spring Data
 public interface CardDao {
     void deleteAll ();
-    Optional<Card> findById (ObjectId id);
+    Optional<Card> findById (String id);
     List<Card> findAll ();
     Card save (Card card);
     Card update (Card card);
-    void deleteById (ObjectId id);
-    boolean existById (ObjectId id);
+    void deleteById (String id);
+    boolean existById (String id);
     boolean exist (Card card);
 }
 
