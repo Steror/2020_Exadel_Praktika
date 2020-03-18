@@ -1,16 +1,15 @@
 package practice.guestregistry.data.api.dao;
 
-import org.bson.types.ObjectId;
 import practice.guestregistry.data.api.domain.Event;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface EventDao {
-    Optional<Event> findById (ObjectId id);
+    Optional<Event> findById (String id);
     List<Event> findAll ();
     void add (Event event);
-    void update (ObjectId id, Event event);
-    void deleteById (ObjectId id);
+    Event update (Event event);
+    void deleteById (String id);
     void deleteAll ();
 }
