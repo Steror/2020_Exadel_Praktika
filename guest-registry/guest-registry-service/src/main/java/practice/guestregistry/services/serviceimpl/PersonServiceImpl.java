@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.PersonDao;
-import practice.guestregistry.data.api.domain.Location;
 import practice.guestregistry.data.api.domain.Person;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.PersonService;

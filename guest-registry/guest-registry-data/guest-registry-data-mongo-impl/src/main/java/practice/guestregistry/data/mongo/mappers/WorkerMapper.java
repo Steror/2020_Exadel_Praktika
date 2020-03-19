@@ -53,6 +53,7 @@ public class WorkerMapper {
                 .register();
     }
 
+    //TODO: elaborate mapping method name
     public Worker map (WorkerEntity worker) {
 //        Worker target = new Worker();
 //        this.mapperFactory.getMapperFacade(WorkerEntity.class, Worker.class).map(worker, target);
@@ -62,6 +63,7 @@ public class WorkerMapper {
         return this.mapperFactory.getMapperFacade(WorkerEntity.class, Worker.class).map(worker);
     }
 
+    //TODO: elaborate mapping method name
     public WorkerEntity map (Worker worker) {
         return this.mapperFactory.getMapperFacade(Worker.class, WorkerEntity.class).map(worker);
 //        Worker mappedWorker = new Worker();

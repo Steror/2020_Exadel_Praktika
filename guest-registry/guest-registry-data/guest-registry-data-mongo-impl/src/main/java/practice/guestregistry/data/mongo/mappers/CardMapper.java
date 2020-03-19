@@ -3,9 +3,11 @@ package practice.guestregistry.data.mongo.mappers;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import practice.guestregistry.data.api.domain.Card;
 import practice.guestregistry.data.mongo.entities.CardEntity;
 
+@Component
 public class CardMapper {
     private MapperFactory mapperFactory;
 

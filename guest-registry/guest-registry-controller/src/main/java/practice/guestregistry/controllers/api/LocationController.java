@@ -42,7 +42,6 @@ public class LocationController {
     }
 
     @GetMapping
-    //TODO:trick with streams
     public List<LocationDTO> getLocations() {
         return locationService.getAllLocations()
                 .stream()
