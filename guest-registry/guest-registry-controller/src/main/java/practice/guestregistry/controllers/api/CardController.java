@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import practice.guestregistry.data.api.domain.Card;
-import practice.guestregistry.services.service.CardService;
+import practice.guestregistry.services.serviceimpl.CardServiceImpl;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,26 +18,26 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 public class CardController {
 
-    CardService cardService;
+    CardServiceImpl cardServiceImpl;
 
     @Autowired
-    public CardController(CardService cardService) {
-        this.cardService = cardService;
+    public CardController(CardServiceImpl cardServiceImpl) {
+        this.cardServiceImpl = cardServiceImpl;
     }
 
     @GetMapping(path="{id}")
     public Optional<Card> getCard(@PathVariable String id) {
-        return cardService.getCardById(id);
+        return cardServiceImpl.getCardById(id);
     }
 
     @GetMapping
     public List<Card> getCards() {
-        return cardService.getAllCards();
+        return cardServiceImpl.getAllCards();
     }
 
     @PostMapping
     public ResponseEntity<Card> createCard(@Valid @RequestBody Card card) {
-        Card savedCard = cardService.addCard(card);
+        Card savedCard = cardServiceImpl.addCard(card);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.
@@ -50,13 +50,13 @@ public class CardController {
 
     @PutMapping(path = "{id}")
     public ResponseEntity<Card> updateCard(@Valid @RequestBody Card newCard) {
-        cardService.updateCard(newCard);
+        cardServiceImpl.updateCard(newCard);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(path="{id}")
     public void deleteCard(@PathVariable String id) {
-        cardService.deleteCardById(id);
+        cardServiceImpl.deleteCardById(id);
 //        return new ResponseEntity<>(HttpStatus.OK);
     }
 
