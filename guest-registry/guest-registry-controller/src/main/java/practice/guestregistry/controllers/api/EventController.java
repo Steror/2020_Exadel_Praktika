@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import practice.guestregistry.data.api.domain.Event;
-import practice.guestregistry.services.serviceimpl.EventServiceImpl;
+import practice.guestregistry.services.service.EventService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 @Api
 public class EventController {
-    EventServiceImpl service;
+    EventService service;
 
     @Autowired
-    public EventController(EventServiceImpl service) { this.service = service; }
+    public EventController(EventService service) { this.service = service; }
 
     @GetMapping(path="{id}")
     public Optional<Event> getEvent(@PathVariable String id) {

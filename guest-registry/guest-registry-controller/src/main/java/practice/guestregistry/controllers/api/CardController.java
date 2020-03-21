@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import practice.guestregistry.data.api.domain.Card;
-import practice.guestregistry.services.serviceimpl.CardServiceImpl;
+import practice.guestregistry.services.service.CardService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,26 +18,26 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 public class CardController {
 
-    CardServiceImpl cardServiceImpl;
+    CardService service;
 
     @Autowired
-    public CardController(CardServiceImpl cardServiceImpl) {
-        this.cardServiceImpl = cardServiceImpl;
+    public CardController(CardService service) {
+        this.service = service;
     }
 
     @GetMapping(path="{id}")
     public Optional<Card> getCard(@PathVariable String id) {
-        return cardServiceImpl.getCardById(id);
+        return service.getCardById(id);
     }
 
     @GetMapping
     public List<Card> getCards() {
-        return cardServiceImpl.getAllCards();
+        return service.getAllCards();
     }
 
     @PostMapping
     public ResponseEntity<Card> createCard(@Valid @RequestBody Card card) {
-        Card savedCard = cardServiceImpl.addCard(card);
+        Card savedCard = service.addCard(card);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.
@@ -50,13 +50,13 @@ public class CardController {
 
     @PutMapping(path = "{id}")
     public ResponseEntity<Card> updateCard(@Valid @RequestBody Card newCard) {
-        cardServiceImpl.updateCard(newCard);
+        service.updateCard(newCard);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(path="{id}")
     public void deleteCard(@PathVariable String id) {
-        cardServiceImpl.deleteCardById(id);
+        service.deleteCardById(id);
 //        return new ResponseEntity<>(HttpStatus.OK);
     }
 
