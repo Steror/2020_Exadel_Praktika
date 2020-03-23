@@ -1,6 +1,6 @@
 package practice.guestregistry.data.api.dao;
 
-import practice.guestregistry.data.api.domain.Worker;
+import practice.guestregistry.domain.Worker;
 
 import java.util.List;
 import java.util.Optional;

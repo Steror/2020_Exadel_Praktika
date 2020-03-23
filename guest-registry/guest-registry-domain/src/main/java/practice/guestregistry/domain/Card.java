@@ -1,4 +1,4 @@
-package practice.guestregistry.data.api.domain;
+package practice.guestregistry.domain;
 
 import lombok.Data;
 

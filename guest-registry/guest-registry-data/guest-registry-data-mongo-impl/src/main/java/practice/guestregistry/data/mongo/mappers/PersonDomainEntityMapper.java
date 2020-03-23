@@ -7,8 +7,8 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import practice.guestregistry.data.api.domain.Person;
 import practice.guestregistry.data.mongo.entities.PersonEntity;
+import practice.guestregistry.domain.Person;
 
 @Component
 public class PersonDomainEntityMapper {

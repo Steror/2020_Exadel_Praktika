@@ -1,24 +1,16 @@
 package practice.guestregistry.controllers.api;
 
 import io.swagger.annotations.Api;
-import org.bson.types.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import practice.guestregistry.controllers.dto.mappers.LocationDtoDomainMapper;
-import practice.guestregistry.controllers.dto.models.LocationDTO;
 import practice.guestregistry.data.api.domain.Location;
 import practice.guestregistry.services.service.LocationService;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/location")

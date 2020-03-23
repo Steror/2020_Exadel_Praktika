@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.PersonDao;
-import practice.guestregistry.data.api.domain.Person;
+import practice.guestregistry.domain.Person;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.PersonService;
 
@@ -30,8 +30,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Optional<Person> getPersonById (String id) {
-        Person person = personDao.findById(id);
+    public Person getPersonById (String id) {
+        Optional<Person> person = personDao.findById(id);
         if (person != null) {
             return Optional.of(person);
         } else {
@@ -42,6 +42,11 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<Person> getAllPersons () {
         return personDao.findAll();
+    }
+
+    @Override
+    public Person addPerson(Person person) {
+        return null;
     }
 
     @Override
@@ -65,6 +70,11 @@ public class PersonServiceImpl implements PersonService {
         } else {
             throw new ResourceNotFoundException("Can't update by this update");
         }
+    }
+
+    @Override
+    public void deleteAllPersons() {
+
     }
 
 

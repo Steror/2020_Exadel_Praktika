@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.PersonDao;
-import practice.guestregistry.data.api.domain.Person;
 import practice.guestregistry.data.mongo.entities.PersonEntity;
 import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
+import practice.guestregistry.domain.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 public class PersonDaoImpl implements PersonDao {
     private MongoTemplate mongoTemplate;
     private PersonDomainEntityMapper mapper;
-    //    SequenceDao sequenceDao;
-    private static final String HOSTING_SEQ_KEY = "card";
 
     @Autowired
     public PersonDaoImpl(MongoTemplate mongoTemplate, PersonDomainEntityMapper mapper) {
@@ -28,14 +26,15 @@ public class PersonDaoImpl implements PersonDao {
         this.mapper = mapper;
     }
 
+    @Override
     public void deleteAll() {
         mongoTemplate.findAllAndRemove(Query.query(new Criteria().where("id").exists(true)), PersonEntity.class);
     }
 
     @Override
-    public Person findById(String id) {
+    public Optional<Person> findById(String id) {
         PersonEntity personDB = mongoTemplate.findById(new ObjectId(id), PersonEntity.class);
-        return mapper.map(personDB);
+        return Optional.of(mapper.map(personDB));
     }
 
     @Override
@@ -47,8 +46,8 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public Person save(Person personDomain) {
-        PersonEntity mappedPersonEntity = mapper.map(personDomain);
+    public Person add(Person person) {
+        PersonEntity mappedPersonEntity = mapper.map(person);
         mappedPersonEntity.setId(ObjectId.get());
         return mapper.map(mongoTemplate.save(mappedPersonEntity));
     }
@@ -58,6 +57,7 @@ public class PersonDaoImpl implements PersonDao {
         mongoTemplate.findAndRemove(Query.query(Criteria.where("id").is(new ObjectId(id))), PersonEntity.class);
     }
 
+    @Override
     public boolean existById(String id) {
         return  mongoTemplate.exists(Query.query(Criteria.where("id").is(new ObjectId(id))), PersonEntity.class);
     }
@@ -69,6 +69,7 @@ public class PersonDaoImpl implements PersonDao {
         return mapper.map(mongoTemplate.save(mappedPersonEntity));
     }
 
+    @Override
     public boolean exist(Person personDomain) {
         return mongoTemplate.exists(Query.query(Criteria.byExample(mapper.map(personDomain))), PersonEntity.class);
     }

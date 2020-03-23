@@ -1,13 +1,16 @@
-package practice.guestregistry.controllers.dto.models;
+package practice.guestregistry.domain;
 
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
-public class WorkerDTO {
+public class Worker {
+    //    @JsonSerialize(using = ObjectID_Serializer.class)
+//    ObjectId id;
     @NotEmpty
     public String id;
     public String personId;
@@ -24,4 +27,5 @@ public class WorkerDTO {
     public String cardId;
     @NotEmpty
     public String cardSerialNumber;
+    //smth with position
 }
