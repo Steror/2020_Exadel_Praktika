@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-    private PersonDao personDao;
-    //    private SequenceDao sequenceDao;
+
+    private final PersonDao personDao;
     private static final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
 
 
@@ -25,15 +25,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void deleteAll () {
-        personDao.deleteAll();
-    }
-
-    @Override
     public Person getPersonById (String id) {
         Optional<Person> person = personDao.findById(id);
-        if (person != null) {
-            return Optional.of(person);
+        if (person.isPresent()) {
+            return person.get();
         } else {
             throw new ResourceNotFoundException("Person with this id doesn't exist");
         }
@@ -46,18 +41,13 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person addPerson(Person person) {
-        return null;
+        return personDao.add(person);
     }
 
     @Override
-    public Person savePerson (Person newPerson) {
-        return personDao.save(newPerson);
-    }
-
-    @Override
-    public void updatePerson (Person newPerson) {
+    public Person updatePerson (Person newPerson) {
         if (personDao.existById(newPerson.getId())) {
-            personDao.update(newPerson);
+            return personDao.update(newPerson);
         } else {
             throw new ResourceNotFoundException("Can't update by this update");
         }
@@ -73,10 +63,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void deleteAllPersons() {
-
+    public void deleteAllPersons () {
+        personDao.deleteAll();
     }
-
 
     @Override
     public boolean personExist(Person person) {
@@ -86,6 +75,11 @@ public class PersonServiceImpl implements PersonService {
 //        log.trace("person Exist " + person + " " +  practice.guestregistry.data.impl.personDao.exists(Example.of(person)));
 //        return practice.guestregistry.data.impl.personDao.exists(Example.of(person));
         return personDao.exist(person);
+    }
+
+    @Override
+    public boolean existById(String id) {
+        return personDao.existById(id);
     }
 
 }

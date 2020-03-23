@@ -3,8 +3,8 @@ package practice.guestregistry.data.api.converter;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.stereotype.Component;
-import practice.guestregistry.data.api.domain.Person;
-import practice.guestregistry.data.api.domain.Worker;
+import practice.guestregistry.domain.Person;
+import practice.guestregistry.domain.Worker;
 
 @Component
 public class WorkerDomainToPersonDomainMapper {

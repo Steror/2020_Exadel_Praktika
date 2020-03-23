@@ -7,18 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import practice.guestregistry.data.api.domain.Location;
+import practice.guestregistry.domain.Location;
 import practice.guestregistry.services.service.LocationService;
 
 import java.util.List;
 
+@Api
 @RestController
 @RequestMapping("/api/location")
 @CrossOrigin(origins = "http://localhost:4200")
-@Api
 public class LocationController {
 
-    LocationService locationService;
+    private final LocationService locationService;
 
     @Autowired
     public LocationController(LocationService locationService) {
@@ -37,7 +37,7 @@ public class LocationController {
 
     @PostMapping
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
-        Location savedLocation = locationService.saveLocation(location);
+        Location savedLocation = locationService.addLocation(location);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.

@@ -13,4 +13,5 @@ public interface PersonService {
     void deletePersonById (String id);
     void deleteAllPersons ();
     boolean personExist(Person person);
+    boolean existById(String id);
 }

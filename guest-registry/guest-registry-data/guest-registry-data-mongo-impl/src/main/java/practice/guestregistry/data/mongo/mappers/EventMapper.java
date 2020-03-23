@@ -4,8 +4,8 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import practice.guestregistry.data.api.domain.Event;
 import practice.guestregistry.data.mongo.entities.EventEntity;
+import practice.guestregistry.domain.Event;
 
 @Component
 public class EventMapper {

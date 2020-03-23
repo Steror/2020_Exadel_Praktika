@@ -1,6 +1,6 @@
 package practice.guestregistry.services.service;
 
-import practice.guestregistry.data.api.domain.Event;
+import practice.guestregistry.domain.Event;
 
 import java.util.List;
 

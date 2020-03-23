@@ -17,18 +17,14 @@ import java.util.stream.Collectors;
 
 @Repository
 public class PersonDaoImpl implements PersonDao {
-    private MongoTemplate mongoTemplate;
-    private PersonDomainEntityMapper mapper;
+
+    private final MongoTemplate mongoTemplate;
+    private final PersonDomainEntityMapper mapper; //TODO rename Mapper to unify code
 
     @Autowired
     public PersonDaoImpl(MongoTemplate mongoTemplate, PersonDomainEntityMapper mapper) {
         this.mongoTemplate = mongoTemplate;
         this.mapper = mapper;
-    }
-
-    @Override
-    public void deleteAll() {
-        mongoTemplate.findAllAndRemove(Query.query(new Criteria().where("id").exists(true)), PersonEntity.class);
     }
 
     @Override
@@ -53,32 +49,28 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public void deleteById(String id) {
-        mongoTemplate.findAndRemove(Query.query(Criteria.where("id").is(new ObjectId(id))), PersonEntity.class);
-    }
-
-    @Override
-    public boolean existById(String id) {
-        return  mongoTemplate.exists(Query.query(Criteria.where("id").is(new ObjectId(id))), PersonEntity.class);
-    }
-
-
-    @Override
     public Person update(Person personDomain) {
         PersonEntity mappedPersonEntity = mapper.map(personDomain);
         return mapper.map(mongoTemplate.save(mappedPersonEntity));
     }
 
     @Override
+    public void deleteById(String id) {
+        mongoTemplate.findAndRemove(Query.query(Criteria.where("id").is(new ObjectId(id))), PersonEntity.class);
+    }
+
+    @Override
+    public void deleteAll() {
+        mongoTemplate.findAllAndRemove(Query.query(new Criteria().where("id").exists(true)), PersonEntity.class);
+    }
+
+    @Override
+    public boolean existById(String id) {
+        return mongoTemplate.exists(Query.query(Criteria.where("id").is(new ObjectId(id))), PersonEntity.class);
+    }
+
+    @Override
     public boolean exist(Person personDomain) {
         return mongoTemplate.exists(Query.query(Criteria.byExample(mapper.map(personDomain))), PersonEntity.class);
     }
-
-
-//    @PostConstruct
-//    private void after() {
-//        if (!mongoTemplate.collectionExists(Card.class)   ) {
-//            sequenceDao.initCollection(HOSTING_SEQ_KEY);
-//        }
-//    }
 }

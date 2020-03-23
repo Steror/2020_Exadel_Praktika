@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.CardDao;
-import practice.guestregistry.data.api.domain.Card;
+import practice.guestregistry.domain.Card;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.CardService;
@@ -16,43 +16,47 @@ import java.util.Optional;
 
 @Service
 public class CardServiceImpl implements CardService {
-    private CardDao cardDao;
-    private LocationService locationService;
+
+    private final CardDao cardDao;
+    private final LocationService locationService;
     private static final Logger log = LoggerFactory.getLogger(CardServiceImpl.class);
 
     @Autowired
     public CardServiceImpl(CardDao cardDao, LocationService locationService) {
         this.cardDao = cardDao;
-        this.locationService = locationService; //ar reikia tokio patikrinimo
+        this.locationService = locationService;
     }
 
-    public void deleteAll () {
-        cardDao.deleteAll();
-    }
-
-    public Optional<Card> getCardById (String id) {
-        if (!cardDao.existById(id)) {
+    @Override
+    public Card getCardById (String id) {
+        Optional<Card> card = cardDao.findById(id);
+        if (card.isPresent())
+            return card.get();
+        else {
             throw new ResourceNotFoundException("Card by this id doesn't exist");
         }
-        return cardDao.findById(id);
     }
 
+    @Override
     public List<Card> getAllCards () {
         return cardDao.findAll();
     }
 
+    @Override
     public Card addCard (Card newCard) {
         if (validateCardFields(newCard)) {
-            return cardDao.save(newCard);
+            return cardDao.add(newCard);
         }
         //TODO:add details?
         throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
     }
 
-    public void updateCard (Card newCard) {
+    @Override
+    public Card updateCard (Card newCard) {
         if (cardDao.existById(newCard.getId())) {
             if (validateCardFields(newCard)) {
                 cardDao.update(newCard);
+                return newCard;
             } else {
                 //TODO:add details?
                 throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
@@ -62,6 +66,7 @@ public class CardServiceImpl implements CardService {
         }
     }
 
+    @Override
     public void deleteCardById (String id) {
         if (cardDao.existById(id)) {
             cardDao.deleteById(id);
@@ -70,22 +75,25 @@ public class CardServiceImpl implements CardService {
         }
     }
 
-    //TODO: duplicate NotEmpty? Numbers/Digits?
-    //possible date validation
-    private boolean validateCardFields(Card card) {
-        if (card.getLocation() != null &&
-                locationService.getLocationById(card.getLocation().getId()).isPresent()) {
-            return true;
-        }
-        return false;
+    @Override
+    public void deleteAllCards () {
+        cardDao.deleteAll();
     }
 
+    @Override
+    public boolean existById(String id) {
+        return cardDao.existById(id);
+    }
+
+    @Override
     public boolean cardExist(Card card) {
-        log.trace("card Exist " + card + " " +  cardDao.equals(card));
+        log.trace("card Exist " + card);
         return cardDao.exist(card);
     }
 
-    public boolean existById(String id) {
-        return cardDao.existById(id);
+    //TODO: duplicate NotEmpty? Numbers/Digits?
+    //possible date validation
+    private boolean validateCardFields(Card card) {
+        return card.getLocation() != null; // If location not null
     }
 }

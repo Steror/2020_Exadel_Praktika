@@ -19,10 +19,10 @@ public class WorkerMapper {
     public WorkerMapper() {
 //            WorkerService workerService,
 //            CardService cardService,
-//            PersonService personService) {
+//            PersonService personEntityService) {
 //        this.workerService = workerService;
 //        this.cardService = cardService;
-//        this.personService = personService;
+//        this.personEntityService = personEntityService;
 
         this.mapperFactory = new DefaultMapperFactory.Builder().build();
         this.mapperFactory.classMap(WorkerEntity.class, Worker.class)
@@ -30,15 +30,19 @@ public class WorkerMapper {
 //        mapNulls(true).mapNullsInReverse(true).
 //                byDefault().
 //                field("id", "id").
-                .field("person.id", "personId")
-                .field("card.id", "cardId")
-                .field("card.serialNumber", "cardSerialNumber")
-                .field("person.firstName", "firstName")
-                .field("person.middleName", "middleName")
-                .field("person.lastName", "lastName")
-                .field("person.email", "email")
-                .field("person.phoneNumber", "phoneNumber")
+                .field("personEntity.id", "personId")
+                .field("cardEntity.id", "cardId")
+                .field("cardEntity.serialNumber", "cardSerialNumber")
+                .field("personEntity.firstName", "firstName")
+                .field("personEntity.middleName", "middleName")
+                .field("personEntity.lastName", "lastName")
+                .field("personEntity.email", "email")
+                .field("personEntity.phoneNumber", "phoneNumber")
                 .customize(new CustomMapper<WorkerEntity, Worker>() {
+                    @Override
+                    public void mapAtoB(WorkerEntity workerEntity, Worker worker, MappingContext context) {
+                        worker.setCardId(workerEntity.getId().toHexString());
+                    }
                     @Override
                     public void mapBtoA(Worker worker, WorkerEntity workerEntity, MappingContext context) {
                         if (ObjectId.isValid(worker.getId())) {
@@ -69,8 +73,8 @@ public class WorkerMapper {
 //        this.mapperFactory.getMapperFacade(WorkerDTO.class, Worker.class).map(workerDTO, mappedWorker);
 //        return mappedWorker;
     }
-//    public void map (WorkerDTO workerDTO, Person person) {
-//        this.mapperFactory.getMapperFacade(WorkerDTO.class, Person.class).map(workerDTO, person);
+//    public void map (WorkerDTO workerDTO, Person personEntity) {
+//        this.mapperFactory.getMapperFacade(WorkerDTO.class, Person.class).map(workerDTO, personEntity);
 //    }
 //    public void map (WorkerDTO workerDTO, Card card) {
 //        this.mapperFactory.getMapperFacade(WorkerDTO.class, Card.class).map(workerDTO, card);
