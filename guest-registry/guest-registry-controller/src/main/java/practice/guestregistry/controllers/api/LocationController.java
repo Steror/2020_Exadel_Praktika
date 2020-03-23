@@ -27,31 +27,25 @@ import java.util.stream.Collectors;
 public class LocationController {
 
     LocationService locationService;
-    private static final Logger log = LoggerFactory.getLogger(LocationDtoDomainMapper.class);
-    private LocationDtoDomainMapper mapper;
 
     @Autowired
-    public LocationController(LocationService locationService, LocationDtoDomainMapper mapper) {
+    public LocationController(LocationService locationService) {
         this.locationService = locationService;
-        this.mapper = mapper;
     }
 
     @GetMapping(path="{id}")
-    public Optional<LocationDTO> getLocation(@PathVariable String id) {
-        return Optional.ofNullable(mapper.map(locationService.getLocationById(id).get()));
+    public Location getLocation(@PathVariable String id) {
+        return locationService.getLocationById(id);
     }
 
     @GetMapping
-    public List<LocationDTO> getLocations() {
-        return locationService.getAllLocations()
-                .stream()
-                .map(mapper::map)
-                .collect(Collectors.toList());
+    public List<Location> getLocations() {
+        return locationService.getAllLocations();
     }
 
     @PostMapping
-    public ResponseEntity<LocationDTO> createLocation(@Valid @RequestBody LocationDTO location) {
-        LocationDTO savedLocation = mapper.map(locationService.saveLocation(mapper.map(location)));
+    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
+        Location savedLocation = locationService.saveLocation(location);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.
@@ -64,8 +58,8 @@ public class LocationController {
 
     @PutMapping(path="{id}")
 //    public ResponseEntity<Location> updateLocation(@PathVariable("id") ObjectId id, @Valid @RequestBody Location newLocation) {
-    public ResponseEntity<LocationDTO> updateLocation(@Valid @RequestBody LocationDTO newLocation) {
-        locationService.updateLocation(mapper.map(newLocation));
+    public ResponseEntity<Location> updateLocation(@RequestBody Location newLocation) {
+        locationService.updateLocation(newLocation);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PersonDao {
-    Person findById (String id);
+    Optional<Person> findById (String id);
     List<Person> findAll ();
-    Person save (Person person);
+    Person add (Person person);
     Person update (Person person);
     void deleteById (String id);
     void deleteAll ();

@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WorkerDao {
-    void deleteAll ();
-    Worker findById (String id);
+    Optional<Worker> findById (String id);
     List<Worker> findAll ();
-    Worker save (Worker worker);
+    Worker add (Worker worker);
     Worker update(Worker worker);
     void deleteById (String id);
+    void deleteAll ();
     boolean existById(String id);
     boolean exist(Worker worker);
 }
