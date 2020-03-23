@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-    private PersonDao personDao;
-    //    private SequenceDao sequenceDao;
+
+    private final PersonDao personDao;
     private static final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
 
 
@@ -25,15 +25,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void deleteAll () {
-        personDao.deleteAll();
-    }
-
-    @Override
-    public Optional<Person> getPersonById (String id) {
-        Person person = personDao.findById(id);
-        if (person != null) {
-            return Optional.of(person);
+    public Person getPersonById (String id) {
+        Optional<Person> person = personDao.findById(id);
+        if (person.isPresent()) {
+            return person.get();
         } else {
             throw new ResourceNotFoundException("Person with this id doesn't exist");
         }
@@ -45,14 +40,14 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person savePerson (Person newPerson) {
-        return personDao.save(newPerson);
+    public Person addPerson (Person newPerson) {
+        return personDao.add(newPerson);
     }
 
     @Override
-    public void updatePerson (Person newPerson) {
+    public Person updatePerson (Person newPerson) {
         if (personDao.existById(newPerson.getId())) {
-            personDao.update(newPerson);
+            return personDao.update(newPerson);
         } else {
             throw new ResourceNotFoundException("Can't update by this update");
         }
@@ -67,6 +62,10 @@ public class PersonServiceImpl implements PersonService {
         }
     }
 
+    @Override
+    public void deleteAllPersons () {
+        personDao.deleteAll();
+    }
 
     @Override
     public boolean personExist(Person person) {
