@@ -1,5 +1,6 @@
 package practice.guestregistry.controllers.api;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,16 +10,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import practice.guestregistry.data.api.domain.Card;
 import practice.guestregistry.services.service.CardService;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
+@Api
 @RestController
 @RequestMapping("/api/card")
 @CrossOrigin(origins = "http://localhost:4200")
 public class CardController {
 
-    CardService service;
+    private final CardService service;
 
     @Autowired
     public CardController(CardService service) {
@@ -26,7 +26,7 @@ public class CardController {
     }
 
     @GetMapping(path="{id}")
-    public Optional<Card> getCard(@PathVariable String id) {
+    public Card getCard(@PathVariable String id) {
         return service.getCardById(id);
     }
 
@@ -36,7 +36,7 @@ public class CardController {
     }
 
     @PostMapping
-    public ResponseEntity<Card> createCard(@Valid @RequestBody Card card) {
+    public ResponseEntity<Card> createCard(@RequestBody Card card) {
         Card savedCard = service.addCard(card);
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -48,8 +48,8 @@ public class CardController {
         return new ResponseEntity<Card>(null, responseHeaders, HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "{id}")
-    public ResponseEntity<Card> updateCard(@Valid @RequestBody Card newCard) {
+    @PutMapping(path="{id}")
+    public ResponseEntity<Card> updateCard(@RequestBody Card newCard) {
         service.updateCard(newCard);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -73,12 +73,3 @@ public class CardController {
 //    }
 
 }
-
-/*
-@CrossOrigin(origins={"http://domain1.com", "http://domain2.com"},
-                 allowedHeaders="X-AUTH-TOKEN",
-                 allowCredentials="false",
-                 maxAge=15*60,
-                 methods={RequestMethod.GET, RequestMethod.POST }
-                )
- */
