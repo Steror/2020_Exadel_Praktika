@@ -17,8 +17,9 @@ import java.util.stream.Collectors;
 
 @Repository
 public class EventDaoImpl implements EventDao {
-    MongoTemplate mongoTemplate;
-    EventMapper eventMapper;
+
+    private final MongoTemplate mongoTemplate;
+    private final EventMapper eventMapper;
 
     @Autowired
     public EventDaoImpl(MongoTemplate mongoTemplate, EventMapper eventMapper) {
@@ -33,16 +34,16 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> findAll () {
-        return mongoTemplate.findAll(EventEntity.class).stream().map(eventEntity ->
-                eventMapper.entityToDomain(eventEntity)
-        ).collect(Collectors.toList());
+        return mongoTemplate.findAll(EventEntity.class).stream().map(eventMapper::entityToDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void add (Event event) {
+    public Event add (Event event) {
         EventEntity eventEntity = eventMapper.domainToEntity(event);
         eventEntity.setId(ObjectId.get());
         mongoTemplate.save(eventEntity);
+        return eventMapper.entityToDomain(eventEntity);
     }
 
     @Override

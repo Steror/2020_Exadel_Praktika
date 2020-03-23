@@ -17,8 +17,9 @@ import java.util.stream.Collectors;
 
 @Repository
 public class LocationDaoImpl implements LocationDao {
-    private MongoTemplate mongoTemplate;
-    private LocationMapper mapper;
+
+    private final MongoTemplate mongoTemplate;
+    private final LocationMapper mapper;
 
     @Autowired
     public LocationDaoImpl(MongoTemplate mongoTemplate, LocationMapper mapper) {
@@ -26,12 +27,13 @@ public class LocationDaoImpl implements LocationDao {
         this.mapper = mapper;
     }
 
-    public Location findById (String id) {
+    @Override
+    public Optional<Location> findById (String id) {
         LocationEntity locationDB = mongoTemplate.findById(new ObjectId(id), LocationEntity.class);
-        return mapper.map(locationDB);
+        return Optional.ofNullable(mapper.map(locationDB));
     }
 
-
+    @Override
     public List<Location> findAll () {
         List<LocationEntity> list = mongoTemplate.findAll(LocationEntity.class);
         System.out.println(list);
@@ -41,33 +43,38 @@ public class LocationDaoImpl implements LocationDao {
                 .collect(Collectors.toList());
     }
 
-
-    public Location save (Location location) {
+    @Override
+    public Location add (Location location) {
         LocationEntity mappedLocationEntity = mapper.map(location);
         mappedLocationEntity.setId(ObjectId.get());
         return mapper.map(mongoTemplate.save(mappedLocationEntity));
     }
 
+    @Override
     public Location update (Location location) {
         LocationEntity mappedLocationEntity = mapper.map(location);
         return mapper.map(mongoTemplate.save(mappedLocationEntity));
     }
 
+    @Override
     public void deleteById(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(new ObjectId(id)));
         mongoTemplate.remove(query, LocationEntity.class);
     }
 
+    @Override
     public void deleteAll() {
         mongoTemplate.findAllAndRemove(Query.query(Criteria.where("id").exists(true)), LocationEntity.class);
     }
 
-    public boolean exist(Location location) {
-        return mongoTemplate.exists(Query.query(Criteria.byExample(mapper.map(location))), LocationEntity.class);
-    }
-
+    @Override
     public boolean existById(String id) {
         return mongoTemplate.exists(Query.query(Criteria.where("id").is(new ObjectId(id))), LocationEntity.class);
+    }
+
+    @Override
+    public boolean exist(Location location) {
+        return mongoTemplate.exists(Query.query(Criteria.byExample(mapper.map(location))), LocationEntity.class);
     }
 }
