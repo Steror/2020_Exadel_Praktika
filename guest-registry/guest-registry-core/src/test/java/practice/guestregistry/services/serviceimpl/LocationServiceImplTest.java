@@ -63,7 +63,7 @@ class LocationServiceImplTest {
                 () -> locationService.getLocationById(this.location1.getId())
         );
 
-        assertEquals(exception.getMessage(), "Location with this id doesn't exist");
+        assertEquals(exception.getClass(), ResourceNotFoundException.class);
     }
 
     @Test
@@ -96,7 +96,7 @@ class LocationServiceImplTest {
                 () -> locationService.updateLocation(this.location1)
         );
 
-        assertEquals(exception.getMessage(), "Location with this id doesn't exist");
+        assertEquals(exception.getClass(), ResourceNotFoundException.class);
     }
 
 //    @Test
@@ -114,7 +114,7 @@ class LocationServiceImplTest {
                 () -> locationService.deleteLocationById(this.location1.getId())
         );
 
-        assertEquals(exception.getMessage(), "Location with this id doesn't exist");
+        assertEquals(exception.getClass(), ResourceNotFoundException.class);
     }
 
 //    @Test
