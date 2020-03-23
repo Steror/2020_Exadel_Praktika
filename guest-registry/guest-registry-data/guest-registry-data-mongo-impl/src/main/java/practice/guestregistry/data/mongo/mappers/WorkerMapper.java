@@ -17,6 +17,7 @@ public class WorkerMapper {
     private MapperFactory mapperFactory;
 
     @Autowired
+    //TODO:fix this mappint workerEntity person.id on WorkerEntity doesnt exist
     public WorkerMapper() {
 //            WorkerService workerService,
 //            CardService cardService,
@@ -31,25 +32,25 @@ public class WorkerMapper {
 //        mapNulls(true).mapNullsInReverse(true).
 //                byDefault().
 //                field("id", "id").
-                .field("person.id", "personId")
-                .field("card.id", "cardId")
-                .field("card.serialNumber", "cardSerialNumber")
-                .field("person.firstName", "firstName")
-                .field("person.middleName", "middleName")
-                .field("person.lastName", "lastName")
-                .field("person.email", "email")
-                .field("person.phoneNumber", "phoneNumber")
-                .customize(new CustomMapper<WorkerEntity, Worker>() {
-                    @Override
-                    public void mapBtoA(Worker worker, WorkerEntity workerEntity, MappingContext context) {
-                        if (ObjectId.isValid(worker.getId())) {
-                            workerEntity.setId(new ObjectId(worker.getId()));
-                            super.mapBtoA(worker, workerEntity, context);
-                        } else {
-                            workerEntity.setId(null);
-                        }
-                    }
-                })
+//                .field("person.id", "personId")
+//                .field("card.id", "cardId")
+//                .field("card.serialNumber", "cardSerialNumber")
+//                .field("person.firstName", "firstName")
+//                .field("person.middleName", "middleName")
+//                .field("person.lastName", "lastName")
+//                .field("person.email", "email")
+//                .field("person.phoneNumber", "phoneNumber")
+//                .customize(new CustomMapper<WorkerEntity, Worker>() {
+//                    @Override
+//                    public void mapBtoA(Worker worker, WorkerEntity workerEntity, MappingContext context) {
+//                        if (ObjectId.isValid(worker.getId())) {
+//                            workerEntity.setId(new ObjectId(worker.getId()));
+//                            super.mapBtoA(worker, workerEntity, context);
+//                        } else {
+//                            workerEntity.setId(null);
+//                        }
+//                    }
+//                })
                 .register();
     }
 

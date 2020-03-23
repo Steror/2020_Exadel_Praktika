@@ -50,7 +50,12 @@ public class PersonDaoImpl implements PersonDao {
     public Person save(Person personDomain) {
         PersonEntity mappedPersonEntity = mapper.map(personDomain);
         mappedPersonEntity.setId(ObjectId.get());
-        return mapper.map(mongoTemplate.save(mappedPersonEntity));
+        System.out.println("Person::save " + mappedPersonEntity);
+        PersonEntity savedPerson = mongoTemplate.save(mappedPersonEntity);
+        System.out.println("Person::saved " + savedPerson);
+        Person mappedBack = mapper.map(savedPerson);
+        System.out.println("Person::mappedBack " + mappedBack);
+        return mappedBack;
     }
 
     @Override

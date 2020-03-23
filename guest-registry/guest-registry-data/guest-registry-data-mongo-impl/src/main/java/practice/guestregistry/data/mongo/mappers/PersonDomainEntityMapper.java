@@ -6,6 +6,7 @@ import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import practice.guestregistry.data.api.domain.Person;
 import practice.guestregistry.data.mongo.entities.PersonEntity;
@@ -36,6 +37,10 @@ public class PersonDomainEntityMapper {
                         } else {
                             personEntity.setId(null);
                         }
+                    }
+                    @Override
+                    public void mapAtoB(PersonEntity personEntity, Person person, MappingContext context) {
+                        person.setId(personEntity.getId().toHexString());
                     }
                 })
 //        mapNulls(true).mapNullsInReverse(true).

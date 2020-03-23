@@ -32,7 +32,7 @@ public class WorkerController {
     private static final Logger log = LoggerFactory.getLogger(WorkerController.class);
 
     @Autowired
-    WorkerController(@Qualifier("mongoDb") WorkerService workerService, WorkerDtoDomainMapper mapper) {
+    WorkerController(@Qualifier("mongodb") WorkerService workerService, WorkerDtoDomainMapper mapper) {
         this.workerService = workerService;
         this.mapper = mapper;
     }

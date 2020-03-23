@@ -13,7 +13,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -35,6 +38,8 @@ public class PersonEntity {
     @Pattern(regexp = "[0-9]*")
     private String phoneNumber;
     //URL url;
+    private Set<PersonRole> roles = new LinkedHashSet<>(1);
+
 //    TODO:ar tikrai sito reikia?
 //    @DBRef(db = "test")
 //    private List<Event> events;

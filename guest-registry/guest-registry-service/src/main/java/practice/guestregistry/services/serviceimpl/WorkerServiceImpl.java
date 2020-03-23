@@ -19,7 +19,7 @@ import practice.guestregistry.services.service.CardService;
 import java.util.List;
 import java.util.Optional;
 
-@Service("mongoDb")
+@Service("mongodb")
 public class WorkerServiceImpl implements WorkerService {
     private WorkerDao workerDao;
     private PersonService personService;

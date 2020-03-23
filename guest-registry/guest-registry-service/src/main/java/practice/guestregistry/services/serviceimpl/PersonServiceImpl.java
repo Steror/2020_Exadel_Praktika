@@ -30,6 +30,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    //TODO: mb return Optional.of(person) in all cases
     public Optional<Person> getPersonById (String id) {
         Person person = personDao.findById(id);
         if (person != null) {

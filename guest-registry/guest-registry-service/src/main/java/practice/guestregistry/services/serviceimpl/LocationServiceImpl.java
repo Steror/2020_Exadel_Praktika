@@ -19,10 +19,10 @@ public class LocationServiceImpl implements LocationService {
         this.dao = dao;
     }
 
-    public Optional<Location> getLocationById(String id) {
+    public Location getLocationById(String id) {
         Location location = dao.findById(id);
         if (location != null) {
-            return Optional.of(location);
+            return location;
         } else {
             throw new ResourceNotFoundException("Location with this id doesn't exist");
         }
