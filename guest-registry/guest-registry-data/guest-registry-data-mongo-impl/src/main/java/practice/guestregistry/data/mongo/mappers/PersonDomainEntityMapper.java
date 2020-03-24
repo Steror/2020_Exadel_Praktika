@@ -37,6 +37,10 @@ public class PersonDomainEntityMapper {
                             personEntity.setId(null);
                         }
                     }
+                    @Override
+                    public void mapAtoB(PersonEntity personEntity, Person person, MappingContext context) {
+                        person.setId(personEntity.getId().toHexString());
+                    }
                 })
 //        mapNulls(true).mapNullsInReverse(true).
                 .register();

@@ -30,7 +30,7 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public Optional<Person> findById(String id) {
         PersonEntity personDB = mongoTemplate.findById(new ObjectId(id), PersonEntity.class);
-        return Optional.of(mapper.map(personDB));
+        return Optional.ofNullable(mapper.map(personDB));
     }
 
     @Override
