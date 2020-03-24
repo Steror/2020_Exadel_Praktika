@@ -45,7 +45,7 @@ public class EventServiceImpl implements EventService {
         if (locationService.locationExist(event.getLocation())) {  // Check if location assigned to event exists
             int presentPersons = 0;
             for (Person person: event.getAttendees()) {
-                if (personService.personExist(person))    // Check if person with this id exists
+                if (personService.personExist(person))    // Check if person exists
                 presentPersons++;
                 else
                     throw new InvalidParameterException("Invalid field: Person(id: " + person.getId()
