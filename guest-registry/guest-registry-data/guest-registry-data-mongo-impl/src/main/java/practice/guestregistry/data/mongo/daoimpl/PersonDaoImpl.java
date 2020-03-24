@@ -28,9 +28,13 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public Optional<Person> findById(String id) {
-        PersonEntity personDB = mongoTemplate.findById(new ObjectId(id), PersonEntity.class);
-        return Optional.ofNullable(mapper.map(personDB));
+    public Person findById(String id) {
+        return mapper.map(mongoTemplate.findById(new ObjectId(id), PersonEntity.class));
+//        PersonEntity personEntity = mongoTemplate.findById(new ObjectId(id), PersonEntity.class);
+//        if (personEntity == null) {
+//            throw new ResourceNotFoundException();
+//        }
+//        return Optional.ofNullable(mapper.map(personDB));
     }
 
     @Override

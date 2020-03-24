@@ -29,15 +29,16 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Card getCardById (String id) {
-        log.trace("[getCardById] (" + id + ")");
-        Optional<Card> card = cardDao.findById(id);
-        log.trace("[getCardById] dao response: " + card);
-        if (card.isPresent()) {
-            log.trace("[getCardById] card is present: true");
-            return card.get();
-        } else {
-            throw new ResourceNotFoundException("Card by this id doesn't exist");
-        }
+        return cardDao.findById(id);
+//        log.trace("[getCardById] (" + id + ")");
+//        Optional<Card> card = cardDao.findById(id);
+//        log.trace("[getCardById] dao response: " + card);
+//        if (card.isPresent()) {
+//            log.trace("[getCardById] card is present: true");
+//            return card.get();
+//        } else {
+//            throw new ResourceNotFoundException("Card by this id doesn't exist");
+//        }
     }
 
     @Override

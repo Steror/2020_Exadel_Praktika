@@ -22,17 +22,30 @@
     <dependencies>
         <dependency>
             <groupId>practice.guestregistry.data</groupId>
-<!--            <groupId>practice.guestregistry.data.impl</groupId>-->
             <artifactId>guest-registry-data-mongo-impl</artifactId>
             <version>0.0.1-SNAPSHOT</version>
 <!--            <scope>compile</scope>-->
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>practice.guestregistry.data</groupId>-->
+<!--            <artifactId>guest-registry-data-api</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>practice.guestregistry.data</groupId>
-<!--            <groupId>practice.guestregistry.data.api</groupId>-->
-            <artifactId>guest-registry-data-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-<!--            <scope>compile</scope>-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

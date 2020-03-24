@@ -28,4 +28,7 @@ public class Worker {
     @NotEmpty
     public String cardSerialNumber;
     //smth with position
+    //position started
+    //termination date
+    //Position string
 }

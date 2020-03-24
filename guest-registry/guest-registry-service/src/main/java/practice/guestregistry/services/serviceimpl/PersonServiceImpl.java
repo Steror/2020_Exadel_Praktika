@@ -26,12 +26,13 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person getPersonById (String id) {
-        Optional<Person> person = personDao.findById(id);
-        if (person.isPresent()) {
-            return person.get();
-        } else {
-            throw new ResourceNotFoundException("Person with this id doesn't exist");
-        }
+        return personDao.findById(id);
+//        Optional<Person> person = personDao.findById(id);
+//        if (person.isPresent()) {
+//            return person.get();
+//        } else {
+//            throw new ResourceNotFoundException("Person with this id doesn't exist");
+//        }
     }
 
     @Override
