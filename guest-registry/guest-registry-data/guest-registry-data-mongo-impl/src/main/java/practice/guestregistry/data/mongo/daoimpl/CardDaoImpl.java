@@ -31,13 +31,14 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public Optional<Card> findById(String id) {
-        log.trace("[findById] ("+id+")");
-        CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
-        log.trace("[findById] mongo response: " + cardEntity);
-        Card card = cardMapper.entityToDomain(cardEntity);
-        log.trace("[findById] after mapping: " + card);
-        return Optional.ofNullable(card);
+    public Card findById(String id) {
+//        log.trace("[findById] ("+id+")");
+        return cardMapper.entityToDomain(mongoTemplate.findById(id, CardEntity.class));
+//        CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
+//        log.trace("[findById] mongo response: " + cardEntity);
+//        Card card = cardMapper.entityToDomain(cardEntity);
+//        log.trace("[findById] after mapping: " + card);
+//        return Optional.ofNullable(card);
     }
 
     @Override

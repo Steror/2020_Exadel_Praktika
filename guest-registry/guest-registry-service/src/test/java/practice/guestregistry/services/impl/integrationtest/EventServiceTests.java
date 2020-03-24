@@ -1,4 +1,4 @@
-package practice.guestregistry.services_tests;
+package practice.guestregistry.services.impl.integrationtest;
 
 import org.junit.After;
 import org.junit.Before;

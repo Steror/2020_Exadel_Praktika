@@ -1,4 +1,4 @@
-package practice.guestregistry.services.impl;
+package practice.guestregistry.services.impl.mockingtest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
