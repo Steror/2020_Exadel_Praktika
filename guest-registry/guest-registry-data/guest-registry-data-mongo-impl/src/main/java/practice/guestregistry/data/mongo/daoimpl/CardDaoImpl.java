@@ -10,8 +10,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.CardDao;
 import practice.guestregistry.data.mongo.entities.CardEntity;
+import practice.guestregistry.data.mongo.entities.PersonEntity;
 import practice.guestregistry.data.mongo.mappers.CardMapper;
 import practice.guestregistry.domain.Card;
+import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,12 +35,21 @@ public class CardDaoImpl implements CardDao {
     @Override
     public Card findById(String id) {
 //        log.trace("[findById] ("+id+")");
-        return cardMapper.entityToDomain(mongoTemplate.findById(id, CardEntity.class));
+//        return cardMapper.entityToDomain(mongoTemplate.findById(id, CardEntity.class));
 //        CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
 //        log.trace("[findById] mongo response: " + cardEntity);
 //        Card card = cardMapper.entityToDomain(cardEntity);
 //        log.trace("[findById] after mapping: " + card);
 //        return Optional.ofNullable(card);
+
+
+        CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
+
+        if (cardEntity == null) {
+            throw new ResourceNotFoundException();
+        } else {
+            return cardMapper.entityToDomain(cardEntity);
+        }
     }
 
     @Override
