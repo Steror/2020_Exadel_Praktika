@@ -1,6 +1,8 @@
 package practice.guestregistry.data.mongo.daoimpl;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -20,6 +22,7 @@ public class CardDaoImpl implements CardDao {
 
     private final MongoTemplate mongoTemplate;
     private final CardMapper cardMapper;
+    private static final Logger log = LoggerFactory.getLogger(CardDaoImpl.class);
 
     @Autowired
     public CardDaoImpl(MongoTemplate mongoTemplate, CardMapper cardMapper) {
@@ -29,8 +32,11 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public Optional<Card> findById(String id) {
+        log.trace("[findById] ("+id+")");
         CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
+        log.trace("[findById] mongo response: " + cardEntity);
         Card card = cardMapper.entityToDomain(cardEntity);
+        log.trace("[findById] after mapping: " + card);
         return Optional.ofNullable(card);
     }
 
