@@ -22,6 +22,16 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> resourceNotFoundException(InvalidDocumentStateException ex) {
+        System.out.println("\n\nRESOURCE NOT FOUND EXCEPTION CALLED IN HANDLER\n\n");
+        ErrorDetails err = new ErrorDetails();
+        err.setErrorCode(HttpStatus.BAD_REQUEST.value());
+        err.setTimeStamp(new Date());
+        err.setErrorMessage(ex.getMessage());
+        err.setDevErrorMessage("THIS STUFF CAN BE LOGGED HERE");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
     //Form rest of errors to hide/add information
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity<?> exception(Exception e) {

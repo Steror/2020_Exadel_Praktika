@@ -14,18 +14,19 @@ public class CardMapper {
     @Autowired
     public CardMapper() {
         this.mapperFactory = new DefaultMapperFactory.Builder().build();
-        this.mapperFactory.classMap(Card.class, CardEntity.class);
+        this.mapperFactory.classMap(Card.class, CardEntity.class)
+                .mapNullsInReverse(false)
+                .mapNulls(false)
+                .byDefault()
+                .register();
+
     }
 
     public Card entityToDomain (CardEntity cardEntity) {
-        Card card = new Card();
-        this.mapperFactory.getMapperFacade(CardEntity.class, Card.class).map(cardEntity, card);
-        return card;
+        return this.mapperFactory.getMapperFacade(CardEntity.class, Card.class).map(cardEntity);
     }
 
     public CardEntity domainToEntity (Card card) {
-        CardEntity cardEntity = new CardEntity();
-        this.mapperFactory.getMapperFacade(Card.class, CardEntity.class).map(card, cardEntity);
-        return cardEntity;
+        return this.mapperFactory.getMapperFacade(Card.class, CardEntity.class).map(card);
     }
 }
