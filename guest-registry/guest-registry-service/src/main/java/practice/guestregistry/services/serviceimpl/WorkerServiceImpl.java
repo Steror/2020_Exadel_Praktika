@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import practice.guestregistry.data.api.converter.WorkerDomainToPersonDomainMapper;
+import practice.guestregistry.data.mongo.mappers.WorkerDomainToPersonDomainMapper;
 import practice.guestregistry.data.api.dao.WorkerDao;
 import practice.guestregistry.domain.Person;
 import practice.guestregistry.domain.Worker;

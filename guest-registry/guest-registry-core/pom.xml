@@ -25,6 +25,11 @@
             <artifactId>guest-registry-controller</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>practice.guestregistry</groupId>
+            <artifactId>guest-registry-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 <!--    <build>-->

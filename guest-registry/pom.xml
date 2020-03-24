@@ -78,11 +78,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-core</artifactId>
-			<version>${orika-core.version}</version>
-		</dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.jetbrains</groupId>-->
 <!--            <artifactId>annotations</artifactId>-->

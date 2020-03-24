@@ -7,7 +7,6 @@ public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException() {}
     public ResourceNotFoundException(String message) {
         super(message);
-        System.out.println("ERROR CALLED");
     }
     public ResourceNotFoundException(String message, Throwable cause) {
         super(message, cause);

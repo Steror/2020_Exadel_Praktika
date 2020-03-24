@@ -4,11 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Date;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(InvalidDocumentStateException.class)
@@ -23,8 +25,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> resourceNotFoundException(InvalidDocumentStateException ex) {
-        System.out.println("\n\nRESOURCE NOT FOUND EXCEPTION CALLED IN HANDLER\n\n");
+    public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex) {
         ErrorDetails err = new ErrorDetails();
         err.setErrorCode(HttpStatus.BAD_REQUEST.value());
         err.setTimeStamp(new Date());

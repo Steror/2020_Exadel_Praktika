@@ -1,4 +1,4 @@
-package practice.guestregistry.data.api.converter;
+package practice.guestregistry.data.mongo.mappers;
 
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
