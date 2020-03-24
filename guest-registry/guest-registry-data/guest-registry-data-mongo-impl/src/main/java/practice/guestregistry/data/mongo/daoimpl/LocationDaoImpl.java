@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.LocationDao;
-import practice.guestregistry.data.api.domain.Location;
 import practice.guestregistry.data.mongo.entities.LocationEntity;
 import practice.guestregistry.data.mongo.mappers.LocationMapper;
+import practice.guestregistry.domain.Location;
 
 import java.util.List;
 import java.util.Optional;

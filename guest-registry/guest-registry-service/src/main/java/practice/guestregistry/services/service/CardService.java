@@ -1,6 +1,6 @@
 package practice.guestregistry.services.service;
 
-import practice.guestregistry.data.api.domain.Card;
+import practice.guestregistry.domain.Card;
 
 import java.util.List;
 

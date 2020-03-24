@@ -1,6 +1,7 @@
 package practice.guestregistry.data.api.dao;
 
-import practice.guestregistry.data.api.domain.Person;
+
+import practice.guestregistry.domain.Person;
 
 import java.util.List;
 import java.util.Optional;

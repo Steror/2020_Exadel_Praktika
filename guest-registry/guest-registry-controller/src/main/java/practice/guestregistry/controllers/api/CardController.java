@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import practice.guestregistry.data.api.domain.Card;
+import practice.guestregistry.domain.Card;
 import practice.guestregistry.services.service.CardService;
 
 import java.util.List;

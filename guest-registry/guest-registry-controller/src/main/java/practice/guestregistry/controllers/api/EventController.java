@@ -3,7 +3,7 @@ package practice.guestregistry.controllers.api;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import practice.guestregistry.data.api.domain.Event;
+import practice.guestregistry.domain.Event;
 import practice.guestregistry.services.service.EventService;
 
 import java.util.List;

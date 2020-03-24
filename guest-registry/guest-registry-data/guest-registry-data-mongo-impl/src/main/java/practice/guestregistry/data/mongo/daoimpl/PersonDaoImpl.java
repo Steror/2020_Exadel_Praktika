@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.PersonDao;
-import practice.guestregistry.data.api.domain.Person;
 import practice.guestregistry.data.mongo.entities.PersonEntity;
 import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
+import practice.guestregistry.domain.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +42,8 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public Person add(Person personDomain) {
-        PersonEntity mappedPersonEntity = mapper.map(personDomain);
+    public Person add(Person person) {
+        PersonEntity mappedPersonEntity = mapper.map(person);
         mappedPersonEntity.setId(ObjectId.get());
         return mapper.map(mongoTemplate.save(mappedPersonEntity));
     }
@@ -66,7 +66,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean existById(String id) {
-        return  mongoTemplate.exists(Query.query(Criteria.where("id").is(new ObjectId(id))), PersonEntity.class);
+        return mongoTemplate.exists(Query.query(Criteria.where("id").is(new ObjectId(id))), PersonEntity.class);
     }
 
     @Override

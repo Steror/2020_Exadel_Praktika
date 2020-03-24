@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.CardDao;
-import practice.guestregistry.data.api.domain.Card;
 import practice.guestregistry.data.mongo.entities.CardEntity;
 import practice.guestregistry.data.mongo.mappers.CardMapper;
+import practice.guestregistry.domain.Card;
 
 import java.util.List;
 import java.util.Optional;

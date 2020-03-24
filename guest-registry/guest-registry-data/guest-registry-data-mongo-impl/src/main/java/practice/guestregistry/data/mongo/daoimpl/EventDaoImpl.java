@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.EventDao;
-import practice.guestregistry.data.api.domain.Event;
 import practice.guestregistry.data.mongo.entities.EventEntity;
 import practice.guestregistry.data.mongo.mappers.EventMapper;
+import practice.guestregistry.domain.Event;
 
 import java.util.List;
 import java.util.Optional;

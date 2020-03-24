@@ -1,6 +1,7 @@
 package practice.guestregistry.services.service;
 
-import practice.guestregistry.data.api.domain.Worker;
+
+import practice.guestregistry.domain.Worker;
 
 import java.util.List;
 

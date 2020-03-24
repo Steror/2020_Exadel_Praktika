@@ -1,6 +1,7 @@
 package practice.guestregistry.services.service;
 
-import practice.guestregistry.data.api.domain.Person;
+
+import practice.guestregistry.domain.Person;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface PersonService {
     void deletePersonById (String id);
     void deleteAllPersons ();
     boolean personExist(Person person);
+    boolean existById(String id);
 }

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.CardDao;
-import practice.guestregistry.data.api.domain.Card;
+import practice.guestregistry.domain.Card;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.CardService;

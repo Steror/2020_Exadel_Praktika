@@ -1,5 +1,6 @@
 package practice.guestregistry;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +25,8 @@ scanBasePackages = "practice.guestregistry"
 )
 //@ComponentScan({"practice.guestregistry"})
 public class GuestRegistryApplication implements CommandLineRunner {
-
+	@Value("${profile.message}")
+	private String profileMessage;
 //	@Autowired
 //	private PersonService personService;
 //	@Autowired
@@ -71,6 +73,7 @@ public class GuestRegistryApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		System.out.println(this.profileMessage);
 //		locationService.deleteAllLocations();
 //		Location location = new Location();
 //		location.setName("a");

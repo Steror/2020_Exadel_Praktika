@@ -3,7 +3,7 @@ package practice.guestregistry.services.serviceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.LocationDao;
-import practice.guestregistry.data.api.domain.Location;
+import practice.guestregistry.domain.Location;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.LocationService;
 

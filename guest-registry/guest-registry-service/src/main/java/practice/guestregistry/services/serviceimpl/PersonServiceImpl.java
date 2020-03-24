@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.PersonDao;
-import practice.guestregistry.data.api.domain.Person;
+import practice.guestregistry.domain.Person;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.PersonService;
 
@@ -40,8 +40,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person addPerson (Person newPerson) {
-        return personDao.add(newPerson);
+    public Person addPerson(Person person) {
+        return personDao.add(person);
     }
 
     @Override
@@ -75,6 +75,11 @@ public class PersonServiceImpl implements PersonService {
 //        log.trace("person Exist " + person + " " +  practice.guestregistry.data.impl.personDao.exists(Example.of(person)));
 //        return practice.guestregistry.data.impl.personDao.exists(Example.of(person));
         return personDao.exist(person);
+    }
+
+    @Override
+    public boolean existById(String id) {
+        return personDao.existById(id);
     }
 
 }

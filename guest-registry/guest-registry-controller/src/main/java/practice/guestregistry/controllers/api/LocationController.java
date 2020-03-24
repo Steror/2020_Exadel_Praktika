@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import practice.guestregistry.data.api.domain.Location;
+import practice.guestregistry.domain.Location;
 import practice.guestregistry.services.service.LocationService;
 
 import java.util.List;

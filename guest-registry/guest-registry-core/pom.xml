@@ -10,7 +10,6 @@
         <version>1.0.0-RELEASE</version>
     </parent>
 
-    <groupId>practice.guestregistry</groupId>
     <artifactId>guest-registry-core</artifactId>
 <!--    <version>1.0.0-RELEASE</version>-->
 <!--    <packaging>jar</packaging>-->

@@ -1,6 +1,7 @@
 package practice.guestregistry.services.service;
 
-import practice.guestregistry.data.api.domain.Location;
+
+import practice.guestregistry.domain.Location;
 
 import java.util.List;
 
