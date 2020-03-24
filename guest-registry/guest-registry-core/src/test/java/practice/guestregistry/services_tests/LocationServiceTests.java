@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
-import practice.guestregistry.data.api.domain.Location;
+import practice.guestregistry.domain.Location;
 import practice.guestregistry.services.serviceimpl.LocationServiceImpl;
 
 import java.util.List;

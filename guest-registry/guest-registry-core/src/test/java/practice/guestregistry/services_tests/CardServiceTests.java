@@ -11,9 +11,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
-import practice.guestregistry.data.api.domain.Card;
-import practice.guestregistry.data.api.domain.Location;
-import practice.guestregistry.data.api.domain.Worker;
+import practice.guestregistry.domain.Card;
+import practice.guestregistry.domain.Location;
+import practice.guestregistry.domain.Worker;
 import practice.guestregistry.services.service.CardService;
 import practice.guestregistry.services.service.LocationService;
 

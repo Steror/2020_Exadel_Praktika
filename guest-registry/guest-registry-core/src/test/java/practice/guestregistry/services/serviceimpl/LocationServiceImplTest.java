@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import practice.guestregistry.data.api.dao.LocationDao;
-import practice.guestregistry.data.api.domain.Location;
+import practice.guestregistry.domain.Location;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
