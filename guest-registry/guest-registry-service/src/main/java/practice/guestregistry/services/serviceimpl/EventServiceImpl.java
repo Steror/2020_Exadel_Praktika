@@ -12,7 +12,6 @@ import practice.guestregistry.services.service.PersonService;
 
 import java.security.InvalidParameterException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -30,9 +29,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getEventById(String id) {
-        Optional<Event> event = dao.findById(id);
-        if (event.isPresent())
-            return event.get();
+        if (dao.existById(id))
+            return dao.findById(id);
         else
             throw new ResourceNotFoundException("Event with this id doesn't exist");
     }
@@ -41,7 +39,7 @@ public class EventServiceImpl implements EventService {
     public List<Event> getAllEvents() { return dao.findAll(); }
 
     @Override
-    public Event addEvent(Event event) {
+    public void addEvent(Event event) {
         if (locationService.locationExist(event.getLocation())) {  // Check if location assigned to event exists
             int presentPersons = 0;
             for (Person person: event.getAttendees()) {
@@ -57,12 +55,11 @@ public class EventServiceImpl implements EventService {
         else
             throw new InvalidParameterException("Invalid field: Location(id:"
                     + event.getLocation().getId() + ") assigned to event does not exist");
-        return event;
     }
 
     @Override
-    public Event updateEvent(Event event) {
-        if (dao.findById(event.getId()).isPresent()) {
+    public void updateEvent(Event event) {
+        if (dao.existById(event.getId())) {
             if (locationService.locationExist(event.getLocation())) {  // Check if location assigned to event exists
                 int presentPersons = 0;
                 for (Person person: event.getAttendees()) {
@@ -73,7 +70,7 @@ public class EventServiceImpl implements EventService {
                                 + " " + person.getLastName() + ") does not exist");
                 }
                 if (presentPersons == event.getAttendees().size())  // If all persons exist, event is added to DB
-                    return dao.update(event);
+                    dao.update(event);
                 else
                     throw new InvalidParameterException("Some persons do no exist, cannot update event");
             }
@@ -87,12 +84,24 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void deleteEventById(String id) {
-        if (dao.findById(id).isPresent())
+        if (dao.existById(id))
             dao.deleteById(id);
         else
             throw new ResourceNotFoundException("Event with this id doesn't exist");
     }
 
     @Override
-    public void deleteAllEvents() { dao.deleteAll(); }
+    public void deleteAllEvents() {
+        dao.deleteAll();
+    }
+
+    @Override
+    public boolean eventExistById(String id) {
+        return dao.existById(id);
+    }
+
+    @Override
+    public boolean eventExist(Event event) {
+        return dao.exist(event);
+    }
 }

@@ -61,10 +61,11 @@ public class LocationServiceTests { // Integration testing
     }
 
     @Test
-    public void testAddLocation() {
-        Location location2 = locationService.addLocation(location1);
-        assertEquals(location2.getCity(), location1.getCity());
-        assertEquals(location2.getAddress(), location1.getAddress());
+    public void testAddAndGetLocation() {
+        locationService.addLocation(location1);
+        Location location = locationService.getLocationById(location1.getId());
+        assertEquals(location.getCity(), location1.getCity());
+        assertEquals(location.getAddress(), location1.getAddress());
     }
 
     @Test
@@ -81,7 +82,7 @@ public class LocationServiceTests { // Integration testing
 
     @Test
     public void testGetLocationById() {
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         Location location2 = locationService.getLocationById(location1.getId());
 
@@ -90,7 +91,8 @@ public class LocationServiceTests { // Integration testing
 
     @Test
     public void testUpdateLocation() {
-        String idToUpdate = locationService.addLocation(location1).getId();
+        locationService.addLocation(location1);
+        String idToUpdate = location1.getId();
 
         location2.setId(idToUpdate);
         locationService.updateLocation(location2);
@@ -100,7 +102,9 @@ public class LocationServiceTests { // Integration testing
 
     @Test(expected = ResourceNotFoundException.class)
     public void testDeleteLocationById() {  //TODO split up into 2 separate tests
-        String idToDelete = locationService.addLocation(location1).getId();
+        locationService.addLocation(location1);
+        String idToDelete = location1.getId();
+
         locationService.addLocation(location2);
 
         locationService.deleteLocationById(idToDelete);

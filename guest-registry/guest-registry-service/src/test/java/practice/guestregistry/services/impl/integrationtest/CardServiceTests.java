@@ -45,7 +45,7 @@ public class CardServiceTests {
     @Test
     public void add_card_when_location_exist_in_db() {
         Location location = new Location();
-        location = locationService.addLocation(location);
+        locationService.addLocation(location);
 
         Card card = new Card();
         card.setSerialNumber("a");
@@ -80,7 +80,7 @@ public class CardServiceTests {
         location1.setAddress("Zalgirio 90");
         location1.setLocationType("OFFICE");
         location1.setPhoneNumber("851212345");
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
         cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
@@ -98,7 +98,7 @@ public class CardServiceTests {
         location1.setAddress("Zalgirio 90");
         location1.setLocationType("OFFICE");
         location1.setPhoneNumber("851212345");
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
         cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
@@ -117,7 +117,7 @@ public class CardServiceTests {
         location1.setAddress("Zalgirio 90");
         location1.setLocationType("OFFICE");
         location1.setPhoneNumber("851212345");
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
         cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
@@ -157,7 +157,7 @@ public class CardServiceTests {
         location1.setAddress("Zalgirio 90");
         location1.setLocationType("OFFICE");
         location1.setPhoneNumber("851212345");
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
         cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
@@ -176,7 +176,7 @@ public class CardServiceTests {
         location1.setAddress("Zalgirio 90");
         location1.setLocationType("OFFICE");
         location1.setPhoneNumber("851212345");
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
 
@@ -193,7 +193,7 @@ public class CardServiceTests {
         location1.setAddress("Zalgirio 90");
         location1.setLocationType("OFFICE");
         location1.setPhoneNumber("851212345");
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
         cardService.addCard(new Card(savedCard.getId(), "s3", null, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
@@ -208,7 +208,7 @@ public class CardServiceTests {
         location1.setAddress("Zalgirio 90");
         location1.setLocationType("OFFICE");
         location1.setPhoneNumber("851212345");
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         Location location2 = new Location();
         location2.setName("B");
@@ -262,7 +262,7 @@ public class CardServiceTests {
         location1.setAddress("Zalgirio 90");
         location1.setLocationType("OFFICE");
         location1.setPhoneNumber("851212345");
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
 
         Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
         assertThat(cardService.cardExist(savedCard)).isTrue();

@@ -22,11 +22,11 @@ public class EventEntity {
     private ObjectId id;
     private String name;
     private String description;
-    private int participants_amount;
+    private int participantsAmount;
     @NotNull
-    private LocalDateTime start_date_time;
+    private LocalDateTime startDateTime;
     @NotNull
-    private LocalDateTime end_date_time;
+    private LocalDateTime endDateTime;
     @DBRef(db = "test")
     @NotNull
     private LocationEntity locationEntity;
