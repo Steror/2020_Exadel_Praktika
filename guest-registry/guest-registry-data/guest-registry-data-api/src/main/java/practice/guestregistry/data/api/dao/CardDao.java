@@ -9,8 +9,8 @@ import java.util.Optional;
 public interface CardDao {
     Card findById (String id);
     List<Card> findAll ();
-    Card add (Card card);
-    Card update (Card card);
+    void add (Card card);
+    void update (Card card);
     void deleteById (String id);
     void deleteAll ();
     boolean existById (String id);

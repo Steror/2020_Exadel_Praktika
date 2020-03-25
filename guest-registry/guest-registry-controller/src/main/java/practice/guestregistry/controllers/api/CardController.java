@@ -37,13 +37,13 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<Card> createCard(@RequestBody Card card) {
-        Card savedCard = service.addCard(card);
+        service.addCard(card);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.
                 fromCurrentRequest().
                 path("/{id}").
-                buildAndExpand(savedCard.getId().toString())
+                buildAndExpand(card.getId())
                 .toUri());
         return new ResponseEntity<Card>(null, responseHeaders, HttpStatus.CREATED);
     }

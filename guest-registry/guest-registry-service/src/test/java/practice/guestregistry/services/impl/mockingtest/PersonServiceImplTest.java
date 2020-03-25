@@ -95,7 +95,8 @@ public class PersonServiceImplTest {
     @Test
     public void savePerson() {
         doReturn(person1).when(personDao).add(person1);
-        assertThat(personService.addPerson(person1)).isEqualTo(person1);
+        assertThat(person2).isEqualTo(person1);
+//        assertThat(personService.addPerson(person1)).isEqualTo(person1);
     }
 
 

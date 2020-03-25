@@ -10,13 +10,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.CardDao;
 import practice.guestregistry.data.mongo.entities.CardEntity;
-import practice.guestregistry.data.mongo.entities.PersonEntity;
 import practice.guestregistry.data.mongo.mappers.CardMapper;
 import practice.guestregistry.domain.Card;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -34,21 +32,15 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public Card findById(String id) {
-//        log.trace("[findById] ("+id+")");
-//        return cardMapper.entityToDomain(mongoTemplate.findById(id, CardEntity.class));
-//        CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
-//        log.trace("[findById] mongo response: " + cardEntity);
-//        Card card = cardMapper.entityToDomain(cardEntity);
-//        log.trace("[findById] after mapping: " + card);
-//        return Optional.ofNullable(card);
-
-
+        log.trace("[findById] ("+id+")");
         CardEntity cardEntity = mongoTemplate.findById(id, CardEntity.class);
-
+        log.trace("[findById] mongo response: " + cardEntity);
         if (cardEntity == null) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("Card by this id doens't exist");
         } else {
-            return cardMapper.entityToDomain(cardEntity);
+            Card card = cardMapper.entityToDomain(cardEntity);
+            log.trace("[findById] returning card after mapping: " + card);
+            return card;
         }
     }
 
@@ -59,26 +51,35 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public Card add(Card card) {
+    public void add(Card card) {
         CardEntity cardEntity = cardMapper.domainToEntity(card);
         cardEntity.setId(ObjectId.get());
-        return cardMapper.entityToDomain(mongoTemplate.save(cardEntity));
+        CardEntity savedCard = mongoTemplate.save(cardEntity);
+        if (savedCard == null) {
+//            throw new EntityCreationException();
+        } else {
+            card.setId(savedCard.getId().toHexString());
+        }
     }
 
     @Override
-    public Card update(Card card) {
+    public void update(Card card) {
         CardEntity cardEntity = cardMapper.domainToEntity(card);
-        if (mongoTemplate.exists(Query.query(Criteria.where("id").exists(true)), CardEntity.class)) {
-            mongoTemplate.save(cardEntity);
+        CardEntity updatedCard = null;
+        updatedCard = mongoTemplate.save(cardEntity);
+        if (updatedCard == null) {
+//            throw new UpdateException();
         }
-        return cardMapper.entityToDomain(cardEntity);
     }
 
     @Override
     public void deleteById(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
-        mongoTemplate.findAllAndRemove(query, CardEntity.class);
+        CardEntity deletedEntity = mongoTemplate.findAndRemove(query, CardEntity.class);
+        if (deletedEntity == null) {
+//            throw new DeletionException();
+        }
     }
 
     @Override

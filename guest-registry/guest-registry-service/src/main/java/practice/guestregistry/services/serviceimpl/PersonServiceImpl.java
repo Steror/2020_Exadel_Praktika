@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.PersonDao;
 import practice.guestregistry.domain.Person;
+import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.PersonService;
 
@@ -41,14 +42,20 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person addPerson(Person person) {
-        return personDao.add(person);
+    public void addPerson(Person person) {
+        //TODO:check if person by email & phone number doesnt exist & combOf(name, last, middle)
+        personDao.add(person);
+//        if (personFieldsValid(person)) {
+//            personDao.add(person);
+//        } else {
+//            throw InvalidDocumentStateException("Person with full name or email or phone exist");'
+//        }
     }
 
     @Override
-    public Person updatePerson (Person newPerson) {
+    public void updatePerson (Person newPerson) {
         if (personDao.existById(newPerson.getId())) {
-            return personDao.update(newPerson);
+            personDao.update(newPerson);
         } else {
             throw new ResourceNotFoundException("Can't update by this update");
         }
