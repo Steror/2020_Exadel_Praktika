@@ -8,7 +8,6 @@ import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.LocationService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -22,12 +21,8 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location getLocationById(String id) {
-        Optional<Location> location = dao.findById(id);
-        if (location.isPresent()) {
-            return location.get();
-        } else {
-            throw new ResourceNotFoundException("Location with this id doesn't exist");
-        }
+        return dao.findById(id);
+//        throw new ResourceNotFoundException("Location with this id doesn't exist");
     }
 
     @Override
@@ -36,14 +31,14 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location addLocation(Location location) {
-        return dao.add(location);
+    public void addLocation(Location location) {
+        dao.add(location);
     }
 
     @Override
-    public Location updateLocation(Location location) {
+    public void updateLocation(Location location) {
         if (dao.existById(location.getId())) {
-            return dao.update(location);
+            dao.update(location);
         } else {
             throw new ResourceNotFoundException("Location with this id doesn't exist");
         }
@@ -68,5 +63,8 @@ public class LocationServiceImpl implements LocationService {
         return dao.exist(location);
     }
 
-    //TODO: another existById
+    @Override
+    public boolean locationExistById(String id) {
+        return dao.existById(id);
+    }
 }

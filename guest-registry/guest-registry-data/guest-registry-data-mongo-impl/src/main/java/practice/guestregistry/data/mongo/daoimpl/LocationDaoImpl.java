@@ -12,7 +12,6 @@ import practice.guestregistry.data.mongo.mappers.LocationMapper;
 import practice.guestregistry.domain.Location;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -28,9 +27,9 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public Optional<Location> findById (String id) {
-        LocationEntity locationDB = mongoTemplate.findById(new ObjectId(id), LocationEntity.class);
-        return Optional.ofNullable(mapper.map(locationDB));
+    public Location findById (String id) {//TODO throw null exception
+        LocationEntity locationEntity = mongoTemplate.findById(new ObjectId(id), LocationEntity.class);
+        return mapper.map(locationEntity);
     }
 
     @Override
@@ -44,16 +43,17 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public Location add (Location location) {
-        LocationEntity mappedLocationEntity = mapper.map(location);
-        mappedLocationEntity.setId(ObjectId.get());
-        return mapper.map(mongoTemplate.save(mappedLocationEntity));
+    public void add (Location location) {
+        LocationEntity locationEntity = mapper.map(location);
+        locationEntity.setId(ObjectId.get());
+        mongoTemplate.save(locationEntity);
+        location.setId(locationEntity.getId().toString());
     }
 
     @Override
-    public Location update (Location location) {
-        LocationEntity mappedLocationEntity = mapper.map(location);
-        return mapper.map(mongoTemplate.save(mappedLocationEntity));
+    public void update (Location location) {
+        LocationEntity locationEntity = mapper.map(location);
+        mongoTemplate.save(locationEntity);
     }
 
     @Override

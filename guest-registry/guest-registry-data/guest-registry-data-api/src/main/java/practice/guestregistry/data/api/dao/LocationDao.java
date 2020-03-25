@@ -4,13 +4,12 @@ package practice.guestregistry.data.api.dao;
 import practice.guestregistry.domain.Location;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LocationDao {
-    Optional<Location> findById (String id);
+    Location findById (String id);
     List<Location> findAll ();
-    Location add (Location location);
-    Location update (Location location);
+    void add (Location location);
+    void update (Location location);
     void deleteById (String id);
     void deleteAll ();
     boolean existById(String id);
