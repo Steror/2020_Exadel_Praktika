@@ -17,11 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>practice.guestregistry.data</groupId>
-            <artifactId>guest-registry-data-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>practice.guestregistry.data</groupId>
             <artifactId>guest-registry-data-mongo-impl</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
