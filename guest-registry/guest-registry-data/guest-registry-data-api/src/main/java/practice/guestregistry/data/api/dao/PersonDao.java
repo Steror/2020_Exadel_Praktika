@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PersonDao {
-    Optional<Person> findById (String id);
+    Person findById (String id);
     List<Person> findAll ();
     Person add (Person person);
     Person update (Person person);

@@ -26,10 +26,11 @@ public class WorkerDaoImpl implements WorkerDao {
         this.mapper = mapper;
     }
 
-    public Optional<Worker> findById (String id) {
-        WorkerEntity workerDB = mongoTemplate.findById(new ObjectId(id), WorkerEntity.class);
+    public Worker findById (String id) {
+        return mapper.map(mongoTemplate.findById(new ObjectId(id), WorkerEntity.class));
+//        WorkerEntity workerDB = mongoTemplate.findById(new ObjectId(id), WorkerEntity.class);
 //        return Optional.ofNullable(mapper.map(workerDB));
-        return Optional.ofNullable(mapper.map(workerDB));
+//        return Optional.ofNullable(mapper.map(workerDB));
     }
 
 

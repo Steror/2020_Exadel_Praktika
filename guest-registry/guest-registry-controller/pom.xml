@@ -16,11 +16,11 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>practice.guestregistry.data</groupId>
-            <artifactId>guest-registry-data-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>practice.guestregistry.data</groupId>-->
+<!--            <artifactId>guest-registry-data-api</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>practice.guestregistry</groupId>
             <artifactId>guest-registry-service</artifactId>
@@ -43,6 +43,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfor-swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

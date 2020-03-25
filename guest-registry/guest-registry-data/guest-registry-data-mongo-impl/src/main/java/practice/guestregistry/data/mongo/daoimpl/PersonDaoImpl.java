@@ -10,6 +10,7 @@ import practice.guestregistry.data.api.dao.PersonDao;
 import practice.guestregistry.data.mongo.entities.PersonEntity;
 import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
 import practice.guestregistry.domain.Person;
+import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +29,16 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public Optional<Person> findById(String id) {
-        PersonEntity personDB = mongoTemplate.findById(new ObjectId(id), PersonEntity.class);
-        return Optional.ofNullable(mapper.map(personDB));
+    public Person findById(String id) {
+
+//        return mapper.map(mongoTemplate.findById(new ObjectId(id), PersonEntity.class));
+        PersonEntity personEntity = mongoTemplate.findById(new ObjectId(id), PersonEntity.class);
+        if (personEntity == null) {
+            throw new ResourceNotFoundException();
+        } else {
+            return mapper.map(personEntity);
+        }
+//        return Optional.ofNullable(mapper.map(personDB));
     }
 
     @Override

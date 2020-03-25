@@ -7,7 +7,7 @@ import java.util.Optional;
 
 // No need implementation, just one interface, and you have CRUD, thanks Spring Data
 public interface CardDao {
-    Optional<Card> findById (String id);
+    Card findById (String id);
     List<Card> findAll ();
     Card add (Card card);
     Card update (Card card);

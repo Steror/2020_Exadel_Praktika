@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WorkerDao {
-    Optional<Worker> findById (String id);
+    Worker findById (String id);
     List<Worker> findAll ();
     Worker add (Worker worker);
     Worker update(Worker worker);

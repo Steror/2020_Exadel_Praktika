@@ -37,12 +37,13 @@ public class WorkerServiceImpl implements WorkerService {
 
     @Override
     public Worker getWorkerById (String id) {
-        Optional<Worker> worker = workerDao.findById(id);
-        if (worker.isPresent()) {
-            return worker.get();
-        } else {
-            throw new ResourceNotFoundException("Document by this id doesn't exist");
-        }
+        return workerDao.findById(id);
+//        Optional<Worker> worker = workerDao.findById(id);
+//        if (worker.isPresent()) {
+//            return worker.get();
+//        } else {
+//            throw new ResourceNotFoundException("Document by this id doesn't exist");
+//        }
     }
 
     @Override

@@ -33,6 +33,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         err.setDevErrorMessage("THIS STUFF CAN BE LOGGED HERE");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
+
+//    @Override
+//    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+//        List<String> details = new ArrayList<>();
+//        for(ObjectError error : ex.getBindingResult().getAllErrors()) {
+//            details.add(error.getDefaultMessage());
+//        }
+//        ErrorResponse error = new ErrorResponse("Validation Failed", details);
+//        return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+//    }
+
     //Form rest of errors to hide/add information
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity<?> exception(Exception e) {
