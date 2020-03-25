@@ -8,8 +8,8 @@ import java.util.List;
 public interface PersonService {
     Person getPersonById (String id);
     List<Person> getAllPersons ();
-    Person addPerson (Person person);
-    Person updatePerson (Person person);
+    void addPerson (Person person);
+    void updatePerson (Person person);
     void deletePersonById (String id);
     void deleteAllPersons ();
     boolean personExist(Person person);

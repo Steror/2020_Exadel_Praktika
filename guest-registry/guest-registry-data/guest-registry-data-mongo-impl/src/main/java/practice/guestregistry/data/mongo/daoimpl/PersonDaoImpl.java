@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.PersonDao;
+import practice.guestregistry.data.mongo.entities.CardEntity;
 import practice.guestregistry.data.mongo.entities.PersonEntity;
 import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
 import practice.guestregistry.domain.Person;
@@ -30,15 +31,12 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public Person findById(String id) {
-
-//        return mapper.map(mongoTemplate.findById(new ObjectId(id), PersonEntity.class));
         PersonEntity personEntity = mongoTemplate.findById(new ObjectId(id), PersonEntity.class);
         if (personEntity == null) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("Person by this id doesnt exist");
         } else {
             return mapper.map(personEntity);
         }
-//        return Optional.ofNullable(mapper.map(personDB));
     }
 
     @Override
@@ -50,16 +48,25 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public Person add(Person person) {
+    public void add(Person person) {
         PersonEntity mappedPersonEntity = mapper.map(person);
         mappedPersonEntity.setId(ObjectId.get());
-        return mapper.map(mongoTemplate.save(mappedPersonEntity));
+        PersonEntity savedPerson = mongoTemplate.save(mappedPersonEntity);
+        if (savedPerson == null) {
+//            throw
+        } else {
+            person.setId(savedPerson.getId().toHexString());
+        }
     }
 
     @Override
-    public Person update(Person personDomain) {
+    public void update(Person personDomain) {
         PersonEntity mappedPersonEntity = mapper.map(personDomain);
-        return mapper.map(mongoTemplate.save(mappedPersonEntity));
+        PersonEntity savedPersonEntity;
+        savedPersonEntity = mongoTemplate.save(mappedPersonEntity);
+        if (savedPersonEntity == null) {
+//            throw
+        }
     }
 
     @Override

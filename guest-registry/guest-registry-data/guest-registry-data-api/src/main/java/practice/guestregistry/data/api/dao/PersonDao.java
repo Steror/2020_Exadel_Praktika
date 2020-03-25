@@ -9,8 +9,8 @@ import java.util.Optional;
 public interface PersonDao {
     Person findById (String id);
     List<Person> findAll ();
-    Person add (Person person);
-    Person update (Person person);
+    void add (Person person);
+    void update (Person person);
     void deleteById (String id);
     void deleteAll ();
     boolean existById(String id);

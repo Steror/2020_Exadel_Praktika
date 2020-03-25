@@ -30,15 +30,6 @@ public class CardServiceImpl implements CardService {
     @Override
     public Card getCardById (String id) {
         return cardDao.findById(id);
-//        log.trace("[getCardById] (" + id + ")");
-//        Optional<Card> card = cardDao.findById(id);
-//        log.trace("[getCardById] dao response: " + card);
-//        if (card.isPresent()) {
-//            log.trace("[getCardById] card is present: true");
-//            return card.get();
-//        } else {
-//            throw new ResourceNotFoundException("Card by this id doesn't exist");
-//        }
     }
 
     @Override
@@ -47,22 +38,19 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Card addCard (Card newCard) {
+    public void addCard (Card newCard) {
         if (validateCardFields(newCard)) {
-            return cardDao.add(newCard);
+           cardDao.add(newCard);
         }
-        //TODO:add details?
         throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
     }
 
     @Override
-    public Card updateCard (Card newCard) {
+    public void updateCard (Card newCard) {
         if (cardDao.existById(newCard.getId())) {
             if (validateCardFields(newCard)) {
                 cardDao.update(newCard);
-                return newCard;
             } else {
-                //TODO:add details?
                 throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
             }
         } else {
@@ -96,8 +84,12 @@ public class CardServiceImpl implements CardService {
     }
 
     //TODO: duplicate NotEmpty? Numbers/Digits?
-    //possible date validation
     private boolean validateCardFields(Card card) {
-        return card.getLocation() != null; // If location not null
+        if (card.getManufactured().isBefore(card.getValidUntil())
+                && card.getLocation() != null
+                && locationService.locationExistById(card.getLocation().getId())) {
+            return true;
+        }
+        return false;
     }
 }
