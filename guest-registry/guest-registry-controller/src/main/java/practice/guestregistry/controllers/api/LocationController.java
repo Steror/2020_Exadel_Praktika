@@ -37,13 +37,13 @@ public class LocationController {
 
     @PostMapping
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
-        Location savedLocation = locationService.addLocation(location);
+        locationService.addLocation(location);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder.
                 fromCurrentRequest().
                 path("/{id}").
-                buildAndExpand(savedLocation.getId().toString())
+                buildAndExpand(location.getId().toString())
                 .toUri());
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
