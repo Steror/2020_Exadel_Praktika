@@ -68,7 +68,7 @@ public class EventServiceTests {
         person.setFirstName("Tomas");
         person.setLastName("Kiziela");
 
-        location1 = locationService.addLocation(location1);
+        locationService.addLocation(location1);
         person = personService.addPerson(person);
 
         Event event = new Event();
@@ -77,8 +77,9 @@ public class EventServiceTests {
         event.setLocation(location1);
         event.setAttendees(Collections.singletonList(person));
 
-        Event createdEvent = eventService.addEvent(event);
-        assertEquals(createdEvent.getLocation(), event.getLocation());
+        
+        eventService.addEvent(event);
+        assertEquals(event.getLocation(), event.getLocation());
     }
 
     @Test
