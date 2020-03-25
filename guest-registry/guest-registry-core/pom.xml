@@ -11,15 +11,8 @@
     </parent>
 
     <artifactId>guest-registry-core</artifactId>
-<!--    <version>1.0.0-RELEASE</version>-->
-<!--    <packaging>jar</packaging>-->
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.tomcat.embed</groupId>-->
-<!--            <artifactId>tomcat-embed-jasper</artifactId>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>practice.guestregistry</groupId>
             <artifactId>guest-registry-controller</artifactId>
@@ -30,48 +23,16 @@
             <artifactId>guest-registry-domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
 </project>
-
-
-
-
-<!--<build>-->
-<!--<plugins>-->
-<!--    <plugin>-->
-<!--        <groupId>org.springframework.boot</groupId>-->
-<!--        <artifactId>spring-boot-maven-plugin</artifactId>-->
-        <!--                <configuration><executable>true</executable></configuration>-->
-        <!--                <executions>-->
-        <!--                    <execution>-->
-        <!--                        <configuration>-->
-        <!--                            <mainClass>practice.guestregistry.GuestRegistryApplication</mainClass>-->
-        <!--                        </configuration>-->
-        <!--                    </execution>-->
-        <!--                </executions>-->
-        <!--                <configuration>-->
-        <!--                    <mainClass>practice.guestregistry.GuestRegistryApplication</mainClass>-->
-        <!--                </configuration>-->
-<!--    </plugin>-->
-    <!--			<plugin>-->
-    <!--				<groupId>org.springframework.boot</groupId>-->
-    <!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
-    <!--				<executions>-->
-    <!--					<execution>-->
-    <!--						<goals>-->
-    <!--							<goal>repackage</goal>-->
-    <!--						</goals>-->
-    <!--					</execution>-->
-    <!--				</executions>-->
-    <!--			</plugin>-->
-<!--</plugins>-->
-<!--</build>-->

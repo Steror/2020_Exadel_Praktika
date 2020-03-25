@@ -15,8 +15,8 @@ import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import practice.guestregistry.data.api.dao.PersonDao;
-import practice.guestregistry.data.mongo.daoimpl.PersonDaoImpl;
-import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
+//import practice.guestregistry.data.mongo.daoimpl.PersonDaoImpl;
+//import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
 import practice.guestregistry.domain.Person;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.serviceimpl.PersonServiceImpl;
@@ -32,8 +32,8 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class PersonServiceImplTest {
 
-    @InjectMocks
-    public PersonDomainEntityMapper mapper;
+//    @InjectMocks
+//    public PersonDomainEntityMapper mapper;
     @InjectMocks
     public PersonServiceImpl personService;
     @Mock

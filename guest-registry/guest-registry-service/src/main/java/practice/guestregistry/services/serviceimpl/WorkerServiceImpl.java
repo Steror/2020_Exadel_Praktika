@@ -24,7 +24,6 @@ public class WorkerServiceImpl implements WorkerService {
     private PersonService personService;
     private CardService cardService;
     private WorkerDomainToPersonDomainMapper mapper;
-//    private SequenceDao sequenceDao;
     private static final Logger log = LoggerFactory.getLogger(WorkerServiceImpl.class);
 
     @Autowired
