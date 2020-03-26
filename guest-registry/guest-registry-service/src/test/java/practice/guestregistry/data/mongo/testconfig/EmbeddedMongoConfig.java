@@ -21,7 +21,7 @@ import java.io.IOException;
 
 //TODO:it should use core application-test.properties instead
 //@ComponentScan(basePackages = "practice.guestregistry")
-@Configuration
+//@Configuration
 //@PropertySource("file:${project.basedir}/guest-registry-core/src/main/resources/core:application-test.properties")
 //@PropertySource(value = "application-test.properties")
 //@PropertySource("file:guest-registry-core/src/main/resources/application-test.properties")

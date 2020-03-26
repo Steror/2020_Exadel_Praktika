@@ -3,15 +3,11 @@ package practice.guestregistry.services.impl.mockingtest;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import practice.guestregistry.data.api.dao.EventDao;
-import practice.guestregistry.data.mongo.mappers.EventMapper;
 import practice.guestregistry.domain.Event;
 import practice.guestregistry.domain.Location;
 import practice.guestregistry.domain.Person;
@@ -30,10 +26,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
-//@RunWith(MockitoJUnitRunner.class)
 class EventServiceImplTest {
-    @InjectMocks
-    private EventMapper mapper;
     @InjectMocks
     private EventServiceImpl eventService;
 
@@ -49,22 +42,19 @@ class EventServiceImplTest {
     @BeforeEach
     void setUp() {
         Location location = new Location();
-        location.setId(new ObjectId().toString());
 
         Person person = new Person();
-        person.setId(new ObjectId().toString());
 
         ArrayList<Person> personList = new ArrayList<>();
         personList.add(person);
         personList.add(person);
 
         event1 = new Event();
-        event1.setId(new ObjectId().toString());
         event1.setName("Praktika");
         event1.setDescription("Java");
         event1.setParticipantsAmount(3);
-        event1.setStartDateTime(LocalDateTime.now());
-        event1.setEndDateTime(LocalDateTime.now());
+        event1.setStartDateTime(LocalDateTime.now().withNano(0));
+        event1.setEndDateTime(LocalDateTime.now().withNano(0));
         event1.setLocation(location);
         event1.setAttendees(personList);
 

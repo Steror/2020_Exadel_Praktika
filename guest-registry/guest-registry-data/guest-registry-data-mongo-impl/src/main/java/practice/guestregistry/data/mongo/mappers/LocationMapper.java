@@ -17,12 +17,16 @@ public class LocationMapper {
         this.mapperFactory.classMap(Location.class, LocationEntity.class);
     }
 
-    public Location map(LocationEntity locationEntity) {
-        return this.mapperFactory.getMapperFacade(LocationEntity.class, Location.class).map(locationEntity);
+    public Location entityToDomain(LocationEntity locationEntity) {
+        Location location = new Location();
+        this.mapperFactory.getMapperFacade(LocationEntity.class, Location.class).map(locationEntity, location);
+        return location;
     }
 
-    public LocationEntity map(Location location) {
-        return this.mapperFactory.getMapperFacade(Location.class, LocationEntity.class).map(location);
+    public LocationEntity domainToEntity(Location location) {
+        LocationEntity locationEntity = new LocationEntity();
+        this.mapperFactory.getMapperFacade(Location.class, LocationEntity.class).map(location, locationEntity);
+        return locationEntity;
     }
 
 }

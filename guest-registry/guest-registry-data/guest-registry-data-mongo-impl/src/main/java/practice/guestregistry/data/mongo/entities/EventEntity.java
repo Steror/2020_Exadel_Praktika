@@ -29,7 +29,7 @@ public class EventEntity {
     private LocalDateTime endDateTime;
     @DBRef(db = "test")
     @NotNull
-    private LocationEntity locationEntity;
+    private LocationEntity location;
     @DBRef(db = "test")
     @NotNull
     private List<PersonEntity> attendees;

@@ -1,25 +1,28 @@
 package practice.guestregistry.services.impl.integrationtest;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import practice.guestregistry.domain.Location;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.serviceimpl.LocationServiceImpl;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @AutoConfigureDataMongo //Uses embedded mongo
 @ActiveProfiles("test")
 public class LocationServiceTests { // Integration testing
@@ -31,7 +34,7 @@ public class LocationServiceTests { // Integration testing
 
     Location location1, location2;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         for (String name : mongoTemplate.getCollectionNames()) {
             mongoTemplate.dropCollection(name);
@@ -53,7 +56,7 @@ public class LocationServiceTests { // Integration testing
         location2.setPhoneNumber("851122222");
     }
 
-    @After
+    @AfterEach
     public void cleanUp() {
         for (String name : mongoTemplate.getCollectionNames()) {
             mongoTemplate.dropCollection(name);
@@ -92,25 +95,36 @@ public class LocationServiceTests { // Integration testing
     @Test
     public void testUpdateLocation() {
         locationService.addLocation(location1);
-        String idToUpdate = location1.getId();
 
-        location2.setId(idToUpdate);
+        location2.setId(location1.getId());
         locationService.updateLocation(location2);
 
-        assertEquals(location2, locationService.getLocationById(idToUpdate));
+        assertAll(
+                () -> assertEquals(location2, locationService.getLocationById(location1.getId())),
+                () -> assertEquals(1, locationService.getAllLocations().size())
+        );
     }
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void testDeleteLocationById() {  //TODO split up into 2 separate tests
+    @Test
+    public void testDeleteLocationById() {
         locationService.addLocation(location1);
-        String idToDelete = location1.getId();
-
         locationService.addLocation(location2);
 
-        locationService.deleteLocationById(idToDelete);
+        locationService.deleteLocationById(location1.getId());
         assertEquals(1, locationService.getAllLocations().size());
+    }
 
-        locationService.getLocationById(idToDelete);
+    @Test
+    public void testDeleteLocationByIdThrowsResourceNotFoundException() {
+        locationService.addLocation(location1);
+        locationService.addLocation(location2);
+
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> locationService.deleteLocationById(location1.getId())
+        );
+
+        Assertions.assertEquals(ResourceNotFoundException.class, exception.getClass());
     }
 
     @Test

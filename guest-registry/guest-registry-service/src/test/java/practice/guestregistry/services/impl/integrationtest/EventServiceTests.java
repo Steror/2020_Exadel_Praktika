@@ -1,15 +1,15 @@
 package practice.guestregistry.services.impl.integrationtest;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import practice.guestregistry.domain.Event;
 import practice.guestregistry.domain.Location;
 import practice.guestregistry.domain.Person;
@@ -21,11 +21,14 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest//(classes = {EventServiceImpl.class, LocationServiceImpl.class, PersonServiceImpl.class,
+//        EventDaoImpl.class, LocationDaoImpl.class, PersonDaoImpl.class,
+//        EventMapper.class, LocationMapper.class, PersonDomainEntityMapper.class})
+@ExtendWith(SpringExtension.class)
 @AutoConfigureDataMongo
+//@ContextConfiguration(classes = {EmbeddedMongoConfig.class})
 @ActiveProfiles("test")
 public class EventServiceTests {
     @Autowired
@@ -40,14 +43,47 @@ public class EventServiceTests {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Before
+    Event event1, event2;
+    Location location1;
+    Person person1, person2;
+
+    final String FIRST_NAME = "Mister";
+
+    @BeforeEach
     public void setUp() {
         for (String name : mongoTemplate.getCollectionNames()) {
             mongoTemplate.dropCollection(name);
         }
+
+        location1 = new Location();
+        location1.setName("A");
+        location1.setCountry("Lietuva");
+        location1.setCity("Vilnius");
+        location1.setAddress("Zalgirio 90");
+        location1.setLocationType("OFFICE");
+        location1.setPhoneNumber("851212345");
+
+        person1 = new Person();
+        person1.setFirstName("Tomas");
+        person1.setLastName("Kiziela");
+        person2 = new Person();
+        person2.setFirstName(FIRST_NAME);
+        person2.setLastName("T");
+
+        event1 = new Event();
+        event1.setStartDateTime(LocalDateTime.now().withNano(0));
+        event1.setEndDateTime(LocalDateTime.now().withNano(0));
+        event1.setLocation(location1);
+        event1.setAttendees(Collections.singletonList(person1));
+
+        event2 = new Event();
+        event2.setStartDateTime(LocalDateTime.now().withNano(0));
+        event2.setEndDateTime(LocalDateTime.now().withNano(0));
+        event2.setLocation(location1);
+        event2.setAttendees(Collections.singletonList(person2));
     }
 
-    @After
+    @AfterEach
     public void cleanUp() {
         for (String name : mongoTemplate.getCollectionNames()) {
             mongoTemplate.dropCollection(name);
@@ -56,88 +92,29 @@ public class EventServiceTests {
 
     @Test
     public void testAddEvent() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-
-        Person person = new Person();
-        person.setFirstName("Tomas");
-        person.setLastName("Kiziela");
-
         locationService.addLocation(location1);
-        person = personService.addPerson(person);
+        personService.addPerson(person1);
 
-        Event event = new Event();
-        event.setStartDateTime(LocalDateTime.now());
-        event.setEndDateTime(LocalDateTime.now());
-        event.setLocation(location1);
-        event.setAttendees(Collections.singletonList(person));
-
-
-        eventService.addEvent(event);
-        assertEquals(event.getLocation(), event.getLocation());
+        eventService.addEvent(event1);
+        assertEquals(event1.getLocation(), event1.getLocation());
     }
 
     @Test
     public void testGetEventById() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-
-        Person person = new Person();
-        person.setFirstName("Tomas");
-        person.setLastName("Kiziela");
-
         locationService.addLocation(location1);
-        person = personService.addPerson(person);
+        personService.addPerson(person1);
 
-        Event event = new Event();
-        event.setStartDateTime(LocalDateTime.now());
-        event.setEndDateTime(LocalDateTime.now());
-        event.setLocation(location1);
-        event.setAttendees(Collections.singletonList(person));
+        eventService.addEvent(event1);
+        Event fetchedEvent = eventService.getEventById(event1.getId());
 
-        eventService.addEvent(event);
-        Event fetchedEvent = eventService.getEventById(event.getId());
-
-        assertEquals(event, fetchedEvent);
+        assertEquals(event1, fetchedEvent);
     }
 
     @Test
     public void testGetAllEvents() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-
-        Person person = new Person();
-        person.setFirstName("Tomas");
-        person.setLastName("Kiziela");
-
         locationService.addLocation(location1);
-        person = personService.addPerson(person);
-
-        Event event1 = new Event();
-        event1.setStartDateTime(LocalDateTime.now());
-        event1.setEndDateTime(LocalDateTime.now());
-        event1.setLocation(location1);
-        event1.setAttendees(Collections.singletonList(person));
-        Event event2 = new Event();
-        event2.setStartDateTime(LocalDateTime.now());
-        event2.setEndDateTime(LocalDateTime.now());
-        event2.setLocation(location1);
-        event2.setAttendees(Collections.singletonList(person));
+        personService.addPerson(person1);
+        personService.addPerson(person2);
 
         eventService.addEvent(event1);
         eventService.addEvent(event2);
@@ -146,72 +123,25 @@ public class EventServiceTests {
         assertEquals(2, list.size());
     }
 
-//    @Test
-//    public void testUpdateEvent() {
-//        Location location1 = new Location();
-//        location1.setName("A");
-//        location1.setCountry("Lietuva");
-//        location1.setCity("Vilnius");
-//        location1.setAddress("Zalgirio 90");
-//        location1.setLocationType("OFFICE");
-//        location1.setPhoneNumber("851212345");
-//
-//        Person person1 = new Person();
-//        person1.setFirstName("Tomas");
-//        person1.setLastName("Kiziela");
-//        Person person2 = new Person();
-//        person2.setFirstName("Mister");
-//        person2.setLastName("T");
-//
-//        locationService.addLocation(location1);
-//        person1 = personService.addPerson(person1);
-//        person2 = personService.addPerson(person2);
-//
-//        Event event1 = new Event();
-//        event1.setStartDateTime(LocalDateTime.now());
-//        event1.setEndDateTime(LocalDateTime.now());
-//        event1.setLocation(location1);
-//        event1.setAttendees(Collections.singletonList(person1));
-//
-//        Event event2 = eventService.addEvent(event1);
-//        event2.setAttendees(Collections.singletonList(person2));
-//
-//        eventService.updateEvent(event2);
-//        event2 = eventService.getEventById(event2.getId());
-//        assertEquals("Mister", event2.getAttendees().get(0).getFirstName());
-//    }
+    @Test
+    public void testUpdateEvent() {
+        locationService.addLocation(location1);
+        personService.addPerson(person1);
+        personService.addPerson(person2);
+
+        eventService.addEvent(event1);
+        event1.setAttendees(Collections.singletonList(person2));
+
+        eventService.updateEvent(event1);
+        event2 = eventService.getEventById(event1.getId());
+        assertEquals(person2.getFirstName(), event2.getAttendees().get(0).getFirstName());
+    }
 
     @Test
     public void testDeleteEventById() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-
-        Person person1 = new Person();
-        person1.setFirstName("Tomas");
-        person1.setLastName("Kiziela");
-        Person person2 = new Person();
-        person2.setFirstName("Mister");
-        person2.setLastName("T");
-
         locationService.addLocation(location1);
-        person1 = personService.addPerson(person1);
-        person2 = personService.addPerson(person2);
-
-        Event event1 = new Event();
-        event1.setStartDateTime(LocalDateTime.now());
-        event1.setEndDateTime(LocalDateTime.now());
-        event1.setLocation(location1);
-        event1.setAttendees(Collections.singletonList(person1));
-        Event event2 = new Event();
-        event2.setStartDateTime(LocalDateTime.now());
-        event2.setEndDateTime(LocalDateTime.now());
-        event2.setLocation(location1);
-        event2.setAttendees(Collections.singletonList(person2));
+        personService.addPerson(person1);
+        personService.addPerson(person2);
 
         eventService.addEvent(event1);
         eventService.addEvent(event2);
@@ -221,40 +151,13 @@ public class EventServiceTests {
 
     @Test
     public void testDeleteAllEvents() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-
-        Person person1 = new Person();
-        person1.setFirstName("Tomas");
-        person1.setLastName("Kiziela");
-        Person person2 = new Person();
-        person2.setFirstName("Mister");
-        person2.setLastName("T");
-
         locationService.addLocation(location1);
-        person1 = personService.addPerson(person1);
-        person2 = personService.addPerson(person2);
-
-        Event event1 = new Event();
-        event1.setStartDateTime(LocalDateTime.now());
-        event1.setEndDateTime(LocalDateTime.now());
-        event1.setLocation(location1);
-        event1.setAttendees(Collections.singletonList(person1));
-        Event event2 = new Event();
-        event2.setStartDateTime(LocalDateTime.now());
-        event2.setEndDateTime(LocalDateTime.now());
-        event2.setLocation(location1);
-        event2.setAttendees(Collections.singletonList(person2));
+        personService.addPerson(person1);
+        personService.addPerson(person2);
 
         eventService.addEvent(event1);
         eventService.addEvent(event2);
         eventService.deleteAllEvents();
         assertEquals(0, eventService.getAllEvents().size());
     }
-
 }

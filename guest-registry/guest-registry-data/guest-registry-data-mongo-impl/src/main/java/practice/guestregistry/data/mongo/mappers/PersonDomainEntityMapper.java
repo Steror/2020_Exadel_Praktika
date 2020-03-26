@@ -31,7 +31,7 @@ public class PersonDomainEntityMapper {
                     @Override
                     public void mapBtoA(Person personDomain, PersonEntity personEntity, MappingContext context) {
                         //if (ObjectId.isValid(personDomain.getId())) {TODO pakeist validacija
-                        if (personDomain.getId() != null) {
+                        if (personDomain.getId() != null && ObjectId.isValid(personDomain.getId())) {
                             personEntity.setId(new ObjectId(personDomain.getId()));
                             super.mapBtoA(personDomain, personEntity, context);
                         } else {
