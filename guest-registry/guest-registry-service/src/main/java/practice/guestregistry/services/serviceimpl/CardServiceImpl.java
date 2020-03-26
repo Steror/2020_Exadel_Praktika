@@ -11,6 +11,7 @@ import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.CardService;
 import practice.guestregistry.services.service.LocationService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,8 @@ public class CardServiceImpl implements CardService {
 
     private final CardDao cardDao;
     private final LocationService locationService;
-    private static final Logger log = LoggerFactory.getLogger(CardServiceImpl.class);
+//    private static final Logger log = LoggerFactory.getLogger(CardServiceImpl.class);
+    private static final Logger log = LoggerFactory.getILoggerFactory().getLogger("CardServiceImpl");
 
     @Autowired
     public CardServiceImpl(CardDao cardDao, LocationService locationService) {
@@ -41,8 +43,9 @@ public class CardServiceImpl implements CardService {
     public void addCard (Card newCard) {
         if (validateCardFields(newCard)) {
            cardDao.add(newCard);
+        } else {
+            throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
         }
-        throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
     }
 
     @Override
@@ -51,7 +54,7 @@ public class CardServiceImpl implements CardService {
             if (validateCardFields(newCard)) {
                 cardDao.update(newCard);
             } else {
-                throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
+                throw new InvalidDocumentStateException("Incorrect dates  or location must exist in db");
             }
         } else {
             throw new ResourceNotFoundException("Card by this id doesn't exist");
@@ -85,11 +88,26 @@ public class CardServiceImpl implements CardService {
 
     //TODO: duplicate NotEmpty? Numbers/Digits?
     private boolean validateCardFields(Card card) {
-        if (card.getManufactured().isBefore(card.getValidUntil())
-                && card.getLocation() != null
-                && locationService.locationExistById(card.getLocation().getId())) {
-            return true;
+        if (card.getManufactured() == null
+                || card.getValidUntil() == null) {
+            log.debug("");
+            return false;
         }
-        return false;
+        log.debug("[validateCardFields] before parse manufactured: " + card.getManufactured());
+        LocalDateTime manufactured = LocalDateTime.parse(card.getManufactured());
+        log.debug("[validateCardFields] after parse manufactured: " + manufactured.toString());
+        log.debug("[validateCardFields] before parse validUntil: " + card.getValidUntil());
+        LocalDateTime validUntil = LocalDateTime.parse(card.getValidUntil());
+        log.debug("[validateCardFields] after parse manufactured: " + validUntil.toString());
+
+
+        boolean manufacturedBeforeValid = manufactured.isBefore(validUntil);
+        boolean locationExistInDb = locationService.locationExistById(card.getLocationId());
+
+        log.debug("[validateCardFields] {"+card+"}");
+        log.debug("manufacturedBeforeValid: " + manufacturedBeforeValid);
+        log.debug("locationExistInDb: " + locationExistInDb);
+
+        return manufacturedBeforeValid && locationExistInDb;
     }
 }

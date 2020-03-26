@@ -9,9 +9,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.CardDao;
+import practice.guestregistry.data.api.dao.LocationDao;
 import practice.guestregistry.data.mongo.entities.CardEntity;
+import practice.guestregistry.data.mongo.entities.LocationEntity;
 import practice.guestregistry.data.mongo.mappers.CardMapper;
 import practice.guestregistry.domain.Card;
+import practice.guestregistry.domain.Location;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import java.util.List;
@@ -22,12 +25,14 @@ public class CardDaoImpl implements CardDao {
 
     private final MongoTemplate mongoTemplate;
     private final CardMapper cardMapper;
+    private final LocationDao locationDao;
     private static final Logger log = LoggerFactory.getLogger(CardDaoImpl.class);
 
     @Autowired
-    public CardDaoImpl(MongoTemplate mongoTemplate, CardMapper cardMapper) {
+    public CardDaoImpl(MongoTemplate mongoTemplate, CardMapper cardMapper, LocationDao locationDao) {
         this.mongoTemplate = mongoTemplate;
         this.cardMapper = cardMapper;
+        this.locationDao = locationDao;
     }
 
     @Override
@@ -52,8 +57,17 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public void add(Card card) {
+        log.debug("[add] card before mapping" + card);
         CardEntity cardEntity = cardMapper.domainToEntity(card);
+        log.debug("[add] card after mapping" + cardEntity);
         cardEntity.setId(ObjectId.get());
+
+//        LocationEntity locationFromDb = mongoTemplate.findById(Criteria.where("id").is(card.getLocationId()), LocationEntity.class);
+        LocationEntity locationFromDb = mongoTemplate.findById(card.getLocationId(), LocationEntity.class);
+        cardEntity.setLocationEntity(locationFromDb);
+
+//        cardEntity.setLocationEntity(mongoTemplate.f);
+        log.debug("[add] card before save" + cardEntity);
         CardEntity savedCard = mongoTemplate.save(cardEntity);
         if (savedCard == null) {
 //            throw new EntityCreationException();

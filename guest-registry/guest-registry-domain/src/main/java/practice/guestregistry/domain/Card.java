@@ -13,15 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Card {
     private String id;
-    @NotEmpty
     private String serialNumber;
-
     @NotNull
-    private Location location;
+    private String locationId;
+    private String locationName;
     @NotNull
-    private LocalDateTime manufactured;
+    private String manufactured;
     @NotNull
-    private LocalDateTime validUntil;
+    private String validUntil;
     @NotNull
     private String ctype;
 }

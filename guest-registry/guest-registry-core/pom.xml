@@ -40,7 +40,8 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-<!--        <dependency>-->
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <!--        <dependency>-->
 <!--            <groupId>practice.guestregistry</groupId>-->
 <!--            <artifactId>guest-registry-domain</artifactId>-->
 <!--            <version>0.0.1-SNAPSHOT</version>-->

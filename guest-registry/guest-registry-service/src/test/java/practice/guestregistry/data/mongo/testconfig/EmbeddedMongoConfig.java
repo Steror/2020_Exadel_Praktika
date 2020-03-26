@@ -26,15 +26,15 @@ import java.io.IOException;
 //@PropertySource(value = "application-test.properties")
 //@PropertySource("file:guest-registry-core/src/main/resources/application-test.properties")
 //@PropertySource({"file:guest-registry-core/src/main/resources/application-${envTarget:dev}.properties"})
-@PropertySource({"classpath:testParams.properties"})
+@PropertySource({"classpath:application.properties"})
 public class EmbeddedMongoConfig {
     private static final Logger log = LoggerFactory.getLogger(EmbeddedMongoConfig.class);
     private MongodProcess mongoProcess;
-    @Value("${spring.data.mongodb.host}")
+    @Value("${mongodb.host}")
     private String MONGO_HOST;
-    @Value("${spring.data.mongodb.database}")
+    @Value("${mongodb.database}")
     private String MONGO_DATABASE;
-    @Value("${spring.data.mongodb.port}")
+    @Value("${mongodb.port}")
     private String MONGO_PORT;
 
     @Bean
