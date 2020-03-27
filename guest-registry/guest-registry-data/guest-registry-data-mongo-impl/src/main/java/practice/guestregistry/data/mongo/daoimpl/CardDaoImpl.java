@@ -15,8 +15,9 @@ import practice.guestregistry.data.mongo.entities.LocationEntity;
 import practice.guestregistry.data.mongo.mappers.CardMapper;
 import practice.guestregistry.domain.Card;
 import practice.guestregistry.domain.Location;
-import practice.guestregistry.exceptions.ResourceNotFoundException;
+import practice.guestregistry.exceptions.*;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,11 +43,14 @@ public class CardDaoImpl implements CardDao {
         log.trace("[findById] mongo response: " + cardEntity);
         if (cardEntity == null) {
             throw new ResourceNotFoundException("Card by this id doens't exist");
-        } else {
-            Card card = cardMapper.entityToDomain(cardEntity);
-            log.trace("[findById] returning card after mapping: " + card);
-            return card;
         }
+        Card card;
+        try {
+            card = cardMapper.entityToDomain(cardEntity);
+        } catch (DateTimeParseException ex) {
+            throw new InvalidDocumentStateException("Incorrect date", ex);
+        }
+        return card;
     }
 
     @Override
@@ -62,7 +66,6 @@ public class CardDaoImpl implements CardDao {
         log.debug("[add] card after mapping" + cardEntity);
         cardEntity.setId(ObjectId.get());
 
-//        LocationEntity locationFromDb = mongoTemplate.findById(Criteria.where("id").is(card.getLocationId()), LocationEntity.class);
         LocationEntity locationFromDb = mongoTemplate.findById(card.getLocationId(), LocationEntity.class);
         cardEntity.setLocationEntity(locationFromDb);
 
@@ -70,7 +73,7 @@ public class CardDaoImpl implements CardDao {
         log.debug("[add] card before save" + cardEntity);
         CardEntity savedCard = mongoTemplate.save(cardEntity);
         if (savedCard == null) {
-//            throw new EntityCreationException();
+            throw new EntityCreationException("Card could not be created");
         } else {
             card.setId(savedCard.getId().toHexString());
         }
@@ -79,10 +82,9 @@ public class CardDaoImpl implements CardDao {
     @Override
     public void update(Card card) {
         CardEntity cardEntity = cardMapper.domainToEntity(card);
-        CardEntity updatedCard = null;
-        updatedCard = mongoTemplate.save(cardEntity);
+        CardEntity updatedCard = mongoTemplate.save(cardEntity);
         if (updatedCard == null) {
-//            throw new UpdateException();
+            throw new EntityUpdateException("Card could not be updated");
         }
     }
 
@@ -92,7 +94,7 @@ public class CardDaoImpl implements CardDao {
         query.addCriteria(Criteria.where("id").is(id));
         CardEntity deletedEntity = mongoTemplate.findAndRemove(query, CardEntity.class);
         if (deletedEntity == null) {
-//            throw new DeletionException();
+            throw new EntityDeletionException("Such entity doesn't exist to delete");
         }
     }
 

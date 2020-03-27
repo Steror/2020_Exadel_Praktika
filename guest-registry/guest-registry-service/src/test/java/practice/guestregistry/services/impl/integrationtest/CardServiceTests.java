@@ -3,24 +3,18 @@ package practice.guestregistry.services.impl.integrationtest;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import practice.guestregistry.data.api.dao.CardDao;
 import practice.guestregistry.data.mongo.daoimpl.CardDaoImpl;
 import practice.guestregistry.data.mongo.daoimpl.LocationDaoImpl;
-import practice.guestregistry.data.mongo.entities.LocationEntity;
 import practice.guestregistry.data.mongo.mappers.CardMapper;
 import practice.guestregistry.data.mongo.mappers.LocationMapper;
-import practice.guestregistry.data.mongo.testconfig.EmbeddedMongoConfig;
+import practice.guestregistry.services.EmbeddedMongoConfig;
 import practice.guestregistry.domain.Card;
 import practice.guestregistry.domain.Location;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
@@ -92,10 +86,14 @@ public class CardServiceTests {
 
     @Test
     public void getCardById() {
-        System.out.println(card);
         cardService.addCard(card);
-        System.out.println(card);
         assertThat(cardService.getCardById(card.getId())).isEqualTo(card);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void getCardById_whenCardDoesntExist() {
+//        cardService.getCardById(card.getId());
+        cardService.getCardById(null);
     }
 
     @Test(expected = ResourceNotFoundException.class)
@@ -118,8 +116,6 @@ public class CardServiceTests {
         anotherCard.setManufactured(LocalDateTime.now().toString());
         anotherCard.setValidUntil(CARD_VALID_UNTIL);
         cardService.addCard(anotherCard);
-
-        cardService.getAllCards().stream().forEach(elem -> System.out.println(elem.getLocationName()));
 
         assertThat(cardService.getAllCards().stream().map(elem -> elem.getLocationName())).
                 contains(locationName, LOCATION1_NAME);
@@ -209,6 +205,16 @@ public class CardServiceTests {
     public void existById() {
         cardService.addCard(card);
         assertThat(cardService.existById(card.getId())).isEqualTo(true);
+    }
+
+    @Test
+    public void existById_notInDb() {
+        assertThat(cardService.existById(card.getId())).isEqualTo(false);
+    }
+
+    @Test
+    public void existById_idNull() {
+        assertThat(cardService.existById(null)).isEqualTo(false);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package practice.guestregistry.data.mongo.testconfig;
+package practice.guestregistry.services;
 
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;

@@ -44,12 +44,12 @@ public class EmbeddedMongoConfig {
     @PostConstruct
     public void start () throws IOException {
 
-        System.out.println("\n\n\n-----------------------------------------------------------------------");
+        System.out.println("\n-----------------------------------------------------------------------");
         System.out.println(MONGO_DATABASE);
         System.out.println(MONGO_HOST);
         System.out.println(MONGO_PORT);
         System.out.println(Integer.decode(MONGO_PORT));
-        System.out.println("\n\n\n-----------------------------------------------------------------------");
+        System.out.println("\n-----------------------------------------------------------------------");
 
         MongodStarter starter = MongodStarter.getDefaultInstance();
         MongodExecutable mongoExecutable = starter.prepare(

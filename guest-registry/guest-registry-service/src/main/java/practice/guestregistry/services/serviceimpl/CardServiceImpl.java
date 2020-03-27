@@ -12,6 +12,7 @@ import practice.guestregistry.services.service.CardService;
 import practice.guestregistry.services.service.LocationService;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,9 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Card getCardById (String id) {
+        if (id == null) {
+            throw new ResourceNotFoundException("id string null");
+        }
         return cardDao.findById(id);
     }
 
@@ -63,7 +67,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public void deleteCardById (String id) {
-        if (cardDao.existById(id)) {
+        if (id != null && cardDao.existById(id)) {
             cardDao.deleteById(id);
         } else {
             throw new ResourceNotFoundException("Card by this id doesn't exist");
@@ -88,23 +92,30 @@ public class CardServiceImpl implements CardService {
 
     //TODO: duplicate NotEmpty? Numbers/Digits?
     private boolean validateCardFields(Card card) {
+        log.debug("[validateCardFields] {"+card+"}");
+
         if (card.getManufactured() == null
                 || card.getValidUntil() == null) {
-            log.debug("");
             return false;
         }
-        log.debug("[validateCardFields] before parse manufactured: " + card.getManufactured());
-        LocalDateTime manufactured = LocalDateTime.parse(card.getManufactured());
-        log.debug("[validateCardFields] after parse manufactured: " + manufactured.toString());
-        log.debug("[validateCardFields] before parse validUntil: " + card.getValidUntil());
-        LocalDateTime validUntil = LocalDateTime.parse(card.getValidUntil());
-        log.debug("[validateCardFields] after parse manufactured: " + validUntil.toString());
 
+        LocalDateTime manufactured;
+        LocalDateTime validUntil;
+        try {
+            manufactured = LocalDateTime.parse(card.getManufactured());
+            validUntil = LocalDateTime.parse(card.getValidUntil());
+        } catch (DateTimeParseException ex) {
+            throw new InvalidDocumentStateException("Incorrect date, failed parsing");
+        }
+
+        log.debug("[validateCardFields] manufactured before parse: " + card.getManufactured()
+                + "\n[validateCardFields] manufactured after parse:" + manufactured);
+        log.debug("[validateCardFields] validUntil before parse: " + card.getValidUntil()
+                + "\n[validateCardFields] validUntil after parse: " + validUntil);
 
         boolean manufacturedBeforeValid = manufactured.isBefore(validUntil);
         boolean locationExistInDb = locationService.locationExistById(card.getLocationId());
 
-        log.debug("[validateCardFields] {"+card+"}");
         log.debug("manufacturedBeforeValid: " + manufacturedBeforeValid);
         log.debug("locationExistInDb: " + locationExistInDb);
 
