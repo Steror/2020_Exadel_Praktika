@@ -1,6 +1,8 @@
 package practice.guestregistry.data.mongo.daoimpl;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -19,6 +21,7 @@ public class LocationDaoImpl implements LocationDao {
 
     private final MongoTemplate mongoTemplate;
     private final LocationMapper mapper;
+    private static final Logger log = LoggerFactory.getLogger(LocationDaoImpl.class);
 
     @Autowired
     public LocationDaoImpl(MongoTemplate mongoTemplate, LocationMapper mapper) {
@@ -29,22 +32,20 @@ public class LocationDaoImpl implements LocationDao {
     @Override
     public Location findById (String id) {//TODO throw null exception
         LocationEntity locationEntity = mongoTemplate.findById(new ObjectId(id), LocationEntity.class);
-        return mapper.map(locationEntity);
+        return mapper.entityToDomain(locationEntity);
     }
 
     @Override
     public List<Location> findAll () {
-        List<LocationEntity> list = mongoTemplate.findAll(LocationEntity.class);
-        System.out.println(list);
         return mongoTemplate.findAll(LocationEntity.class)
                 .stream()
-                .map(mapper::map)
+                .map(mapper::entityToDomain)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void add (Location location) {
-        LocationEntity locationEntity = mapper.map(location);
+        LocationEntity locationEntity = mapper.domainToEntity(location);
         locationEntity.setId(ObjectId.get());
         mongoTemplate.save(locationEntity);
         location.setId(locationEntity.getId().toString());
@@ -52,7 +53,7 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public void update (Location location) {
-        LocationEntity locationEntity = mapper.map(location);
+        LocationEntity locationEntity = mapper.domainToEntity(location);
         mongoTemplate.save(locationEntity);
     }
 
@@ -75,6 +76,6 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public boolean exist(Location location) {
-        return mongoTemplate.exists(Query.query(Criteria.byExample(mapper.map(location))), LocationEntity.class);
+        return mongoTemplate.exists(Query.query(Criteria.byExample(mapper.domainToEntity(location))), LocationEntity.class);
     }
 }

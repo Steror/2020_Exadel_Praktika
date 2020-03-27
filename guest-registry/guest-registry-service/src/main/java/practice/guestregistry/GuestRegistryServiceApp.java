@@ -1,4 +1,4 @@
-package practice.guestregistry.services.service.app;
+package practice.guestregistry;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

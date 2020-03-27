@@ -11,11 +11,11 @@ public class Event {
     private String id;
     private String name;
     private String description;
-    private int participants_amount;
+    private int participantsAmount;
     @NotNull
-    private LocalDateTime start_date_time;
+    private LocalDateTime startDateTime;
     @NotNull
-    private LocalDateTime end_date_time;
+    private LocalDateTime endDateTime;
     @NotNull
     private Location location;
     @NotNull
