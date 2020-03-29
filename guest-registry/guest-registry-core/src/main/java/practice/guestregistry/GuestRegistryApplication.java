@@ -1,5 +1,6 @@
 package practice.guestregistry;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
@@ -10,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.core.env.Environment;
+import practice.guestregistry.domain.Person;
+import practice.guestregistry.services.service.PersonService;
 
 import java.io.PrintStream;
 
@@ -27,8 +30,8 @@ scanBasePackages = "practice.guestregistry"
 public class GuestRegistryApplication implements CommandLineRunner {
 	@Value("${profile.message}")
 	private String profileMessage;
-//	@Autowired
-//	private PersonService personService;
+	@Autowired
+	private PersonService personService;
 //	@Autowired
 //	private CardService cardService;
 //	@Autowired
@@ -112,17 +115,21 @@ public class GuestRegistryApplication implements CommandLineRunner {
 
 //		personService.deleteAll();
 
-//		PersonDTO person = new PersonDTO();
+//		Person person = new Person();
 //		person.setEmail("email@email.com");
 //		person.setFirstName("First name");
 //		person.setLastName("Last name");
 //		person.setPhoneNumber("12345");
-//		personService.savePerson(person);
+//		personService.addPerson(person);
+//
+//		person.setEmail("newEmail@email.com");
+//		person.setFirstName("Another First Name name");
+//		person.setLastName("Last name");
+//		person.setPhoneNumber("12346");
+//		person.setId(null);
+//		personService.addPerson(person);
+//		personService.getAllPersons().stream().forEach(System.out::println);
 
-
-//		personService.savePerson(mapper.map(new Person(ObjectId.get(), "firstPerson", "mname", "lname", "emaill", "phone_nr")));
-//		Person person = new Person(ObjectId.get(), "secondPerson", "mname", "lname", "emaill", "phone_nr");
-//		Person personForEvent = personService.addPerson(person);
 //
 //		eventService.deleteAllEvents();
 //		Event event = new Event();

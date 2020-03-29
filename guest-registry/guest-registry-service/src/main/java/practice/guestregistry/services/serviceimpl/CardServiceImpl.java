@@ -1,5 +1,6 @@
 package practice.guestregistry.services.serviceimpl;
 
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class CardServiceImpl implements CardService {
         if (validateCardFields(newCard)) {
            cardDao.add(newCard);
         } else {
-            throw new InvalidDocumentStateException("Incorrect card details, location must exist in db");
+            throw new InvalidDocumentStateException("Invalid card information");
         }
     }
 
@@ -105,7 +106,7 @@ public class CardServiceImpl implements CardService {
             manufactured = LocalDateTime.parse(card.getManufactured());
             validUntil = LocalDateTime.parse(card.getValidUntil());
         } catch (DateTimeParseException ex) {
-            throw new InvalidDocumentStateException("Incorrect date, failed parsing");
+            throw new InvalidDocumentStateException("Incorrect date, failed date parsing");
         }
 
         log.debug("[validateCardFields] manufactured before parse: " + card.getManufactured()
@@ -113,12 +114,14 @@ public class CardServiceImpl implements CardService {
         log.debug("[validateCardFields] validUntil before parse: " + card.getValidUntil()
                 + "\n[validateCardFields] validUntil after parse: " + validUntil);
 
+        String locationId = card.getLocationId();
+        boolean locationExistInDb = locationService.locationExistById(locationId);
         boolean manufacturedBeforeValid = manufactured.isBefore(validUntil);
-        boolean locationExistInDb = locationService.locationExistById(card.getLocationId());
+        boolean serialNumberExist = cardDao.serialNumberExist(card.getSerialNumber());
 
         log.debug("manufacturedBeforeValid: " + manufacturedBeforeValid);
         log.debug("locationExistInDb: " + locationExistInDb);
 
-        return manufacturedBeforeValid && locationExistInDb;
+        return manufacturedBeforeValid && locationExistInDb && !serialNumberExist;
     }
 }

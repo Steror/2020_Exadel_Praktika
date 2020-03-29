@@ -14,14 +14,4 @@ public interface PersonService {
     void deleteAllPersons ();
     boolean personExist(Person person);
     boolean existById(String id);
-//    Optional<Person> findByFirstName();
-//    Optional<Person> findByMiddleName();
-//    Optional<Person> findByLastName();
-//    Optional<Person> findByPhoneNumber();
-//    Optional<Person> findByEmailPhoneNumber();
-//    boolean existByFirstName();
-//    boolean existByMiddleName();
-//    boolean existByLastName();
-//    boolean existByPhoneNumber();
-//    boolean existByEmailPhoneNumber();
 }

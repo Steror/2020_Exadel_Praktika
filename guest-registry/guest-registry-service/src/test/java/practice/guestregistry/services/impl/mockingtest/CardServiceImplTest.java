@@ -122,7 +122,6 @@ public class CardServiceImplTest {
         cardService.addCard(card1);
     }
 
-    //TODO:why it doesnt work???? :D
     @Test
     public void getCardById() {
         String id = card1.getId();

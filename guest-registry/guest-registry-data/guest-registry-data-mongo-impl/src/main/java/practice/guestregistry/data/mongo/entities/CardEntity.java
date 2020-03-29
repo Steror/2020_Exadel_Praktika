@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 public class CardEntity {
 
     @Id
-//    @NotNull
     @JsonSerialize(using = ObjectID_Serializer.class)
     private ObjectId id;
 

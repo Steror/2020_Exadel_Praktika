@@ -26,15 +26,14 @@ import practice.guestregistry.services.serviceimpl.LocationServiceImpl;
 
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.not;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest(classes = {CardServiceImpl.class, LocationServiceImpl.class,
                             CardDaoImpl.class, LocationDaoImpl.class,
                             CardMapper.class, LocationMapper.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {EmbeddedMongoConfig.class})
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class CardServiceTests {
 
     @Autowired
@@ -61,9 +60,9 @@ public class CardServiceTests {
 
     @Before
     public void cleanUp() {
-        for (String name : mongoTemplate.getCollectionNames()) {
-            mongoTemplate.dropCollection(name);
-        }
+        cardService.deleteAllCards();
+        locationService.deleteAllLocations();
+
         location1 = new Location();
         location1.setName(LOCATION1_NAME);
         location1.setCountry(LOCATION1_COUNTRY);
@@ -84,6 +83,14 @@ public class CardServiceTests {
         card.setValidUntil(CARD_VALID_UNTIL);
     }
 
+
+    @Test(expected = InvalidDocumentStateException.class)
+    public void addCard_incorrectLocationIdFormat() {
+        card = new Card();
+        card.setLocationId("rl wrong id");
+        cardService.addCard(card);
+    }
+
     @Test
     public void getCardById() {
         cardService.addCard(card);
@@ -91,7 +98,13 @@ public class CardServiceTests {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void getCardById_whenCardDoesntExist() {
+    public void getCardById_badId() {
+        assertThat(cardService.getCardById("belenkoks")).isEqualTo(false);
+    }
+
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void getCardById_whenIdNull() {
 //        cardService.getCardById(card.getId());
         cardService.getCardById(null);
     }
@@ -104,13 +117,13 @@ public class CardServiceTests {
     @Test
     public void getAllCards() {
         cardService.addCard(card);
-        Card anotherCard = new Card();
 
         String locationName = "anotherLocation";
         Location anotherLocation = new Location();
         anotherLocation.setName(locationName);
         locationService.addLocation(anotherLocation);
 
+        Card anotherCard = new Card();
         anotherCard.setLocationId(anotherLocation.getId());
         anotherCard.setLocationName(locationName);
         anotherCard.setManufactured(LocalDateTime.now().toString());
@@ -142,6 +155,11 @@ public class CardServiceTests {
         cardService.addCard(card);
     }
 
+    @Test(expected = InvalidDocumentStateException.class)
+    public void addCard_serialNumberExistInDb() {
+        cardService.addCard(card);
+        cardService.addCard(card);
+    }
 
     @Test
     public void updateCard_basic() {
@@ -218,8 +236,8 @@ public class CardServiceTests {
     }
 
     @Test
-    public void doesntExistById() {
-        assertThat(cardService.existById(new ObjectId().toHexString())).isEqualTo(false);
+    public void existById_badId() {
+        assertThat(cardService.existById("belenkoks")).isEqualTo(false);
     }
 
     @Test
@@ -232,6 +250,5 @@ public class CardServiceTests {
     public void cardDoestExist() {
         card.setId(new ObjectId().toHexString());
         assertThat(cardService.cardExist(card)).isEqualTo(false);
-
     }
 }

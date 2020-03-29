@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -18,6 +19,7 @@ import practice.guestregistry.data.api.dao.PersonDao;
 import practice.guestregistry.data.mongo.daoimpl.PersonDaoImpl;
 import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
 import practice.guestregistry.domain.Person;
+import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.serviceimpl.PersonServiceImpl;
 
@@ -44,7 +46,7 @@ public class PersonServiceImplTest {
 
     @Before
     public void init() {
-        MockitoAnnotations.initMocks(this);
+//        MockitoAnnotations.initMocks(this);
 //        personDao = Mockito.mock(PersonDaoImpl.class);
         person1 = new Person();
         person1.setId(ObjectId.get().toHexString());
@@ -67,20 +69,43 @@ public class PersonServiceImplTest {
 
     @Test
     public void getPersonById() {
-//        when(personDao.findById("1")).thenReturn(new Person());
-        doReturn(Optional.ofNullable(person1)).when(personDao).findById(person1.getId());
+        doReturn(person1).when(personDao).findById(person1.getId());
         assertThat(personService.getPersonById(person1.getId())).isEqualTo(person1);
-//        BDDMockito.given(this.service.getPersonById(someID))
-//                .willReturn(Optional.of(dummyPerson));
-//        assertThat(
-//                this.service.getPersonById(someID)
-//        ).isEqualTo(Optional.of(dummyPerson));
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void getPersonById_expectException() {
-        personService.getPersonById(person1.getId());
+    public void getPersonById_whenIdNull() {
+        personService.getPersonById(null);
     }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void update_notExistingId() {
+        doReturn(false).when(personDao).existById(person1.getId());
+        personService.updatePerson(person1);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void deleteById_personDoesntExist() {
+        doReturn(false).when(personDao).existById(person1.getId());
+        personService.deletePersonById(person1.getId());
+    }
+
+    @Test(expected = InvalidDocumentStateException.class)
+    public void add_phoneNumberIncorrect() {
+        person1.setPhoneNumber("123a");
+        personService.addPerson(person1);
+    }
+
+    @Test(expected = InvalidDocumentStateException.class)
+    public void update_phoneNumberIncorrect() {
+        person1.setPhoneNumber("123a");
+        personService.updatePerson(person1);
+    }
+
+
+
+
+
 
     @Test
     public void getAllPersons() {
@@ -91,40 +116,6 @@ public class PersonServiceImplTest {
         doReturn(personList).when(personDao).findAll();
         assertThat(personService.getAllPersons()).isEqualTo(personList);
     }
-
-    @Test
-    public void savePerson() {
-        doReturn(person1).when(personDao).add(person1);
-        assertThat(person2).isEqualTo(person1);
-//        assertThat(personService.addPerson(person1)).isEqualTo(person1);
-    }
-
-
-
-    @Test(expected = ResourceNotFoundException.class)
-    public void updatePerson_expectException() {
-        Person updatablePerson = new Person();
-        personService.updatePerson(updatablePerson);
-    }
-
-
-    @Test
-    public void updatePerson() {
-        doReturn(Boolean.TRUE).when(personDao).existById(person2.getId());
-        Person updatablePerson = new Person();
-        updatablePerson.setId(person2.getId());
-        boolean[] saveCalled = {false};
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                saveCalled[0] = true;
-                return null;
-            }
-        }).when(personDao).update(updatablePerson);
-        personService.updatePerson(updatablePerson);
-        assertThat(saveCalled[0]).isEqualTo(true);
-    }
-
 
     @Test
     public void deletePersonById() {
@@ -146,13 +137,6 @@ public class PersonServiceImplTest {
 
         personService.deletePersonById(person2.getId());
         assertThat(personList.size() == oldListSize - 1);
-    }
-
-    @Test(expected = ResourceNotFoundException.class)
-    public void deletePersonById_expectException() {
-        personService.deletePersonById(person1.getId());
-//        doReturn(Boolean.TRUE).when(personDao).existById(person1.getId());
-//        verify(personDao, times(1)).save(person1);
     }
 
     @Test

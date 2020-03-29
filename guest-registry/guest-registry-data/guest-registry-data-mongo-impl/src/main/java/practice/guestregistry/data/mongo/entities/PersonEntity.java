@@ -1,10 +1,14 @@
 package practice.guestregistry.data.mongo.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import practice.guestregistry.data.mongo.JsonSerializer.ObjectID_Serializer;
@@ -17,35 +21,32 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@Document("person")
+@AllArgsConstructor
+//@Document("person")
+@Document
+@CompoundIndex(def = "{'firstName':1, 'middleName':1, 'lastName':1}", unique = true)
+//@CompoundIndexes({@CompoundIndex(name = "name_middle_last", def = "{firstName : 1, middleName : 1, lastName:1", unique = true)})
 public class PersonEntity {
 
     @Id
-    @NotNull
-    @JsonSerialize(using = ObjectID_Serializer.class)
+//    @NotNull
+//    @JsonSerialize(using = ObjectID_Serializer.class)
     private ObjectId id;
 
-    @NotEmpty
+//    @NotEmpty
     private String firstName;
     private String middleName;
-    @NotEmpty
+//    @NotEmpty
     private String lastName;
-    @Email
+//    @Email
+    @Indexed(unique = true)
     private String email;
-    @Pattern(regexp = "[0-9]*")
+//    @Pattern(regexp = "[0-9]*")
+    @Indexed(unique = true)
     private String phoneNumber;
     //URL url;
 //    TODO:ar tikrai sito reikia?
 //    @DBRef(db = "test")
 //    private List<Event> events;
-
-    public PersonEntity(ObjectId id, String firstName, String middleName, String lastName, String email, String phoneNumber) {
-        this.id = id;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
 
 }

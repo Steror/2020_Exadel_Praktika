@@ -4,15 +4,10 @@ import org.bson.types.ObjectId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.ReactiveChangeStreamOperation;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import practice.guestregistry.data.api.dao.CardDao;
@@ -22,7 +17,10 @@ import practice.guestregistry.data.mongo.mappers.CardMapper;
 import practice.guestregistry.data.mongo.mappers.LocationMapper;
 import practice.guestregistry.domain.Card;
 import practice.guestregistry.domain.Location;
-import practice.guestregistry.exceptions.*;
+import practice.guestregistry.exceptions.EntityCreationException;
+import practice.guestregistry.exceptions.EntityDeletionException;
+import practice.guestregistry.exceptions.EntityUpdateException;
+import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +30,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = {LocationDao.class, LocationDaoImpl.class, LocationMapper.class,
                             CardDao.class, CardDaoImpl.class, CardMapper.class})
 @ContextConfiguration(classes = {EmbeddedMongoConfig.class})
-//@ExtendWith(MockitoExtension.class)
 public class CardDaoImplTest {
     @Autowired
     MongoTemplate mongoTemplate;
@@ -78,25 +75,13 @@ public class CardDaoImplTest {
 
     @After
     public void cleanUp() {
-        mongoTemplate.getCollectionNames().forEach(mongoTemplate::dropCollection);
+        cardDao.deleteAll();
     }
 
     @Test(expected = EntityCreationException.class)
-    public void addEntityException_withMock() {
-        MongoTemplate templateMock = Mockito.mock(MongoTemplate.class);
-        LocationDao locationDaoMock = Mockito.mock(LocationDaoImpl.class);
-        CardDao cardDaoMock = new CardDaoImpl(templateMock, new CardMapper(), locationDaoMock);
-        Mockito.doReturn(null).when(templateMock).save(card);
-        cardDaoMock.add(card);
-    }
-
-    @Test(expected = EntityUpdateException.class)
-    public void updateEntityException_withMock() {
-        MongoTemplate templateMock = Mockito.mock(MongoTemplate.class);
-        LocationDao locationDaoMock = Mockito.mock(LocationDaoImpl.class);
-        CardDao cardDaoMock = new CardDaoImpl(templateMock, new CardMapper(), locationDaoMock);
-        Mockito.doReturn(null).when(templateMock).save(card);
-        cardDaoMock.update(card);
+    public void add_expectException() {
+        card.setId(ObjectId.get().toHexString());
+        cardDao.add(card);
     }
     @Test
     public void findById_basic() {
@@ -112,15 +97,13 @@ public class CardDaoImplTest {
     public void findAll() {
         String firstId = card.getId();
 
-        String secondId = ObjectId.get().toHexString();
         String secondSerial = "secondSerial";
-        card.setId(secondId);
+        card.setId(null);
         card.setSerialNumber(secondSerial);
         cardDao.add(card);
 
-        String thirdId = ObjectId.get().toHexString();
         String thirdSerial = "thirdSerial";
-        card.setId(thirdId);
+        card.setId(null);
         card.setSerialNumber(thirdSerial);
         cardDao.add(card);
 
@@ -143,11 +126,11 @@ public class CardDaoImplTest {
 
     @Test
     public void deleteAll() {
-        card.setId(ObjectId.get().toHexString());
+        card.setId(null);
         card.setSerialNumber("secondSerial");
         cardDao.add(card);
 
-        card.setId(ObjectId.get().toHexString());
+        card.setId(null);
         card.setSerialNumber("thirdSerial");
         cardDao.add(card);
 
@@ -156,6 +139,13 @@ public class CardDaoImplTest {
         assertThat(cardDao.findAll().isEmpty()).isEqualTo(true);
     }
 
+
+    @Test(expected = EntityUpdateException.class)
+    public void update_idIsNull_expectException() {
+        card.setId(null);
+        cardDao.update(card);
+        assertThat(cardDao.findById(card.getId())).isEqualTo(card);
+    }
 //    @Test
 //    public void deleteAll() {
 //        String firstId = card.getId();
