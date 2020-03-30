@@ -10,8 +10,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import practice.guestregistry.data.mongo.EmbeddedMongoConfig;
 import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
 import practice.guestregistry.domain.Person;
+import practice.guestregistry.exceptions.EntityCreationException;
+import practice.guestregistry.exceptions.EntityUpdateException;
+import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 //@SpringBootTest(classes = {PersonDaoImpl.class, PersonDao.class, EmbeddedMongoDb.class})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,6 +30,16 @@ public class PersonDaoImplTest {
     public Person person1;
     public Person person2;
 
+    public static final String PERSON1_FIRST_NAME = "P1 FIRST";
+    public static final String PERSON1_MIDDLE_NAME = "P1 midl name";
+    public static final String PERSON1_LAST_NAME = "P1 Last anem";
+    public static final String PERSON1_EMAIL = "person1@email.com";
+    public static final String PERSON1_PHONE_NUMBER = "123";
+    public static final String PERSON2_FIRST_NAME = "P2 FIRST";
+    public static final String PERSON2_MIDDLE_NAME = "P2 midl name";
+    public static final String PERSON2_LAST_NAME = "P2 Last anem";
+    public static final String PERSON2_EMAIL = "person2@email.com";
+    public static final String PERSON2_PHONE_NUMBER = "456";
 //    @BeforeClass
 //    @AfterClass
 
@@ -37,130 +51,117 @@ public class PersonDaoImplTest {
     @Before
     public void init() {
         person1 = new Person();
-        person1.setId(ObjectId.get().toHexString());
-        person1.setFirstName("first");
-        person1.setLastName("surname");
-        person1.setEmail("email@email.com");
-        person1.setPhoneNumber("12345");
+//        person1.setId(ObjectId.get().toHexString());
+        person1.setFirstName(PERSON1_FIRST_NAME);
+        person1.setMiddleName(PERSON1_MIDDLE_NAME);
+        person1.setLastName(PERSON1_LAST_NAME);
+        person1.setEmail(PERSON1_EMAIL);
+        person1.setPhoneNumber(PERSON1_PHONE_NUMBER);
 
         person2 = new Person();
-        person2.setId(ObjectId.get().toHexString());
-        person2.setFirstName("first");
-        person2.setLastName("surname");
-        person2.setEmail("email@email.com");
-        person2.setPhoneNumber("67890");
+        person2.setFirstName(PERSON2_FIRST_NAME);
+        person2.setMiddleName(PERSON2_MIDDLE_NAME);
+        person2.setLastName(PERSON2_LAST_NAME);
+        person2.setEmail(PERSON2_EMAIL);
+        person2.setPhoneNumber(PERSON2_PHONE_NUMBER);
     }
 
     @After
     public void empty() {
-        mongoTemplate.getCollectionNames().forEach(name -> mongoTemplate.dropCollection(name));
+        personDao.deleteAll();
+    }
+
+    @Test(expected = EntityCreationException.class)
+    public void add_expectException() {
+        person1.setId(ObjectId.get().toHexString());
+        personDao.add(person1);
+    }
+
+    @Test
+    public void add_and_findByIdBasic() {
+        personDao.add(person1);
+        assertThat(personDao.findById(person1.getId())).isEqualTo(person1);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void findById_personDoesntExist() {
+        personDao.findById(ObjectId.get().toHexString());
+    }
+
+    @Test
+    public void findAll() {
+        personDao.add(person1);
+        personDao.add(person2);
+        assertThat(personDao.findAll().stream().map(Person::getFirstName))
+                .contains(PERSON1_FIRST_NAME, PERSON2_FIRST_NAME);
+    }
+
+    @Test
+    public void update() {
+        personDao.add(person1);
+        person2.setId(person1.getId());
+        personDao.update(person2);
+        assertThat(personDao.findById(person2.getId())).isEqualTo(person2);
+    }
+
+    @Test(expected = EntityUpdateException.class)
+    public void update_idNull() {
+        personDao.add(person1);
+        person2.setId(null);
+        personDao.update(person2);
+    }
+
+    @Test
+    public void deleteById() {
+        personDao.add(person1);
+        personDao.deleteById(person1.getId());
+        assertThat(personDao.findAll().isEmpty()).isEqualTo(true);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void deleteById_idDoesntExist() {
+        personDao.deleteById(person1.getId());
     }
 
     @Test
     public void deleteAll() {
-        mongoTemplate.getCollectionNames().forEach((val) -> System.out.println(val));
+        personDao.add(person1);
+        personDao.add(person2);
+        personDao.deleteAll();
+        assertThat(personDao.findAll().isEmpty()).isEqualTo(true);
     }
 
     @Test
-    public void getPersonById() {
-//        mongoTemplate.findAll(PersonEntity.class);
-//        Person savedPerson = mongoTemplate.save(person1);
-
-        //buvo geras
-//        Person savedPerson = personDao.add(person1);
-//        System.out.println(savedPerson);
-//        System.out.println("\n!!!!!!!!\n");
-//        mongoTemplate.findAll(Person.class).stream().forEach(System.out::println);
-//        System.out.println("\n!!!!!!!!\n");
-//        assertThat(personDao.findById(savedPerson.getId())).isEqualTo(savedPerson);
-//        System.out.println(personDao.findById(new ObjectId().toHexString()));
+    public void existById() {
+        personDao.add(person1);
+        assertThat(personDao.existById(person1.getId())).isEqualTo(true);
     }
 
-//    @Test(expected = ResourceNotFoundException.class)
-//    public void getPersonById_expectException() {
-//        personService.getPersonById(person1.getId());
-//    }
-//
-//    @Test
-//    public void getAllPersons() {
-//        List<Person> personList = new ArrayList<>();
-//        personList.add(this.person1);
-//        personList.add(this.person2);
-//
-//        doReturn(personList).when(personDao).findAll();
-//        assertThat(personService.getAllPersons()).isEqualTo(personList);
-//    }
-//
-//    @Test
-//    public void savePerson() {
-//        doReturn(person1).when(personDao).save(person1);
-//        assertThat(personService.savePerson(person1)).isEqualTo(person1);
-//    }
-//
-//
-//
-//    @Test(expected = ResourceNotFoundException.class)
-//    public void updatePerson_expectException() {
-//        Person updatablePerson = new Person();
-//        personService.updatePerson(updatablePerson);
-//    }
-//
-//
-//    @Test
-//    public void updatePerson() {
-//        doReturn(Boolean.TRUE).when(personDao).existById(person2.getId());
-//        Person updatablePerson = new Person();
-//        updatablePerson.setId(person2.getId());
-//        boolean[] saveCalled = {false};
-//        doAnswer(new Answer() {
-//            @Override
-//            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-//                saveCalled[0] = true;
-//                return null;
-//            }
-//        }).when(personDao).update(updatablePerson);
-//        personService.updatePerson(updatablePerson);
-//        assertThat(saveCalled[0]).isEqualTo(true);
-//    }
-//
-//
-//    @Test
-//    public void deletePersonById() {
-//        List<Person> personList = new ArrayList<>();
-//        personList.add(this.person1);
-//        personList.add(this.person2);
-//        int oldListSize = personList.size();
-////        List spy = spy(personList);
-//
-//        doReturn(Boolean.TRUE).when(personDao).existById(person2.getId());
-////        when(personService.deletePersonById(person2.getId())).then(spy.remove(person2)).getMock();
-//        doAnswer(new Answer() {
-//            @Override
-//            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-//                personList.remove(person2);
-//                return null;
-//            }
-//        }).when(personDao).deleteById(person2.getId());
-//
-//        personService.deletePersonById(person2.getId());
-//        assertThat(personList.size() == oldListSize - 1);
-//    }
-//
-//    @Test(expected = ResourceNotFoundException.class)
-//    public void deletePersonById_expectException() {
-//        personService.deletePersonById(person1.getId());
-////        doReturn(Boolean.TRUE).when(personDao).existById(person1.getId());
-////        verify(personDao, times(1)).save(person1);
-//    }
-//
-//    @Test
-//    public void personExist() {
-//        List<Person> personList = new ArrayList<>();
-//        personList.add(this.person1);
-//        personList.add(this.person2);
-//        doReturn(Boolean.TRUE).when(personDao).exist(person2);
-//        assertThat(personService.personExist(person2)).isEqualTo(Boolean.TRUE);
-//    }
-//
+    @Test
+    public void existById_not() {
+        assertThat(personDao.existById(person1.getId())).isEqualTo(false);
+    }
 
+    @Test
+    public void exist_withWhenFullNameMatches() {
+        personDao.add(person1);
+        person2.setFirstName(PERSON1_FIRST_NAME);
+        person2.setMiddleName(PERSON1_MIDDLE_NAME);
+        person2.setLastName(PERSON1_LAST_NAME);
+        assertThat(personDao.exist(person2)).isEqualTo(true);
+    }
+
+    @Test
+    public void exist_withWhenEmailMatches() {
+        personDao.add(person1);
+        person2.setEmail(PERSON1_EMAIL);
+        assertThat(personDao.exist(person2)).isEqualTo(true);
+    }
+    @Test
+
+    public void exist_withWhenPhoneNumberMatches() {
+        personDao.add(person1);
+        person2.setPhoneNumber(PERSON1_PHONE_NUMBER);
+        assertThat(personDao.exist(person2)).isEqualTo(true);
+    }
 }

@@ -71,7 +71,7 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public boolean existById(String id) {
-        return mongoTemplate.exists(Query.query(Criteria.where("id").is(new ObjectId(id))), LocationEntity.class);
+        return mongoTemplate.exists(Query.query(Criteria.where("id").is(id)), LocationEntity.class);
     }
 
     @Override

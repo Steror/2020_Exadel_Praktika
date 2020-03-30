@@ -12,28 +12,20 @@ import practice.guestregistry.domain.Person;
 
 @Component
 public class PersonDomainEntityMapper {
-    private MapperFactory mapperFactory;
+    private static MapperFactory mapperFactory;
 
     @Autowired
     public PersonDomainEntityMapper() {
-//            PersonService workerService,
-//            CardService cardService,
-//            PersonService personService) {
-//        this.workerService = workerService;
-//        this.cardService = cardService;
-//        this.personService = personService;
 
-        this.mapperFactory = new DefaultMapperFactory.Builder().build();
+        this.mapperFactory = new DefaultMapperFactory.Builder().useAutoMapping(false).build();
         this.mapperFactory.classMap(PersonEntity.class, Person.class)
                 .exclude("id")
                 .byDefault()
                 .customize(new CustomMapper<PersonEntity, Person>() {
                     @Override
                     public void mapBtoA(Person personDomain, PersonEntity personEntity, MappingContext context) {
-                        //if (ObjectId.isValid(personDomain.getId())) {TODO pakeist validacija
                         if (personDomain.getId() != null && ObjectId.isValid(personDomain.getId())) {
                             personEntity.setId(new ObjectId(personDomain.getId()));
-                            super.mapBtoA(personDomain, personEntity, context);
                         } else {
                             personEntity.setId(null);
                         }
@@ -43,20 +35,15 @@ public class PersonDomainEntityMapper {
                         person.setId(personEntity.getId().toHexString());
                     }
                 })
-//        mapNulls(true).mapNullsInReverse(true).
                 .register();
     }
 
     public Person map (PersonEntity personEntity) {
-        Person mappedPerson = new Person();
-        this.mapperFactory.getMapperFacade(PersonEntity.class, Person.class).map(personEntity, mappedPerson);
-        return mappedPerson;
+        return this.mapperFactory.getMapperFacade(PersonEntity.class, Person.class).map(personEntity);
     }
 
     public PersonEntity map (Person personDomain) {
-        PersonEntity mappedPersonEntity = new PersonEntity();
-        this.mapperFactory.getMapperFacade(Person.class, PersonEntity.class).map(personDomain, mappedPersonEntity);
-        return mappedPersonEntity;
+        return this.mapperFactory.getMapperFacade(PersonEntity.class, Person.class).mapReverse(personDomain);
     }
 //    public void map (PersonDomain workerDTO, Person person) {
 //        this.mapperFactory.getMapperFacade(PersonDomain.class, Person.class).map(workerDTO, person);

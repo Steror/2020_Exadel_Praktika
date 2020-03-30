@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -15,13 +13,13 @@ public class Card {
     private String id;
     @NotEmpty
     private String serialNumber;
-
-    @NotNull
-    private Location location;
-    @NotNull
-    private LocalDateTime manufactured;
-    @NotNull
-    private LocalDateTime validUntil;
-    @NotNull
+    @NotEmpty
+    private String locationId;
+    private String locationName;
+    @NotEmpty
+    private String manufactured;
+    @NotEmpty
+    private String validUntil;
+    @NotEmpty
     private String ctype;
 }

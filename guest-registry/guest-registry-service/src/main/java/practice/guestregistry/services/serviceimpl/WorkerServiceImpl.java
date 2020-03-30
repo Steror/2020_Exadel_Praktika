@@ -16,7 +16,6 @@ import practice.guestregistry.services.service.WorkerService;
 import practice.guestregistry.services.service.CardService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service("mongodb")
 public class WorkerServiceImpl implements WorkerService {
@@ -24,7 +23,6 @@ public class WorkerServiceImpl implements WorkerService {
     private PersonService personService;
     private CardService cardService;
     private WorkerDomainToPersonDomainMapper mapper;
-//    private SequenceDao sequenceDao;
     private static final Logger log = LoggerFactory.getLogger(WorkerServiceImpl.class);
 
     @Autowired
@@ -37,13 +35,10 @@ public class WorkerServiceImpl implements WorkerService {
 
     @Override
     public Worker getWorkerById (String id) {
+        if (id == null) {
+            throw new ResourceNotFoundException("id null");
+        }
         return workerDao.findById(id);
-//        Optional<Worker> worker = workerDao.findById(id);
-//        if (worker.isPresent()) {
-//            return worker.get();
-//        } else {
-//            throw new ResourceNotFoundException("Document by this id doesn't exist");
-//        }
     }
 
     @Override
@@ -52,29 +47,29 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public Worker addWorker (Worker newWorker) {
+    public void addWorker (Worker newWorker) {
         if (validCard(newWorker.getCardId(), newWorker.getCardSerialNumber())) {
             //person exist in db, if not add to db before adding worker to db
             Person person = mapper.map(newWorker);
-            if (newWorker.getPersonId().isEmpty()) {
+            if ((newWorker.getPersonId() == null || newWorker.getPersonId().isEmpty())
+                    && !personService.personExist(person)) {
                 personService.addPerson(person);
-            } else if (!personService.personExist(person)) {
+            } else {
                 throw new InvalidDocumentStateException("Incorrect person information to add worker");
             }
-
-            return workerDao.add(newWorker);
+            workerDao.add(newWorker);
         } else {
             throw new InvalidDocumentStateException("Incorrect card information to add worker");
         }
     }
 
     @Override
-    public Worker updateWorker (Worker newWorker) {
+    public void updateWorker (Worker newWorker) {
         if (workerDao.existById(newWorker.getId())) {
             if (validCard(newWorker.getCardId(), newWorker.getCardSerialNumber())
 //                    && personService.getPersonById(newWorker.getPersonId()).isPresent()) {
                     && personService.existById(newWorker.getPersonId())) {
-                return workerDao.update(newWorker);
+                workerDao.update(newWorker);
             } else {
                 throw new InvalidDocumentStateException("Invalid card information || person by this id doesnt exist");
             }
@@ -114,16 +109,6 @@ public class WorkerServiceImpl implements WorkerService {
 
 
     private boolean validCard(String id, String serial) {
-        if (id.isEmpty()) {
-            return true;
-        } else if (ObjectId.isValid(id)) {
-            return false;
-        } else {
-            //TODO: ar sitas palyginimas tikrai veikia? :D
-//            return cardService.getCardById(id) ==  cardService.getCardBySerial(serial);
-            //                  |
-            //TODO: remove this V
-            return false;
-        }
+        return cardService.existCardContainingIdSerial(id, serial);
     }
 }

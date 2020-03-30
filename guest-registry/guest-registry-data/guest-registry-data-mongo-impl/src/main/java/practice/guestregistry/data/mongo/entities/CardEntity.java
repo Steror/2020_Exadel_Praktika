@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "card")
+//@Document(collection = "card")
+@Document
 public class CardEntity {
 
     @Id
-//    @NotNull
     @JsonSerialize(using = ObjectID_Serializer.class)
     private ObjectId id;
 

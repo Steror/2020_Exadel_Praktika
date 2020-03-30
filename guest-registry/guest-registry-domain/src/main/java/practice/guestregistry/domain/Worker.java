@@ -6,13 +6,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.lang.annotation.Documented;
 
 @Data
 public class Worker {
-    //    @JsonSerialize(using = ObjectID_Serializer.class)
-//    ObjectId id;
     @NotEmpty
     public String id;
+//    @NotEmpty
     public String personId;
     @NotEmpty
     public String firstName;
@@ -27,6 +27,7 @@ public class Worker {
     public String cardId;
     @NotEmpty
     public String cardSerialNumber;
+
     //smth with position
     //position started
     //termination date

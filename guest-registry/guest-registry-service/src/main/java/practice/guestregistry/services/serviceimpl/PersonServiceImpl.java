@@ -8,17 +8,17 @@ import practice.guestregistry.data.api.dao.PersonDao;
 import practice.guestregistry.domain.Person;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
+import practice.guestregistry.services.exceptions.DomainCreationException;
 import practice.guestregistry.services.service.PersonService;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
 
     private final PersonDao personDao;
     private static final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
-
 
     @Autowired
     public PersonServiceImpl(PersonDao personDao) {
@@ -27,13 +27,10 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person getPersonById (String id) {
+        if (id == null) {
+            throw new ResourceNotFoundException("id string null");
+        }
         return personDao.findById(id);
-//        Optional<Person> person = personDao.findById(id);
-//        if (person.isPresent()) {
-//            return person.get();
-//        } else {
-//            throw new ResourceNotFoundException("Person with this id doesn't exist");
-//        }
     }
 
     @Override
@@ -43,21 +40,23 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void addPerson(Person person) {
-        //TODO:check if person by email & phone number doesnt exist & combOf(name, last, middle)
-        personDao.add(person);
-//        if (personFieldsValid(person)) {
-//            personDao.add(person);
-//        } else {
-//            throw InvalidDocumentStateException("Person with full name or email or phone exist");'
-//        }
+        if (personFieldsValid(person)) {
+            personDao.add(person);
+        } else {
+            throw new InvalidDocumentStateException("person information is incorrect");
+        }
     }
 
     @Override
     public void updatePerson (Person newPerson) {
-        if (personDao.existById(newPerson.getId())) {
-            personDao.update(newPerson);
+        if (personFieldsValid(newPerson)) {
+            if (personDao.existById(newPerson.getId())) {
+                personDao.update(newPerson);
+            } else {
+                throw new ResourceNotFoundException("Can't update invalid person information");
+            }
         } else {
-            throw new ResourceNotFoundException("Can't update by this update");
+            throw new InvalidDocumentStateException("Person contains incorrect information");
         }
     }
 
@@ -66,7 +65,7 @@ public class PersonServiceImpl implements PersonService {
         if (personDao.existById(id)) {
             personDao.deleteById(id);
         } else {
-            throw new ResourceNotFoundException("Can't update by this update");
+            throw new ResourceNotFoundException("Can't delete person by this id doesnt exist");
         }
     }
 
@@ -88,6 +87,15 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean existById(String id) {
         return personDao.existById(id);
+    }
+
+
+    private boolean personFieldsValid(Person person) {
+        if (person.getPhoneNumber().matches("[0-9]*")
+                && person.getEmail().contains("@")) {
+            return true;
+        }
+        return false;
     }
 
 }

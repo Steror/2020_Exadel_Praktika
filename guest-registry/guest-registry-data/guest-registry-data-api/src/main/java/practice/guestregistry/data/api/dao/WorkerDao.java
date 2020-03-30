@@ -8,8 +8,8 @@ import java.util.Optional;
 public interface WorkerDao {
     Worker findById (String id);
     List<Worker> findAll ();
-    Worker add (Worker worker);
-    Worker update(Worker worker);
+    void add (Worker worker);
+    void update(Worker worker);
     void deleteById (String id);
     void deleteAll ();
     boolean existById(String id);

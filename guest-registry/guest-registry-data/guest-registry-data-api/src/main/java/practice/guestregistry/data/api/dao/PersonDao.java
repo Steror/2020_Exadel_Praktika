@@ -4,7 +4,6 @@ package practice.guestregistry.data.api.dao;
 import practice.guestregistry.domain.Person;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PersonDao {
     Person findById (String id);
@@ -15,7 +14,9 @@ public interface PersonDao {
     void deleteAll ();
     boolean existById(String id);
     boolean exist(Person person);
-
+//    boolean existByFullName(String name, String middle, String last);
+//    boolean existByEmail(String email);
+//    long countByPhoneNumber(String number);
 }
 //// No need implementation, just one interface, and you have CRUD, thanks Spring Data
 //public interface PersonDao extends MongoRepository<Person, ObjectId> {

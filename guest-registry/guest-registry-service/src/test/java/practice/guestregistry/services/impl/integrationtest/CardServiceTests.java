@@ -1,22 +1,20 @@
 package practice.guestregistry.services.impl.integrationtest;
 
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import practice.guestregistry.data.api.dao.CardDao;
 import practice.guestregistry.data.mongo.daoimpl.CardDaoImpl;
 import practice.guestregistry.data.mongo.daoimpl.LocationDaoImpl;
 import practice.guestregistry.data.mongo.mappers.CardMapper;
 import practice.guestregistry.data.mongo.mappers.LocationMapper;
-import practice.guestregistry.data.mongo.testconfig.EmbeddedMongoConfig;
+import practice.guestregistry.services.EmbeddedMongoConfig;
 import practice.guestregistry.domain.Card;
 import practice.guestregistry.domain.Location;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
@@ -28,14 +26,13 @@ import practice.guestregistry.services.serviceimpl.LocationServiceImpl;
 
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest(classes = {CardServiceImpl.class, LocationServiceImpl.class,
                             CardDaoImpl.class, LocationDaoImpl.class,
                             CardMapper.class, LocationMapper.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {EmbeddedMongoConfig.class})
-//@AutoConfigureDataMongo
 //@ActiveProfiles("test")
 public class CardServiceTests {
 
@@ -45,239 +42,213 @@ public class CardServiceTests {
     CardService cardService;
     @Autowired
     LocationService locationService;
+    Location location1;
 
-    /*dates aren't checked */
+    final String LOCATION1_NAME = "A";
+    final String LOCATION1_COUNTRY = "Lietuva";
+    final String LOCATION1_CITY = "Vilnius";
+    final String LOCATION1_ADDRESS = "ZALGIRIO 90";
+    final String LOCATION1_LOCATION_TYPE = "OFFICE";
+    final String LOCATION1_PHONE_NUMBER = "851212345";
+
+    Card card;
+    final String CARD_SERIAL = "123456";
+    final String CARD_LOCATION = "123456";
+    final String CARD_TYPE = "PERSONNEL";
+    final String CARD_MANUFACTURED = LocalDateTime.now().toString();
+    final String CARD_VALID_UNTIL = "2022-03-25T22:57:00.795";
 
     @Before
     public void cleanUp() {
-        for (String name : mongoTemplate.getCollectionNames()) {
-            mongoTemplate.dropCollection(name);
-        }
+        cardService.deleteAllCards();
+        locationService.deleteAllLocations();
+
+        location1 = new Location();
+        location1.setName(LOCATION1_NAME);
+        location1.setCountry(LOCATION1_COUNTRY);
+        location1.setCity(LOCATION1_CITY);
+        location1.setAddress(LOCATION1_ADDRESS);
+        location1.setLocationType(LOCATION1_LOCATION_TYPE);
+        location1.setPhoneNumber(LOCATION1_PHONE_NUMBER);
+        locationService.addLocation(location1);
+//        mongoTemplate.save(location1, "location");
+
+
+        card = new Card();
+        card.setSerialNumber(CARD_SERIAL);
+        card.setLocationId(location1.getId());
+        card.setLocationName(LOCATION1_NAME);
+        card.setCtype(CARD_TYPE);
+        card.setManufactured(CARD_MANUFACTURED);
+        card.setValidUntil(CARD_VALID_UNTIL);
     }
 
-    @Test
-    public void add_card_when_location_exist_in_db() {
-        Location location = new Location();
-        locationService.addLocation(location);
-
-        Card card = new Card();
-        card.setSerialNumber("a");
-        card.setLocation(location);
-        card.setCtype("PERSONNEL");
-        card.setManufactured(LocalDateTime.now());
-        card.setValidUntil(LocalDateTime.now());
-//        Card savedCard = cardService.addCard(card);
-
-        long collectionSize = cardService.getAllCards().size();
-//        assertThat(savedCard.getId()).isNotNull();
-        assertThat(collectionSize).isEqualTo(1);
-    }
 
     @Test(expected = InvalidDocumentStateException.class)
-    public void add_card_when_location_dont_exist_in_Db() {
-        Location location = new Location();
-        Card card = new Card();
-        card.setSerialNumber("a");
-        card.setCtype("PERSONNEL");
-        card.setManufactured(LocalDateTime.now());
-        card.setValidUntil(LocalDateTime.now());
-//        Card savedCard = cardService.addCard(card);
+    public void addCard_incorrectLocationIdFormat() {
+        card = new Card();
+        card.setLocationId("rl wrong id");
+        cardService.addCard(card);
     }
 
     @Test
-    public void get_all_cards() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-        locationService.addLocation(location1);
-
-        cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-        cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-        cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-
-        assertThat(cardService.getAllCards().size()).isEqualTo(3);
-    }
-
-    @Test
-    public void get_existing_card_by_id() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-        locationService.addLocation(location1);
-
-        cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-        cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//        Card saveCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-
-        assertThat(cardService.getAllCards().size()).isEqualTo(3);
-//        assertThat(cardService.getCardById(saveCard.getId())).isEqualTo(saveCard);
+    public void getCardById() {
+        cardService.addCard(card);
+        assertThat(cardService.getCardById(card.getId())).isEqualTo(card);
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void get_not_existing_card_by_id() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-        locationService.addLocation(location1);
-
-        cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-        cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//        Card saveCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-
-        Card newCard = new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL");
-        cardService.getCardById(newCard.getId());
+    public void getCardById_badId() {
+        assertThat(cardService.getCardById("belenkoks")).isEqualTo(false);
     }
 
 
-
-//    @Test//TODO worker ir card vienoje vietoje? Trinti arba perrasyti
-//    public void delete_existing_worker_by_id() {
-//        Location location1 = new Location();
-//        location1.setName("A");
-//        location1.setCountry("Lietuva");
-//        location1.setCity("Vilnius");
-//        location1.setAddress("Zalgirio 90");
-//        location1.setLocationType("OFFICE");
-//        location1.setPhoneNumber("851212345");
-//        location1 = locationService.addLocation(location1);
-//
-//        cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//        cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//        Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//
-//        cardService.deleteCardById(savedCard.getId());
-//        assertThat(mongoTemplate.findAll(Worker.class).size()).isEqualTo(2);
-//    }
-
     @Test(expected = ResourceNotFoundException.class)
-    public void delete_not_existing_worker_by_id() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-        locationService.addLocation(location1);
-
-        cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-        cardService.addCard(new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//        Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-
-        Card newCard = new Card(null, "s2", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL");
-        cardService.deleteCardById(newCard.getId());
+    public void getCardById_whenIdNull() {
+//        cardService.getCardById(card.getId());
+        cardService.getCardById(null);
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void dont_update_not_existing_id() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-        locationService.addLocation(location1);
-
-//        Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-
-//        savedCard.setId(null);
-//        cardService.updateCard(savedCard);
+    public void getCardById_whenCardById_notExist() {
+        cardService.getCardById(new ObjectId().toHexString());
     }
-
-    @Test(expected = InvalidDocumentStateException.class)
-    public void update_when_location_is_null() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-        locationService.addLocation(location1);
-
-//        Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//        cardService.addCard(new Card(savedCard.getId(), "s3", null, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-    }
-
-    @Test(expected = InvalidDocumentStateException.class)
-    public void update_when_location_is_not_in_db() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-        locationService.addLocation(location1);
-
-        Location location2 = new Location();
-        location2.setName("B");
-        location2.setCountry("Lietuva");
-        location2.setCity("Vilnius");
-        location2.setAddress("Zalgirio 90");
-        location2.setLocationType("OFFICE");
-        location2.setPhoneNumber("851212345");
-
-//        Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//        cardService.updateCard(new Card(savedCard.getId(), "s3", location2, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-    }
-
-//    @Test //TODO Card nesusijes su person, keistas testas: trinti arba perrasyti
-//    public void update_when_person_is_in_db_correct_update() {
-//        //adding card
-//        Location location1 = new Location();
-//        location1.setName("A");
-//        location1.setCountry("Lietuva");
-//        location1.setCity("Vilnius");
-//        location1.setAddress("Zalgirio 90");
-//        location1.setLocationType("OFFICE");
-//        location1.setPhoneNumber("851212345");
-//        Location savedLocation = locationService.addLocation(location1);
-//
-//        Card savedCard = cardService.addCard(new Card(null, "s1", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//
-//        //creating new person to update, and add him to db
-//        Location updatingWithLocation = new Location();
-//        updatingWithLocation.setName("B");
-//        updatingWithLocation.setCountry("Lietuva");
-//        updatingWithLocation.setCity("Vilnius");
-//        updatingWithLocation.setAddress("Zalgirio 90");
-//        updatingWithLocation.setLocationType("OFFICE");
-//        updatingWithLocation.setPhoneNumber("851212345");
-//        updatingWithLocation = locationService.addLocation(updatingWithLocation);
-//
-//        // updating to new Worker
-//        Card newCard = new Card(savedCard.getId(), "s2", updatingWithLocation, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL");
-//        cardService.updateCard(newCard);
-//
-//        assertThat(savedCard).isEqualTo(cardService.getAllCards().get(0));
-//    }
 
     @Test
-    public void card_exist() {
-        Location location1 = new Location();
-        location1.setName("A");
-        location1.setCountry("Lietuva");
-        location1.setCity("Vilnius");
-        location1.setAddress("Zalgirio 90");
-        location1.setLocationType("OFFICE");
-        location1.setPhoneNumber("851212345");
-        locationService.addLocation(location1);
+    public void getAllCards() {
+        cardService.addCard(card);
 
-//        Card savedCard = cardService.addCard(new Card(null, "s3", location1, LocalDateTime.now(), LocalDateTime.now(), "PERSONNEL"));
-//        assertThat(cardService.cardExist(savedCard)).isTrue();
+        String locationName = "anotherLocation";
+        Location anotherLocation = new Location();
+        anotherLocation.setName(locationName);
+        locationService.addLocation(anotherLocation);
+
+        Card anotherCard = new Card();
+        anotherCard.setLocationId(anotherLocation.getId());
+        anotherCard.setLocationName(locationName);
+        anotherCard.setManufactured(LocalDateTime.now().toString());
+        anotherCard.setValidUntil(CARD_VALID_UNTIL);
+        cardService.addCard(anotherCard);
+
+        assertThat(cardService.getAllCards().stream().map(elem -> elem.getLocationName())).
+                contains(locationName, LOCATION1_NAME);
+    }
+
+    @Test
+    public void addCard_locationExistInDb() {
+        //location added to db in @before
+        cardService.addCard(card);
+    }
+
+    @Test(expected = InvalidDocumentStateException.class)
+    public void addCard_LocationDoesntExistInDb() {
+        //location added to db in @before
+        card.setLocationId(new ObjectId().toHexString());
+        cardService.addCard(card);
+    }
+
+    @Test(expected = InvalidDocumentStateException.class)
+    public void addCard_validUntilEarlierThenManufactured() {
+        //location added to db in @before
+        card.setValidUntil(LocalDateTime.now().toString());
+        card.setManufactured(LocalDateTime.now().toString());
+        cardService.addCard(card);
+    }
+
+    @Test(expected = InvalidDocumentStateException.class)
+    public void addCard_serialNumberExistInDb() {
+        cardService.addCard(card);
+        cardService.addCard(card);
+    }
+
+    @Test
+    public void updateCard_basic() {
+        //location added to db in @before
+        cardService.addCard(card);
+        Card updateCard = new Card();
+        updateCard.setId(card.getId());
+        updateCard.setLocationId(location1.getId());
+        updateCard.setManufactured(LocalDateTime.now().toString());
+        updateCard.setValidUntil(CARD_VALID_UNTIL);
+        String updatedSerial = "updatedSerial";
+        updateCard.setSerialNumber(updatedSerial);
+
+        cardService.updateCard(updateCard);
+        assertThat(updateCard.getSerialNumber()).isEqualTo(cardService.getCardById(updateCard.getId()).getSerialNumber());
+    }
+
+
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void updateCard_updatableCardDoesntExist() {
+        //location added to db in @before
+        card.setId(new ObjectId().toHexString());
+        cardService.updateCard(card);
+    }
+
+    @Test(expected = InvalidDocumentStateException.class)
+    public void updateCard_throwsException_LocationDoesntExistInDb() {
+        //location added to db in @before
+        card.setLocationId(new ObjectId().toHexString());
+        cardService.addCard(card);
+    }
+
+    @Test(expected = InvalidDocumentStateException.class)
+    public void updateCard_throwsException_validUntilEarlierThenManufactured() {
+        //location added to db in @before
+        card.setValidUntil(LocalDateTime.now().toString());
+        card.setManufactured(LocalDateTime.now().toString());
+        cardService.addCard(card);
+    }
+
+    @Test
+    public void deleteCardById() {
+        cardService.addCard(card);
+        Card secondCard = new Card("", "456", location1.getId(), LOCATION1_NAME, CARD_MANUFACTURED, CARD_VALID_UNTIL, CARD_TYPE);
+        Card thirdCard = new Card("", "789", location1.getId(), LOCATION1_NAME, CARD_MANUFACTURED, CARD_VALID_UNTIL, CARD_TYPE);
+        cardService.addCard(secondCard);
+        cardService.addCard(thirdCard);
+
+        cardService.deleteCardById(secondCard.getId());
+        assertThat(cardService.getAllCards().stream().map(Card::getSerialNumber))
+                .doesNotContain("456").contains("123456", "789");
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void deleteCardById_whenCardDoesntExist() {
+        cardService.deleteCardById(new ObjectId().toHexString());
+    }
+
+    @Test
+    public void existById() {
+        cardService.addCard(card);
+        assertThat(cardService.existById(card.getId())).isEqualTo(true);
+    }
+
+    @Test
+    public void existById_notInDb() {
+        assertThat(cardService.existById(card.getId())).isEqualTo(false);
+    }
+
+    @Test
+    public void existById_idNull() {
+        assertThat(cardService.existById(null)).isEqualTo(false);
+    }
+
+    @Test
+    public void existById_badId() {
+        assertThat(cardService.existById("belenkoks")).isEqualTo(false);
+    }
+
+    @Test
+    public void cardExist() {
+        cardService.addCard(card);
+        assertThat(cardService.cardExist(card)).isEqualTo(true);
+    }
+
+    @Test
+    public void cardDoestExist() {
+        card.setId(new ObjectId().toHexString());
+        assertThat(cardService.cardExist(card)).isEqualTo(false);
     }
 }
