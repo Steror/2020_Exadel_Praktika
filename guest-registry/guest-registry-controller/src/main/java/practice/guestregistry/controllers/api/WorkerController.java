@@ -64,12 +64,12 @@ public class WorkerController {
     public ResponseEntity<Worker> addWorker(@Valid @RequestBody Worker worker) {
         HttpHeaders responseHeaders = new HttpHeaders();
         log.trace("workerDTO:" + worker);
-        Worker savedWorker = workerService.addWorker(worker);
-        log.trace("savedWorker:" + savedWorker);
+        workerService.addWorker(worker);
+        log.trace("savedWorker:" + worker);
         responseHeaders.setLocation(ServletUriComponentsBuilder.
                 fromCurrentRequest().
                 path("/{id}").
-                buildAndExpand(savedWorker.getId())
+                buildAndExpand(worker.getId())
                 .toUri());
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
@@ -79,8 +79,8 @@ public class WorkerController {
 //    public ResponseEntity<@Valid Worker> updateWorker(@Valid @RequestBody Worker newWorker) {
     public ResponseEntity<@Valid Worker> updateWorker(@Valid @RequestBody Worker worker) {
         log.trace("updating worker: " + worker);
-        Worker updatedWorker = workerService.updateWorker(worker);
-        log.trace("updated worker: " + updatedWorker);
+        workerService.updateWorker(worker);
+        log.trace("updated worker: " + worker);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
