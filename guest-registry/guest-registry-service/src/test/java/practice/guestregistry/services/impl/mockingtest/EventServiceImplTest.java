@@ -12,11 +12,11 @@ import practice.guestregistry.domain.Event;
 import practice.guestregistry.domain.Location;
 import practice.guestregistry.domain.Person;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
+import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.services.service.LocationService;
 import practice.guestregistry.services.service.PersonService;
 import practice.guestregistry.services.serviceimpl.EventServiceImpl;
 
-import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,29 +113,29 @@ class EventServiceImplTest {
     }
 
     @Test
-    void testAddEventLocationThrowInvalidParameterException() {
+    void testAddEventLocationThrowInvalidDocumentStateException() {
         Mockito.when(locationService.locationExist(event1.getLocation()))
                 .thenReturn(false);
 
-        InvalidParameterException exception = assertThrows(
-                InvalidParameterException.class,
+        InvalidDocumentStateException exception = assertThrows(
+                InvalidDocumentStateException.class,
                 () -> eventService.addEvent(event1)
         );
 
-        assertEquals(InvalidParameterException.class, exception.getClass());
+        assertEquals(InvalidDocumentStateException.class, exception.getClass());
     }
 
     @Test
-    void testAddEventPersonThrowInvalidParameterException() {
+    void testAddEventPersonThrowInvalidDocumentStateException() {
         Mockito.when(personService.personExist(event1.getAttendees().get(0)))
                 .thenReturn(false);
 
-        InvalidParameterException exception = assertThrows(
-                InvalidParameterException.class,
+        InvalidDocumentStateException exception = assertThrows(
+                InvalidDocumentStateException.class,
                 () -> eventService.addEvent(event1)
         );
 
-        assertEquals(InvalidParameterException.class, exception.getClass());
+        assertEquals(InvalidDocumentStateException.class, exception.getClass());
     }
 
     @Test
@@ -167,23 +167,23 @@ class EventServiceImplTest {
     }
 
     @Test
-    void testUpdateEventLocationThrowInvalidParameterException() {
+    void testUpdateEventLocationThrowInvalidDocumentStateException() {
         Mockito.when(eventDao.existById(event1.getId()))
                 .thenReturn(true);
 
         Mockito.when(locationService.locationExist(event1.getLocation()))
                 .thenReturn(false);
 
-        InvalidParameterException exception = assertThrows(
-                InvalidParameterException.class,
+        InvalidDocumentStateException exception = assertThrows(
+                InvalidDocumentStateException.class,
                 () -> eventService.updateEvent(event1)
         );
 
-        assertEquals(InvalidParameterException.class, exception.getClass());
+        assertEquals(InvalidDocumentStateException.class, exception.getClass());
     }
 
     @Test
-    void testUpdateEventPersonThrowInvalidParameterException() {
+    void testUpdateEventPersonThrowInvalidDocumentStateException() {
         Mockito.when(eventDao.existById(event1.getId()))
                 .thenReturn(true);
 
@@ -193,12 +193,12 @@ class EventServiceImplTest {
         Mockito.when(personService.personExist(event1.getAttendees().get(0)))
                 .thenReturn(false);
 
-        InvalidParameterException exception = assertThrows(
-                InvalidParameterException.class,
+        InvalidDocumentStateException exception = assertThrows(
+                InvalidDocumentStateException.class,
                 () -> eventService.updateEvent(event1)
         );
 
-        assertEquals(InvalidParameterException.class, exception.getClass());
+        assertEquals(InvalidDocumentStateException.class, exception.getClass());
     }
 
     @Test
