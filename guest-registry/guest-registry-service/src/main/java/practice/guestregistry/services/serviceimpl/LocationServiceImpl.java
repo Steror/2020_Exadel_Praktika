@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.LocationDao;
 import practice.guestregistry.domain.Location;
+import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.LocationService;
 
@@ -21,8 +22,12 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location getLocationById(String id) {
-        return dao.findById(id);
-//        throw new ResourceNotFoundException("Location with this id doesn't exist");
+        if (dao.existById(id)) {
+            return dao.findById(id);
+        }
+        else {
+            throw new ResourceNotFoundException("Location with this id doesn't exist");
+        }
     }
 
     @Override
@@ -32,7 +37,12 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void addLocation(Location location) {
-        dao.add(location);
+        if (dao.existById(location.getId())) {
+            throw new InvalidDocumentStateException("A location with this id already exists");
+        }
+        else {
+            dao.add(location);
+        }
     }
 
     @Override

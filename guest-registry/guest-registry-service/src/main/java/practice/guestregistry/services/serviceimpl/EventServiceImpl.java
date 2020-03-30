@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.EventDao;
 import practice.guestregistry.domain.Event;
 import practice.guestregistry.domain.Person;
+import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.service.EventService;
 import practice.guestregistry.services.service.LocationService;
 import practice.guestregistry.services.service.PersonService;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 
 @Service
@@ -40,21 +40,26 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void addEvent(Event event) {
-        if (locationService.locationExist(event.getLocation())) {  // Check if location assigned to event exists
-            int presentPersons = 0;
-            for (Person person: event.getAttendees()) {
-                if (personService.personExist(person))    // Check if person exists
-                presentPersons++;
-                else
-                    throw new InvalidParameterException("Invalid field: Person(id: " + person.getId()
-                            + " " + person.getLastName() + ") does not exist");
-            }
-            if (presentPersons == event.getAttendees().size())  // If all persons exist, event is added to DB
-                dao.add(event);
+        if (dao.existById(event.getId())) {
+            throw new InvalidDocumentStateException("An event with this id already exists");
         }
-        else
-            throw new InvalidParameterException("Invalid field: Location(id:"
-                    + event.getLocation().getId() + ") assigned to event does not exist");
+        else {
+            if (locationService.locationExist(event.getLocation())) {  // Check if location assigned to event exists
+                int presentPersons = 0;
+                for (Person person: event.getAttendees()) {
+                    if (personService.personExist(person))    // Check if person exists
+                        presentPersons++;
+                    else
+                        throw new InvalidDocumentStateException("Invalid field: Person(id: " + person.getId()
+                                + " " + person.getLastName() + ") does not exist");
+                }
+                if (presentPersons == event.getAttendees().size())  // If all persons exist, event is added to DB
+                    dao.add(event);
+            }
+            else
+                throw new InvalidDocumentStateException("Invalid field: Location(id:"
+                        + event.getLocation().getId() + ") assigned to event does not exist");
+        }
     }
 
     @Override
@@ -66,16 +71,16 @@ public class EventServiceImpl implements EventService {
                     if (personService.personExist(person))    // Check if person with this id exists
                         presentPersons++;
                     else
-                        throw new InvalidParameterException("Invalid field: Person(id: " + person.getId()
+                        throw new InvalidDocumentStateException("Invalid field: Person(id: " + person.getId()
                                 + " " + person.getLastName() + ") does not exist");
                 }
                 if (presentPersons == event.getAttendees().size())  // If all persons exist, event is added to DB
                     dao.update(event);
                 else
-                    throw new InvalidParameterException("Some persons do no exist, cannot update event");
+                    throw new InvalidDocumentStateException("Some persons do no exist, cannot update event");
             }
             else
-                throw new InvalidParameterException("Invalid field: Location(id:"
+                throw new InvalidDocumentStateException("Invalid field: Location(id:"
                         + event.getLocation().getId() + ") assigned to event does not exist");
         }
         else

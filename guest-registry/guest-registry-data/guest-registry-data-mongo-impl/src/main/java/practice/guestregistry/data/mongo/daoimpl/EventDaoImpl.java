@@ -13,6 +13,7 @@ import practice.guestregistry.data.mongo.entities.CardEntity;
 import practice.guestregistry.data.mongo.entities.EventEntity;
 import practice.guestregistry.data.mongo.mappers.EventMapper;
 import practice.guestregistry.domain.Event;
+import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,14 +32,9 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public Event findById (String id) {//TODO catch null and throw exception when wrong id
+    public Event findById (String id) {
         EventEntity eventEntity = mongoTemplate.findById(id, EventEntity.class);
-//        if (eventEntity == null) {
-//            throw new ObjectNotFoundException("");
-//        }
-//        else {
-            return eventMapper.entityToDomain(eventEntity);
-//        }
+        return eventMapper.entityToDomain(eventEntity);
     }
 
     @Override

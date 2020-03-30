@@ -30,7 +30,7 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public Location findById (String id) {//TODO throw null exception
+    public Location findById (String id) {
         LocationEntity locationEntity = mongoTemplate.findById(new ObjectId(id), LocationEntity.class);
         return mapper.entityToDomain(locationEntity);
     }

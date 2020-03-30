@@ -70,30 +70,30 @@ class EventServiceImplTest {
     }
 
     @Test
-    void getEventById() {
-        Mockito.when(eventDao.existById(this.event1.getId())).thenReturn(true);
-        Mockito.when(eventDao.findById(this.event1.getId())).thenReturn(this.event1);
+    void testGetEventById() {
+        Mockito.when(eventDao.existById(event1.getId())).thenReturn(true);
+        Mockito.when(eventDao.findById(event1.getId())).thenReturn(event1);
 
-        assertEquals(this.event1, eventService.getEventById(this.event1.getId()));
+        assertEquals(event1, eventService.getEventById(event1.getId()));
     }
 
     @Test
-    void getEventByIdThrowResourceNotFoundException() {
-        Mockito.when(eventDao.existById(this.event1.getId())).thenReturn(false);
+    void testGetEventByIdThrowResourceNotFoundException() {
+        Mockito.when(eventDao.existById(event1.getId())).thenReturn(false);
 
         ResourceNotFoundException exception = assertThrows(
                 ResourceNotFoundException.class,
-                () -> eventService.getEventById(this.event1.getId())
+                () -> eventService.getEventById(event1.getId())
         );
 
         assertEquals(ResourceNotFoundException.class, exception.getClass());
     }
 
     @Test
-    void getAllEvents() {
+    void testGetAllEvents() {
         List<Event> eventList = new ArrayList<>();
-        eventList.add(this.event1);
-        eventList.add(this.event2);
+        eventList.add(event1);
+        eventList.add(event2);
 
         Mockito.when(eventDao.findAll()).thenReturn(eventList);
 
@@ -101,7 +101,7 @@ class EventServiceImplTest {
     }
 
     @Test
-    void addEvent() {
+    void testAddEvent() {
         Mockito.when(locationService.locationExist(event1.getLocation()))
                 .thenReturn(true);
 
@@ -113,33 +113,33 @@ class EventServiceImplTest {
     }
 
     @Test
-    void addEventLocationThrowInvalidParameterException() {
+    void testAddEventLocationThrowInvalidParameterException() {
         Mockito.when(locationService.locationExist(event1.getLocation()))
                 .thenReturn(false);
 
         InvalidParameterException exception = assertThrows(
                 InvalidParameterException.class,
-                () -> eventService.addEvent(this.event1)
+                () -> eventService.addEvent(event1)
         );
 
         assertEquals(InvalidParameterException.class, exception.getClass());
     }
 
     @Test
-    void addEventPersonThrowInvalidParameterException() {
+    void testAddEventPersonThrowInvalidParameterException() {
         Mockito.when(personService.personExist(event1.getAttendees().get(0)))
                 .thenReturn(false);
 
         InvalidParameterException exception = assertThrows(
                 InvalidParameterException.class,
-                () -> eventService.addEvent(this.event1)
+                () -> eventService.addEvent(event1)
         );
 
         assertEquals(InvalidParameterException.class, exception.getClass());
     }
 
     @Test
-    void updateEvent() {
+    void testUpdateEvent() {
         Mockito.when(eventDao.existById(event1.getId()))
                 .thenReturn(true);
 
@@ -154,20 +154,20 @@ class EventServiceImplTest {
     }
 
     @Test
-    void updateEventThrowResourceNotFoundException() {
+    void testUpdateEventThrowResourceNotFoundException() {
         Mockito.when(eventDao.existById(event1.getId()))
                 .thenReturn(false);
 
         ResourceNotFoundException exception = assertThrows(
                 ResourceNotFoundException.class,
-                () -> eventService.updateEvent(this.event1)
+                () -> eventService.updateEvent(event1)
         );
 
         assertEquals(ResourceNotFoundException.class, exception.getClass());
     }
 
     @Test
-    void updateEventLocationThrowInvalidParameterException() {
+    void testUpdateEventLocationThrowInvalidParameterException() {
         Mockito.when(eventDao.existById(event1.getId()))
                 .thenReturn(true);
 
@@ -176,14 +176,14 @@ class EventServiceImplTest {
 
         InvalidParameterException exception = assertThrows(
                 InvalidParameterException.class,
-                () -> eventService.updateEvent(this.event1)
+                () -> eventService.updateEvent(event1)
         );
 
         assertEquals(InvalidParameterException.class, exception.getClass());
     }
 
     @Test
-    void updateEventPersonThrowInvalidParameterException() {
+    void testUpdateEventPersonThrowInvalidParameterException() {
         Mockito.when(eventDao.existById(event1.getId()))
                 .thenReturn(true);
 
@@ -195,14 +195,14 @@ class EventServiceImplTest {
 
         InvalidParameterException exception = assertThrows(
                 InvalidParameterException.class,
-                () -> eventService.updateEvent(this.event1)
+                () -> eventService.updateEvent(event1)
         );
 
         assertEquals(InvalidParameterException.class, exception.getClass());
     }
 
     @Test
-    void deleteEventById() {
+    void testDeleteEventById() {
         Mockito.when(eventDao.existById(event1.getId()))
                 .thenReturn(true);
 
@@ -211,7 +211,7 @@ class EventServiceImplTest {
     }
 
     @Test
-    void deleteEventByIdThrowResourceNotFoundException() {
+    void testDeleteEventByIdThrowResourceNotFoundException() {
         Mockito.when(eventDao.existById(event1.getId()))
                 .thenReturn(false);
 
@@ -223,8 +223,23 @@ class EventServiceImplTest {
         assertEquals(ResourceNotFoundException.class, exception.getClass());
     }
 
-//    @Test
-//    void deleteAllEvents() {
-//
-//    }
+    @Test
+    void testDeleteAllEvents() {
+        eventService.deleteAllEvents();
+        verify(eventDao, times(1)).deleteAll();
+    }
+
+    @Test
+    void testEventExistById() {
+        Mockito.when(eventDao.existById(event1.getId()))
+                .thenReturn(true);
+        assertTrue(eventService.eventExistById(event1.getId()));
+    }
+
+    @Test
+    void testEventExist() {
+        Mockito.when(eventDao.exist(event1))
+                .thenReturn(true);
+        assertTrue(eventService.eventExist(event1));
+    }
 }
