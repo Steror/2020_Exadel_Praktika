@@ -43,48 +43,21 @@ public class EventServiceImpl implements EventService {
         if (dao.existById(event.getId())) {
             throw new InvalidDocumentStateException("An event with this id already exists");
         }
-        else {
-            if (locationService.locationExist(event.getLocation())) {  // Check if location assigned to event exists
-                int presentPersons = 0;
-                for (Person person: event.getAttendees()) {
-                    if (personService.personExist(person))    // Check if person exists
-                        presentPersons++;
-                    else
-                        throw new InvalidDocumentStateException("Invalid field: Person(id: " + person.getId()
-                                + " " + person.getLastName() + ") does not exist");
-                }
-                if (presentPersons == event.getAttendees().size())  // If all persons exist, event is added to DB
-                    dao.add(event);
-            }
-            else
-                throw new InvalidDocumentStateException("Invalid field: Location(id:"
-                        + event.getLocation().getId() + ") assigned to event does not exist");
+        else if (eventIsValid(event)) {
+            dao.add(event);
         }
     }
 
     @Override
     public void updateEvent(Event event) {
         if (dao.existById(event.getId())) {
-            if (locationService.locationExist(event.getLocation())) {  // Check if location assigned to event exists
-                int presentPersons = 0;
-                for (Person person: event.getAttendees()) {
-                    if (personService.personExist(person))    // Check if person with this id exists
-                        presentPersons++;
-                    else
-                        throw new InvalidDocumentStateException("Invalid field: Person(id: " + person.getId()
-                                + " " + person.getLastName() + ") does not exist");
-                }
-                if (presentPersons == event.getAttendees().size())  // If all persons exist, event is added to DB
-                    dao.update(event);
-                else
-                    throw new InvalidDocumentStateException("Some persons do no exist, cannot update event");
+            if (eventIsValid(event)) {
+                dao.update(event);
             }
-            else
-                throw new InvalidDocumentStateException("Invalid field: Location(id:"
-                        + event.getLocation().getId() + ") assigned to event does not exist");
         }
-        else
+        else {
             throw new ResourceNotFoundException("Event with this id doesn't exist");
+        }
     }
 
     @Override
@@ -108,5 +81,32 @@ public class EventServiceImpl implements EventService {
     @Override
     public boolean eventExist(Event event) {
         return dao.exist(event);
+    }
+
+    public boolean eventIsValid(Event event) {
+        if (event.getStartDateTime() != null &&
+                event.getEndDateTime() != null &&
+                event.getLocation() != null &&
+                event.getAttendees() != null) {
+            if (locationService.locationExist(event.getLocation())) {  // Check if location assigned to event exists
+                int presentPersons = 0;
+                for (Person person: event.getAttendees()) {
+                    if (personService.personExist(person))    // Check if person exists
+                        presentPersons++;
+                    else
+                        throw new InvalidDocumentStateException("Invalid field: Person(id: " + person.getId()
+                                + " " + person.getLastName() + ") does not exist");
+                }
+                if (presentPersons == event.getAttendees().size())  // If all persons exist, event is added to DB
+                    return true;
+            }
+            else
+                throw new InvalidDocumentStateException("Invalid field: Location(id:"
+                        + event.getLocation().getId() + ") assigned to event does not exist");
+        }
+        else {
+            throw new InvalidDocumentStateException("Event doesn't match field requirements");
+        }
+        return false;
     }
 }

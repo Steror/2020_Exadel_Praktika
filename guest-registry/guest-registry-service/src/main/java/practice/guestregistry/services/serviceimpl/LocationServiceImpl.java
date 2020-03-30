@@ -37,20 +37,24 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void addLocation(Location location) {
-        if (dao.existById(location.getId())) {
-            throw new InvalidDocumentStateException("A location with this id already exists");
-        }
-        else {
-            dao.add(location);
+        if (locationIsValid(location)) {
+            if (dao.existById(location.getId())) {
+                throw new InvalidDocumentStateException("A location with this id already exists");
+            }
+            else {
+                dao.add(location);
+            }
         }
     }
 
     @Override
     public void updateLocation(Location location) {
-        if (dao.existById(location.getId())) {
-            dao.update(location);
-        } else {
-            throw new ResourceNotFoundException("Location with this id doesn't exist");
+        if (locationIsValid(location)) {
+            if (dao.existById(location.getId())) {
+                dao.update(location);
+            } else {
+                throw new ResourceNotFoundException("Location with this id doesn't exist");
+            }
         }
     }
 
@@ -76,5 +80,24 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public boolean locationExistById(String id) {
         return dao.existById(id);
+    }
+
+    public boolean locationIsValid(Location location) {
+        if (location.getCity() != null) {
+            if (location.getAddress() != null) {
+                if (location.getPhoneNumber().matches("^[\\+\\d]+(?:[\\d-.\\s()]*)$") ||
+                        location.getPhoneNumber() == null) {
+                    return true;
+                } else {
+                    throw new InvalidDocumentStateException("Location doesn't match phone number field requirements");
+                }
+            }
+            else {
+                throw new InvalidDocumentStateException("Location doesn't match address field requirements");
+            }
+        }
+        else {
+            throw new InvalidDocumentStateException("Location doesn't match city field requirements");
+        }
     }
 }

@@ -121,6 +121,9 @@ public class CardServiceTests {
         String locationName = "anotherLocation";
         Location anotherLocation = new Location();
         anotherLocation.setName(locationName);
+        anotherLocation.setCity(LOCATION1_CITY);
+        anotherLocation.setAddress(LOCATION1_ADDRESS);
+        anotherLocation.setPhoneNumber(LOCATION1_PHONE_NUMBER);
         locationService.addLocation(anotherLocation);
 
         Card anotherCard = new Card();
