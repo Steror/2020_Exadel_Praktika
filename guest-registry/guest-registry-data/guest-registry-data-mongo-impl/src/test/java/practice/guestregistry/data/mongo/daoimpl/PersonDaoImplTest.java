@@ -104,6 +104,13 @@ public class PersonDaoImplTest {
         assertThat(personDao.findById(person2.getId())).isEqualTo(person2);
     }
 
+    @Test(expected = EntityUpdateException.class)
+    public void update_idNull() {
+        personDao.add(person1);
+        person2.setId(null);
+        personDao.update(person2);
+    }
+
     @Test
     public void deleteById() {
         personDao.add(person1);

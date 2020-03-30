@@ -16,6 +16,7 @@ public interface CardDao {
     boolean existById (String id);
     boolean exist (Card card);
     boolean serialNumberExist(String serialNumber);
+    boolean existCardContainingIdSerial(String id, String serial);
 }
 
 

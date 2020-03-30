@@ -1,5 +1,6 @@
 package practice.guestregistry.data.mongo.daoimpl;
 
+import com.mongodb.client.result.DeleteResult;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import practice.guestregistry.data.api.dao.CardDao;
 import practice.guestregistry.data.api.dao.LocationDao;
 import practice.guestregistry.data.mongo.entities.CardEntity;
 import practice.guestregistry.data.mongo.entities.LocationEntity;
+import practice.guestregistry.data.mongo.entities.PersonEntity;
 import practice.guestregistry.data.mongo.mappers.CardMapper;
 import practice.guestregistry.domain.Card;
 import practice.guestregistry.domain.Location;
@@ -48,18 +50,14 @@ public class CardDaoImpl implements CardDao {
         if (cardEntity == null) {
             throw new ResourceNotFoundException("Card by this id doens't exist");
         }
-        Card card;
-        try {
-            card = cardMapper.entityToDomain(cardEntity);
-        } catch (DateTimeParseException ex) {
-            throw new InvalidDocumentStateException("Incorrect date", ex);
-        }
-        return card;
+        return cardMapper.entityToDomain(cardEntity);
     }
 
     @Override
     public List<Card> findAll() {
-        return mongoTemplate.findAll(CardEntity.class).stream().map(cardMapper::entityToDomain)
+        return mongoTemplate.findAll(CardEntity.class)
+                .stream()
+                .map(cardMapper::entityToDomain)
                 .collect(Collectors.toList());
     }
 
@@ -71,7 +69,6 @@ public class CardDaoImpl implements CardDao {
         if (cardEntity.getId() != null) {
             throw new EntityCreationException("id must be null");
         }
-//        cardEntity.setId(ObjectId.get());
 
         //fully reconstruct Card Entity
         LocationEntity locationFromDb = mongoTemplate.findById(card.getLocationId(), LocationEntity.class);
@@ -93,11 +90,10 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public void deleteById(String id) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(id));
-        CardEntity deletedEntity = mongoTemplate.findAndRemove(query, CardEntity.class);
-        if (deletedEntity == null) {
-            throw new EntityDeletionException("Such entity doesn't exist cannot delete");
+        Query query = Query.query(Criteria.where("id").is(id));
+        DeleteResult deletedWorker = mongoTemplate.remove(query, CardEntity.class);
+        if (!deletedWorker.wasAcknowledged() || deletedWorker.getDeletedCount() == 0) {
+            throw new ResourceNotFoundException("Cannot delete card by this id doesnt exist");
         }
     }
 
@@ -123,5 +119,11 @@ public class CardDaoImpl implements CardDao {
     @Override
     public boolean serialNumberExist(String serialNumber) {
         return mongoTemplate.exists(Query.query(Criteria.where("serialNumber").is(serialNumber)), CardEntity.class);
+    }
+
+    @Override
+    public boolean existCardContainingIdSerial(String id, String serial) {
+        Query query = Query.query(Criteria.where("serialNumber").is(serial).and("id").is(id));
+        return mongoTemplate.exists(query, CardEntity.class);
     }
 }

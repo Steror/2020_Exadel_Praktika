@@ -16,14 +16,14 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "worker")
+//@Document(collection = "worker")
+@Document
 public class WorkerEntity {
-    @Id
-    @NotNull
     @JsonSerialize(using = ObjectID_Serializer.class)
+    @Id
     private ObjectId id;
-    @DBRef
     @NotNull
+    @DBRef
     @CascadeSave
     private PersonEntity personEntity;
     @DBRef

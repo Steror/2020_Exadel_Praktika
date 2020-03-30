@@ -6,6 +6,8 @@ import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -24,6 +26,8 @@ import java.io.IOException;
 //@PropertySource({"file:guest-registry-core/src/main/resources/application-${envTarget:dev}.properties"})
 @PropertySource({"application.properties"})
 public class EmbeddedMongoConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(EmbeddedMongoConfig.class);
     private MongodProcess mongoProcess;
     @Value("${spring.data.mongodb.host}")
     private String MONGO_HOST;
@@ -44,12 +48,9 @@ public class EmbeddedMongoConfig {
     @PostConstruct
     public void start () throws IOException {
 
-        System.out.println("\n-----------------------------------------------------------------------");
-        System.out.println(MONGO_DATABASE);
-        System.out.println(MONGO_HOST);
-        System.out.println(MONGO_PORT);
-        System.out.println(Integer.decode(MONGO_PORT));
-        System.out.println("\n-----------------------------------------------------------------------");
+        log.debug("using: " + MONGO_DATABASE);
+        log.debug("using: " + MONGO_HOST);
+        log.debug("using: " + MONGO_PORT);
 
         MongodStarter starter = MongodStarter.getDefaultInstance();
         MongodExecutable mongoExecutable = starter.prepare(

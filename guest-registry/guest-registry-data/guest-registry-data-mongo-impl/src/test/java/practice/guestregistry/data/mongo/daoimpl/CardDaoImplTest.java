@@ -32,19 +32,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {EmbeddedMongoConfig.class})
 public class CardDaoImplTest {
     @Autowired
-    MongoTemplate mongoTemplate;
+    public MongoTemplate mongoTemplate;
     @Autowired
-    CardDao cardDao;
+    public CardDao cardDao;
     @Autowired
-    LocationDao locationDao;
+    public LocationDao locationDao;
 
-    Card card;
+    public Card card;
     public static final String CARD_SERIAL = "123456";
     public static final String CARD_TYPE = "PERSONNEL";
     public static final String CARD_MANUFACTURED = LocalDateTime.now().toString();
     public static final String CARD_VALID_UNTIL = "2022-03-25T22:57:00.795";
 
-    Location location;
+    public Location location;
     public static final String LOCATION1_NAME = "A";
     public static final String LOCATION1_COUNTRY = "Lietuva";
     public static final String LOCATION1_CITY = "Vilnius";
@@ -54,6 +54,8 @@ public class CardDaoImplTest {
 
     @Before
     public void initTest() {
+        cardDao.deleteAll();
+
         location = new Location();
         location.setName(LOCATION1_NAME);
         location.setCountry(LOCATION1_COUNTRY);
@@ -70,12 +72,6 @@ public class CardDaoImplTest {
         card.setManufactured(CARD_MANUFACTURED);
         card.setValidUntil(CARD_VALID_UNTIL);
         card.setCtype(CARD_TYPE);
-        cardDao.add(card);
-    }
-
-    @After
-    public void cleanUp() {
-        cardDao.deleteAll();
     }
 
     @Test(expected = EntityCreationException.class)
@@ -85,6 +81,7 @@ public class CardDaoImplTest {
     }
     @Test
     public void findById_basic() {
+        cardDao.add(card);
         assertThat(cardDao.findById(card.getId())).isEqualTo(card);
     }
 
@@ -95,6 +92,7 @@ public class CardDaoImplTest {
 
     @Test
     public void findAll() {
+        cardDao.add(card);
         String firstId = card.getId();
 
         String secondSerial = "secondSerial";
@@ -115,17 +113,19 @@ public class CardDaoImplTest {
 
     @Test
     public void deleteById() {
+        cardDao.add(card);
         cardDao.deleteById(card.getId());
         assertThat(cardDao.findAll().isEmpty()).isEqualTo(true);
     }
 
-    @Test(expected = EntityDeletionException.class)
+    @Test(expected = ResourceNotFoundException.class)
     public void deleteById_cardDoesntExist() {
         cardDao.deleteById(ObjectId.get().toHexString());
     }
 
     @Test
     public void deleteAll() {
+        cardDao.add(card);
         card.setId(null);
         card.setSerialNumber("secondSerial");
         cardDao.add(card);
@@ -142,6 +142,7 @@ public class CardDaoImplTest {
 
     @Test(expected = EntityUpdateException.class)
     public void update_idIsNull_expectException() {
+        cardDao.add(card);
         card.setId(null);
         cardDao.update(card);
         assertThat(cardDao.findById(card.getId())).isEqualTo(card);
@@ -168,6 +169,7 @@ public class CardDaoImplTest {
 //    }
     @Test
     public void existById() {
+        cardDao.add(card);
         assertThat(cardDao.existById(card.getId())).isEqualTo(true);
     }
 
@@ -178,6 +180,7 @@ public class CardDaoImplTest {
 
     @Test
     public void exist() {
+        cardDao.add(card);
         assertThat(cardDao.exist(card)).isEqualTo(true);
     }
 
@@ -185,5 +188,22 @@ public class CardDaoImplTest {
     public void exist_not() {
         card.setSerialNumber("newSerial");
         assertThat(cardDao.exist(card)).isEqualTo(false);
+    }
+
+    @Test
+    public void existCardContainingIdSerial() {
+        System.out.println(card);
+        cardDao.add(card);
+        assertThat(cardDao.existCardContainingIdSerial(card.getId(), card.getSerialNumber())).isEqualTo(true);
+    }
+
+    @Test
+    public void existCardContainingIdSerial_cardDoesntExistInDb() {
+        assertThat(cardDao.existCardContainingIdSerial(card.getId(), card.getSerialNumber())).isEqualTo(false);
+    }
+
+    @Test
+    public void existCardContainingIdSerial_incorrectData() {
+        assertThat(cardDao.existCardContainingIdSerial("someID", "serial")).isEqualTo(false);
     }
 }

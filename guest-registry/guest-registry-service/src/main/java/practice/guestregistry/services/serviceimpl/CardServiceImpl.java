@@ -86,6 +86,11 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
+    public boolean existCardContainingIdSerial(String id, String serial) {
+        return cardDao.existCardContainingIdSerial(id, serial);
+    }
+
+    @Override
     public boolean cardExist(Card card) {
         log.trace("card Exist " + card);
         return cardDao.exist(card);

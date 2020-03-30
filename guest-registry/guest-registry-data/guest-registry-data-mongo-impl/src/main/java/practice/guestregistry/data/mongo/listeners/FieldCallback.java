@@ -12,15 +12,14 @@ public class FieldCallback implements ReflectionUtils.FieldCallback {
     public void doWith(final Field field) throws IllegalArgumentException, IllegalAccessException {
         ReflectionUtils.makeAccessible(field);
 
-//        System.out.println(this.getClass().toString() + " do with in serach of id");
-//        System.out.println(field);
+        System.out.println("FIELD CALL BACK field");
         if (field.isAnnotationPresent(Id.class)) {
             idFound = true;
         }
     }
 
     public boolean isIdFound() {
-//        System.out.println("is Found is called");
+        System.out.println("is Found is called");
         return idFound;
     }
 }

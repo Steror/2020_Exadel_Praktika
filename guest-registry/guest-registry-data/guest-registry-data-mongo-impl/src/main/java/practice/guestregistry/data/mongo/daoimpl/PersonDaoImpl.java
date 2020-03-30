@@ -1,5 +1,6 @@
 package practice.guestregistry.data.mongo.daoimpl;
 
+import com.mongodb.client.result.DeleteResult;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.data.mongodb.util.BsonUtils;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.PersonDao;
 import practice.guestregistry.data.mongo.entities.PersonEntity;
+import practice.guestregistry.data.mongo.entities.WorkerEntity;
 import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
 import practice.guestregistry.domain.Person;
 import practice.guestregistry.exceptions.EntityCreationException;
@@ -76,9 +78,9 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public List<Person> findAll() {
-        return mongoTemplate.findAll(PersonEntity.class).
-                stream().
-                map(mapper::map)
+        return mongoTemplate.findAll(PersonEntity.class)
+                .stream()
+                .map(mapper::map)
                 .collect(Collectors.toList());
     }
 
@@ -104,6 +106,9 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public void update(Person person) {
         PersonEntity mappedPersonEntity = mapper.map(person);
+        if (mappedPersonEntity.getId() == null) {
+            throw new EntityUpdateException("id must be null");
+        }
         try {
             mongoTemplate.save(mappedPersonEntity);
         } catch (Exception ex) {
@@ -113,8 +118,10 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void deleteById(String id) {
-        PersonEntity deletedPerson = mongoTemplate.findAndRemove(Query.query(Criteria.where("id").is(id)), PersonEntity.class);
-        if (deletedPerson == null) {
+//        PersonEntity deletedPerson = mongoTemplate.findAndRemove(Query.query(Criteria.where("id").is(id)), PersonEntity.class);
+        Query query = Query.query(Criteria.where("id").is(id));
+        DeleteResult deletedWorker = mongoTemplate.remove(query, PersonEntity.class);
+        if (!deletedWorker.wasAcknowledged()) {
             throw new ResourceNotFoundException("Cannot delete person by this id doesnt exist");
         }
     }
@@ -142,19 +149,19 @@ public class PersonDaoImpl implements PersonDao {
         return mongoTemplate.exists(query, PersonEntity.class);
     }
 
-    @Override
-    public boolean existByFullName(String name, String middle, String last) {
-        return false;
-    }
-
-    @Override
-    public boolean existByEmail(String email) {
-        return false;
-    }
-
-    @Override
-    public long countByPhoneNumber(String number) {
-        Query query = Query.query(Criteria.where("phoneNumber").is(number));
-        return mongoTemplate.count(query, PersonEntity.class);
-    }
+//    @Override
+//    public boolean existByFullName(String name, String middle, String last) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean existByEmail(String email) {
+//        return false;
+//    }
+//
+//    @Override
+//    public long countByPhoneNumber(String number) {
+//        Query query = Query.query(Criteria.where("phoneNumber").is(number));
+//        return mongoTemplate.count(query, PersonEntity.class);
+//    }
 }

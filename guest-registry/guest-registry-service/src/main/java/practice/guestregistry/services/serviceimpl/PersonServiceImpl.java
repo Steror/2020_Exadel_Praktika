@@ -40,7 +40,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void addPerson(Person person) {
-        if (personIsValid(person)) {
+        if (personFieldsValid(person)) {
             personDao.add(person);
         } else {
             throw new InvalidDocumentStateException("person information is incorrect");
@@ -49,7 +49,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void updatePerson (Person newPerson) {
-        if (personIsValid(newPerson)) {
+        if (personFieldsValid(newPerson)) {
             if (personDao.existById(newPerson.getId())) {
                 personDao.update(newPerson);
             } else {
@@ -90,7 +90,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
 
-    private boolean personIsValid(Person person) {
+    private boolean personFieldsValid(Person person) {
         if (person.getPhoneNumber().matches("[0-9]*")
                 && person.getEmail().contains("@")) {
             return true;

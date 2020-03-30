@@ -12,7 +12,8 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
-@Document(collection = "location")
+//@Document(collection = "location")
+@Document
 public class LocationEntity {
     @Id
     @JsonSerialize(using = ObjectID_Serializer.class)

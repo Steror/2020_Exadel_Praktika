@@ -1,123 +1,210 @@
-//package practice.guestregistry.services_tests;
+//package practice.guestregistry.services.impl.integrationtest;
 //
 //import org.bson.types.ObjectId;
 //import org.junit.Before;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 //import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.data.mongodb.core.MongoTemplate;
 //import org.springframework.data.mongodb.core.query.Criteria;
 //import org.springframework.data.mongodb.core.query.Query;
 //import org.springframework.test.context.ActiveProfiles;
+//import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//import practice.guestregistry.data.impl.mappers.WorkerDTOMapper;
+//import practice.guestregistry.data.api.dao.CardDao;
+//import practice.guestregistry.data.api.dao.LocationDao;
+//import practice.guestregistry.data.api.dao.PersonDao;
+//import practice.guestregistry.data.api.dao.WorkerDao;
+//import practice.guestregistry.data.mongo.daoimpl.CardDaoImpl;
+//import practice.guestregistry.data.mongo.daoimpl.LocationDaoImpl;
+//import practice.guestregistry.data.mongo.daoimpl.PersonDaoImpl;
+//import practice.guestregistry.data.mongo.daoimpl.WorkerDaoImpl;
+//import practice.guestregistry.data.mongo.entities.CardEntity;
+//import practice.guestregistry.data.mongo.entities.LocationEntity;
+//import practice.guestregistry.data.mongo.entities.PersonEntity;
+//import practice.guestregistry.data.mongo.entities.WorkerEntity;
+//import practice.guestregistry.data.mongo.listeners.CascadeSaveMongoEventListener;
+//import practice.guestregistry.data.mongo.mappers.CardMapper;
+//import practice.guestregistry.data.mongo.mappers.LocationMapper;
+//import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
+//import practice.guestregistry.data.mongo.mappers.WorkerMapper;
+//import practice.guestregistry.domain.Card;
+//import practice.guestregistry.domain.Location;
+//import practice.guestregistry.domain.Person;
+//import practice.guestregistry.domain.Worker;
+//import practice.guestregistry.exceptions.InvalidDocumentStateException;
+//import practice.guestregistry.services.EmbeddedMongoConfig;
+//import practice.guestregistry.services.service.CardService;
+//import practice.guestregistry.services.service.WorkerService;
+//import practice.guestregistry.services.serviceimpl.CardServiceImpl;
 //
+//import java.time.LocalDateTime;
 //import java.util.List;
 //
 //import static org.assertj.core.api.Assertions.assertThat;
-////@DataMongoTest
-////@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@SpringBootTest
+//
 //@RunWith(SpringJUnit4ClassRunner.class)
-////@AutoConfigureMockMvc
-//// @ExtendWith(MockitoExtension.class)
-//@AutoConfigureDataMongo
-//@ActiveProfiles("test")
-////@ExtendWith(SpringExtension.class)
-////@DataMongoTest
-//public class WorkerServiceTests {
+//@SpringBootTest(classes = {
+//        WorkerDao.class, WorkerDaoImpl.class, WorkerMapper.class,
+//        LocationDao.class, LocationDaoImpl.class, LocationMapper.class,
+//        PersonDao.class, PersonDaoImpl.class, PersonDomainEntityMapper.class,
+//        CardService.class, CardServiceImpl.class, CardDao.class, CardDaoImpl.class, CardMapper.class,
+//        CascadeSaveMongoEventListener.class
+//})
+//@ContextConfiguration(classes = {EmbeddedMongoConfig.class})
+//public class WorkerServiceImplTests {
 //    @Autowired
-//    private WorkerService workerService;
+//    public WorkerService workerService;
 //    @Autowired
-//    private MongoTemplate mongoTemplate;
+//    public CardService cardService;
 //    @Autowired
-//    private WorkerDTOMapper mapper = new WorkerDTOMapper();
+//    public MongoTemplate mongoTemplate;
+//    @Autowired
+//    public WorkerMapper mapper;
+//    @Autowired
+//    public LocationDao locationDao;
+//    @Autowired
+//    public PersonDao personDao;
 ////    @Before
 ////    public void init() {
 ////        MockitoAnnotations.initMocks(this);
 ////    }
 //
-////    @After
+//    public Worker worker;
+//    public Person person;
+//    public static final String PERSON_FIRST_NAME = "P1 FIRST";
+//    public static final String PERSON_MIDDLE_NAME = "P1 midl name";
+//    public static final String PERSON_LAST_NAME = "P1 Last anem";
+//    public static final String PERSON_EMAIL = "person1@email.com";
+//    public static final String PERSON_PHONE_NUMBER = "123";
+//
+//    public Card card;
+//    public static final String CARD_SERIAL = "123456";
+//    public static final String CARD_TYPE = "PERSONNEL";
+//    public static final String CARD_MANUFACTURED = LocalDateTime.now().toString();
+//    public static final String CARD_VALID_UNTIL = "2022-03-25T22:57:00.795";
+//
+//    public Location location;
+//    public static final String LOCATION1_NAME = "A";
+//    public static final String LOCATION1_COUNTRY = "Lietuva";
+//    public static final String LOCATION1_CITY = "Vilnius";
+//    public static final String LOCATION1_ADDRESS = "ZALGIRIO 90";
+//    public static final String LOCATION1_LOCATION_TYPE = "OFFICE";
+//    public static final String LOCATION1_PHONE_NUMBER = "851212345";
+//
 //    @Before
-//    public void cleanUp() {
-//		for (String name : mongoTemplate.getCollectionNames()) {
-//			mongoTemplate.dropCollection(name);
-//		}
+//    public void initTest() {
+//        mongoTemplate.remove(CardEntity.class);
+//        mongoTemplate.remove(WorkerEntity.class);
+//        mongoTemplate.remove(PersonEntity.class);
+//        mongoTemplate.remove(LocationEntity.class);
+////        workerDao.deleteAll();
+////        personDao.deleteAll();
+////        cardDao.deleteAll();
+////        locationDao.deleteAll();
+//
+//        location = new Location();
+//        location.setName(LOCATION1_NAME);
+//        location.setCountry(LOCATION1_COUNTRY);
+//        location.setCity(LOCATION1_CITY);
+//        location.setAddress(LOCATION1_ADDRESS);
+//        location.setLocationType(LOCATION1_LOCATION_TYPE);
+//        location.setPhoneNumber(LOCATION1_PHONE_NUMBER);
+//        locationDao.add(location);
+//
+//        card = new Card();
+//        card.setSerialNumber(CARD_SERIAL);
+//        card.setCtype(CARD_TYPE);
+//        card.setManufactured(CARD_MANUFACTURED);
+//        card.setValidUntil(CARD_VALID_UNTIL);
+//        card.setLocationId(location.getId());
+//        card.setLocationName(LOCATION1_PHONE_NUMBER);
+//        cardService.addCard(card);
+//
+//        person = new Person();
+//        person.setFirstName(PERSON_FIRST_NAME);
+//        person.setMiddleName(PERSON_MIDDLE_NAME);
+//        person.setLastName(PERSON_LAST_NAME);
+//        person.setEmail(PERSON_EMAIL);
+//        person.setPhoneNumber(PERSON_PHONE_NUMBER);
+//        personDao.add(person);
+//
+//        worker = new Worker();
+//        worker.setId(null);
+//        worker.setPersonId(person.getId());
+////        worker.setFirstName(null);
+//        worker.setFirstName(PERSON_FIRST_NAME);
+//        worker.setMiddleName(PERSON_MIDDLE_NAME);
+//        worker.setLastName(PERSON_LAST_NAME);
+//        worker.setEmail(PERSON_EMAIL);
+//        worker.setPhoneNumber(PERSON_PHONE_NUMBER);
+//        worker.setCardId(card.getId());
+//        worker.setCardSerialNumber(CARD_SERIAL);
 //    }
 //
 //    @Test
-//    public void add_worker_no_id() {
-//        ObjectId dummyId = new ObjectId();
-//        Person person = new Person(dummyId,
-//                "first",
-//                "second",
-//                "thidrd",
-//                "email@email.com",
-//                "111111");
-//        Worker worker =  new Worker(null, person, null);
-//        mongoTemplate.save(person);
-//        WorkerDTO savedWorker = workerService.addWorker(mapper.map(worker));
-//
-//        assertThat(savedWorker.getWorkerId()).isNotNull();
+//    public void addWorker_IdNull() {
+//        workerService.addWorker(worker);
+//        assertThat(workerService.getWorkerById(worker.getId())).isEqualTo(worker);
 //    }
-//    @Test
-//    public void add_worker_when_person_exist_in_db() {
-//        Person person = new Person(ObjectId.get(), "first", "second", "thidrd", "email@email.com", "111111");
-//        mongoTemplate.save(person);
-//        Worker worker = new Worker(ObjectId.get(), person, null);
-//        WorkerDTO savedWorker = workerService.addWorker(mapper.map(worker));
 //
-//        long collectionSize = mongoTemplate.findAll(Worker.class).size();
-//        assertThat(savedWorker.getWorkerId()).isNotNull();
-//        assertThat(collectionSize).isEqualTo(1);
+//    @Test
+//    public void addWorker_personExistInDb() {
+//        workerService.addWorker(worker);
+//
+//        long personCount = personDao.findAll().size();
+//        long workerCount = workerService.getAllWorkers().size();
+//        assertThat(personCount).isEqualTo(1);
+//        assertThat(workerCount).isEqualTo(1);
 //    }
 //
 ////    @Test(expected = InvalidDocumentStateException.class)
 //    @Test
-//    public void add_worker_when_person_dont_exist_in_Db() {
-//        Person person = new Person(ObjectId.get(),
-//                "first",
-//                "second",
-//                "thidrd",
-//                "email@email.com",
-//                "111111");
-//        workerService.addWorker(mapper.map(new Worker(ObjectId.get(), person, null)));
+//    public void addWorker_personDontExistInDb() {
+//        //this should create new person ,because full name distinct
+//        worker.setFirstName("name");
+//        workerService.addWorker(worker);
+//
+//        long personCount = personDao.findAll().size();
+//        long workerCount = workerService.getAllWorkers().size();
+//        assertThat(personCount).isEqualTo(2);
+//        assertThat(workerCount).isEqualTo(2);
 //    }
 //
 //    @Test
-//    public void add_worker_when_card_exist_in_db() {
-//        Person person = new Person(ObjectId.get(), "first", "second", "thidrd", "email@email.com", "111111");
-//        mongoTemplate.save(person);
-//        Card card = new Card();
-//        card.setId(ObjectId.get());
-//        mongoTemplate.save(card);
-//        Worker worker = new Worker(ObjectId.get(), person, card);
-//        WorkerDTO savedWorker = workerService.addWorker(mapper.map(worker));
+//    public void addWorker_whenCardNull() {
+//        worker.setCardId(null);
+//        workerService.addWorker(worker);
 //
-//        long collectionSize = mongoTemplate.findAll(Worker.class).size();
-//        assertThat(savedWorker.getWorkerId()).isNotNull();
-//        assertThat(collectionSize).isEqualTo(1);
+//        long personCount = personDao.findAll().size();
+//        long workerCount = workerService.getAllWorkers().size();
+//        assertThat(personCount).isEqualTo(1);
+//        assertThat(workerCount).isEqualTo(1);
 //    }
 //
 //    @Test(expected = InvalidDocumentStateException.class)
-//    public void add_worker_when_card_dont_exist_in_Db() {
-//        Person person = new Person(ObjectId.get(),
-//                "first",
-//                "second",
-//                "thidrd",
-//                "email@email.com",
-//                "111111");
-//        Card card = new Card();
-//        card.setId(ObjectId.get());
-//        workerService.addWorker(mapper.map(new Worker(ObjectId.get(), person, card)));
+//    public void addWorker_CardDoesntExistInDb() {
+//        worker.setCardId("someId");
+//        workerService.addWorker(worker);
+//    }
+//
+//    @Test(expected = InvalidDocumentStateException.class)
+//    public void addWorkerWhenPersonNull() {
+//        worker.setFirstName(null);
+//        worker.setMiddleName(null);
+//        worker.setLastName(null);
+//        workerService.addWorker(worker);
 //    }
 //
 //    @Test(expected = InvalidDocumentStateException.class)
 //    public void add_worker_when_person_null() {
-//        Worker worker = new Worker(ObjectId.get(), null, null);
-//        WorkerDTO savedWorker = workerService.addWorker(mapper.map(worker));
+//        worker.setFirstName(null);
+//        worker.setMiddleName(null);
+//        worker.setLastName(null);
+//        workerService.addWorker(worker);
 //    }
 //
 //    @Test

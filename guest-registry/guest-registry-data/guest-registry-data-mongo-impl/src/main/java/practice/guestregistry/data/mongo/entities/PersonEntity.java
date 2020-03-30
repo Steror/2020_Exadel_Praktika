@@ -28,9 +28,9 @@ import java.util.List;
 //@CompoundIndexes({@CompoundIndex(name = "name_middle_last", def = "{firstName : 1, middleName : 1, lastName:1", unique = true)})
 public class PersonEntity {
 
-    @Id
 //    @NotNull
 //    @JsonSerialize(using = ObjectID_Serializer.class)
+    @Id
     private ObjectId id;
 
 //    @NotEmpty
@@ -44,6 +44,7 @@ public class PersonEntity {
 //    @Pattern(regexp = "[0-9]*")
     @Indexed(unique = true)
     private String phoneNumber;
+    private int referenced = 0;
     //URL url;
 //    TODO:ar tikrai sito reikia?
 //    @DBRef(db = "test")

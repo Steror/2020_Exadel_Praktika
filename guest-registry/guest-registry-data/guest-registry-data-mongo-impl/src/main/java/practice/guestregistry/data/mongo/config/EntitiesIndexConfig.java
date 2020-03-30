@@ -32,10 +32,6 @@ public class EntitiesIndexConfig {
             indexOps.ensureIndex(elem);
 //            log.debug("created index:" + elem.getIndexKeys().toJson() + " " + elem.getIndexOptions().toJson() + " " + elem.toString());
         });
-//        System.out.println("\n\n\n");
-//        mongoTemplate.indexOps(PersonEntity.class).getIndexInfo().stream().forEach(System.out::println);
-//        System.out.println("\n\n\n\n\n\n\n\n\n\nI WAS SUMMONED DURING TESTING\n\n\n\n\n\n\n\n\n");
-//
 //        mongoTemplate.indexOps(PersonEntity.class).dropAllIndexes();
 //        mongoTemplate.indexOps(PersonEntity.class) // so index is applied only to "docsB" collection
 //                .ensureIndex(

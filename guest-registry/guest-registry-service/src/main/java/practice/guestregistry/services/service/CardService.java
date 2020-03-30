@@ -13,4 +13,5 @@ public interface CardService {
     void deleteAllCards ();
     boolean cardExist(Card card);
     boolean existById(String id);
+    boolean existCardContainingIdSerial(String id, String serial);
 }

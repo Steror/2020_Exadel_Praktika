@@ -41,11 +41,11 @@ public class WorkerMapper {
                 .customize(new CustomMapper<WorkerEntity, Worker>() {
                     @Override
                     public void mapAtoB(WorkerEntity workerEntity, Worker worker, MappingContext context) {
-                        worker.setCardId(workerEntity.getId().toHexString());
+                        worker.setId(workerEntity.getId().toHexString());
                     }
                     @Override
                     public void mapBtoA(Worker worker, WorkerEntity workerEntity, MappingContext context) {
-                        if (ObjectId.isValid(worker.getId())) {
+                        if (worker.getId() != null && ObjectId.isValid(worker.getId())) {
                             workerEntity.setId(new ObjectId(worker.getId()));
                             super.mapBtoA(worker, workerEntity, context);
                         } else {
