@@ -55,7 +55,7 @@ public class CardServiceTests {
     final String CARD_SERIAL = "123456";
     final String CARD_LOCATION = "123456";
     final String CARD_TYPE = "PERSONNEL";
-    final String CARD_MANUFACTURED = LocalDateTime.now().toString();
+    final String CARD_MANUFACTURED = LocalDateTime.now().withNano(0).toString();
     final String CARD_VALID_UNTIL = "2022-03-25T22:57:00.795";
 
     @Before
