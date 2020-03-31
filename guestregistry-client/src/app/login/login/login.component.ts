@@ -21,6 +21,5 @@ export class LoginComponent {
         this.router.navigateByUrl('/location-list');
       }
     });
-    // return false;
   }
 }

@@ -13,7 +13,6 @@ export class LocationListComponent implements OnInit {
   constructor(private locationService: LocationService, private appService: AppService) { }
 
   ngOnInit() {
-    this.appService.authorize();
     this.loadLocations();
   }
 
