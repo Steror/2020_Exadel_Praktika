@@ -12,16 +12,16 @@ export class WorkerListComponent implements OnInit {
   constructor(private workerService: WorkerService) { }
 
   ngOnInit() {
-    this.loadLocations();
+    this.loadWorkers();
   }
 
   remove(id) {
     this.workerService.remove(id).subscribe(result => {
-      this.loadLocations();
+      this.loadWorkers();
     });
   }
 
-  loadLocations() {
+  loadWorkers() {
     this.workerService.getAll().subscribe(data => {
       this.workers = data;
     });
