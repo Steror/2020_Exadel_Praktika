@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>practice.guestregistry</groupId>
+    <artifactId>guest-registry</artifactId>
+    <!--	<version>${project.version}</version>-->
+    <version>1.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>guest-registry</name>
+    <description>Demo project for Spring Boot</description>
+
+    <modules>
+        <module>guest-registry-core</module>
+        <module>guest-registry-data</module>
+        <module>guest-registry-service</module>
+        <module>guest-registry-controller</module>
+        <module>guest-registry-domain</module>
+    </modules>
+
+    <properties>
+        <!--		<start-class>practice.guestregistry.GuestRegistryApplication</start-class>-->
+        <guest-registry.version>1.1.0-SNAPSHOT</guest-registry.version>
+        <!--		<exec.mainClass>practice.guestregistry.GuestRegistryApplication</exec.mainClass>-->
+        <java.version>1.8</java.version>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <springfor-swagger-ui.version>2.9.2</springfor-swagger-ui.version>
+        <orika-core.version>1.5.4</orika-core.version>
+        <spring-boot-starter-parent.version>2.2.4.RELEASE</spring-boot-starter-parent.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>practice.guestregistry</groupId>
+                <artifactId>guest-registry-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>practice.guestregistry</groupId>
+                <artifactId>guest-registry-controller</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>practice.guestregistry</groupId>
+                <artifactId>guest-registry-data-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>practice.guestregistry</groupId>
+                <artifactId>guest-registry-data-mongo-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>practice.guestregistry</groupId>
+                <artifactId>guest-registry-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>exec</classifier>
+                            <mainClass>practice.guestregistry.GuestRegistryApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
