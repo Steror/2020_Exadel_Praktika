@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Date;
@@ -12,27 +11,40 @@ import java.util.Date;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     @ExceptionHandler(InvalidDocumentStateException.class)
     public ResponseEntity<?> invalidDocumentState(InvalidDocumentStateException ex) {
-        ErrorDetails err = new ErrorDetails();
-        err.setErrorCode(HttpStatus.BAD_REQUEST.value());
-        err.setTimeStamp(new Date());
-        err.setErrorMessage(ex.getMessage());
-        err.setDevErrorMessage("THIS STUFF CAN BE LOGGED HERE");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        return getResponseEntity(ex.getMessage(), ex, HttpStatus.BAD_REQUEST.value());
     }
-
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex) {
-        ErrorDetails err = new ErrorDetails();
-        err.setErrorCode(HttpStatus.BAD_REQUEST.value());
-        err.setTimeStamp(new Date());
-        err.setErrorMessage(ex.getMessage());
-        err.setDevErrorMessage("THIS STUFF CAN BE LOGGED HERE");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        return getResponseEntity(ex.getMessage(), ex, HttpStatus.BAD_REQUEST.value());
     }
+
+    @ExceptionHandler(EntityCreationException.class)
+    public ResponseEntity<?> entityCreationException(EntityCreationException ex) {
+        return getResponseEntity(ex.getMessage(), ex, HttpStatus.NOT_FOUND.value());
+    }
+
+    @ExceptionHandler(EntityUpdateException.class)
+    public ResponseEntity<?> entityUpdateException(EntityUpdateException ex) {
+        return getResponseEntity(ex.getMessage(), ex, HttpStatus.NOT_FOUND.value());
+    }
+
+    @ExceptionHandler(EntityDeletionException.class)
+    public ResponseEntity<?> entityDeletionException(EntityDeletionException ex) {
+        return getResponseEntity(ex.getMessage(), ex, HttpStatus.NOT_FOUND.value());
+    }
+
+    private ResponseEntity<?> getResponseEntity(String message, Exception ex, int httpStatus) {
+        ErrorDetails err = new ErrorDetails();
+        err.setErrorCode(httpStatus);
+        err.setTimeStamp(new Date());
+        err.setErrorMessage(message);
+        err.setDevErrorMessage(ex.getCause().toString());
+        return ResponseEntity.status(httpStatus).body(err);
+    }
+//    @ExceptionHandler(EntityUpdateException.class)
 
 //    @Override
 //    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
