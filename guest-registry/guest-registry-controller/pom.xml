@@ -22,6 +22,7 @@
         <dependency>
             <groupId>practice.guestregistry</groupId>
             <artifactId>guest-registry-service</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -9,8 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,19 +20,11 @@ public class CardEntity {
 
     @Id
     private ObjectId id;
-
-    @NotEmpty
     private String serialNumber;
 
     @DBRef(db = "test", lazy = false)
-//    @NotNull
     private LocationEntity locationEntity;
-    @NotNull
     private LocalDateTime manufactured;
-    @NotNull
     private LocalDateTime validUntil;
-    @NotNull
     private CardType ctype;
-//    @JsonProperty("ctype")
-
 }

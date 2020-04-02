@@ -20,17 +20,17 @@ import java.io.PrintStream;
 //import practice.guestregistry.guestregistrydata.guestregistrydataimpl;
 
 @SpringBootApplication(exclude = {
-//		MongoAutoConfiguration.class,
-//	RepositoryRestMvcAutoConfiguration.class
-},
-scanBasePackages = "practice.guestregistry"
+	//		MongoAutoConfiguration.class,
+	//	RepositoryRestMvcAutoConfiguration.class
+	},
+	scanBasePackages = "practice.guestregistry"
 )
 //@ComponentScan({"practice.guestregistry"})
 public class GuestRegistryApplication implements CommandLineRunner {
 	@Value("${profile.message}")
 	private String profileMessage;
-	@Autowired
-	private PersonService personService;
+//	@Autowired
+//	private PersonService personService;
 //	@Autowired
 //	private CardService cardService;
 //	@Autowired

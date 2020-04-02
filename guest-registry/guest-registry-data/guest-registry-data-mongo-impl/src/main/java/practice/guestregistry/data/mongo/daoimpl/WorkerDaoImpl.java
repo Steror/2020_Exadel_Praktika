@@ -1,13 +1,11 @@
 package practice.guestregistry.data.mongo.daoimpl;
 
-import com.mongodb.client.result.DeleteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.CardDao;
 import practice.guestregistry.data.api.dao.PersonDao;
@@ -83,7 +81,7 @@ public class WorkerDaoImpl implements WorkerDao {
         WorkerEntity mappedWorkerEntity = mapper.map(worker);
         log.debug("[update] mapped worker to: " + mappedWorkerEntity);
         if (mappedWorkerEntity.getId() == null) {
-            throw new EntityUpdateException("id must be null");
+            throw new EntityUpdateException("id can't be be null");
         }
         WorkerEntity saved= mongoTemplate.save(mappedWorkerEntity);
         System.out.println("\n\n\n" + saved + "\n\n\n");

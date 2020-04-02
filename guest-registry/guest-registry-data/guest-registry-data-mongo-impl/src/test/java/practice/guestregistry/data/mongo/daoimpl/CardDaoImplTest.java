@@ -147,7 +147,7 @@ public class CardDaoImplTest {
         cardDao.update(card);
         assertThat(cardDao.findById(card.getId())).isEqualTo(card);
     }
-    //    @Test
+
 //    public void deleteAll() {
 //        String firstId = card.getId();
 //

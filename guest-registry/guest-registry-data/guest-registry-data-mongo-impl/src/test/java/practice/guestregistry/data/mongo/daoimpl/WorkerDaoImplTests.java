@@ -152,7 +152,6 @@ public class WorkerDaoImplTests {
         workerDao.deleteById(null);
     }
 
-    @Test(expected = ResourceNotFoundException.class)
     public void deleteById_whenIncorrect() {
         workerDao.deleteById(null);
     }

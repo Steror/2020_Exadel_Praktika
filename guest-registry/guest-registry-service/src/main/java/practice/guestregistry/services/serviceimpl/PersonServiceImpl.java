@@ -11,7 +11,6 @@ import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.exceptions.DomainCreationException;
 import practice.guestregistry.services.service.PersonService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service

@@ -1,5 +1,6 @@
 package practice.guestregistry.data.api.dao;
 
+
 import practice.guestregistry.domain.Card;
 
 import java.util.List;

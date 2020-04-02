@@ -1,39 +1,22 @@
 package practice.guestregistry.data.mongo.daoimpl;
 
 import com.mongodb.client.result.DeleteResult;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.Index;
-import org.springframework.data.mongodb.core.index.IndexOperations;
-import org.springframework.data.mongodb.core.index.IndexResolver;
-import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver;
-import org.springframework.data.mongodb.core.mapping.BasicMongoPersistentEntity;
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
-import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.mongodb.util.BsonUtils;
 import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.PersonDao;
-import practice.guestregistry.data.mongo.entities.CardEntity;
 import practice.guestregistry.data.mongo.entities.PersonEntity;
-import practice.guestregistry.data.mongo.entities.WorkerEntity;
 import practice.guestregistry.data.mongo.mappers.PersonDomainEntityMapper;
 import practice.guestregistry.domain.Person;
 import practice.guestregistry.exceptions.EntityCreationException;
 import practice.guestregistry.exceptions.EntityUpdateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 
-import javax.annotation.PostConstruct;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -112,7 +95,9 @@ public class PersonDaoImpl implements PersonDao {
             throw new EntityUpdateException("id must be null");
         }
         try {
+            System.out.println(mongoTemplate.findAll(PersonEntity.class));
             mongoTemplate.save(mappedPersonEntity);
+            System.out.println(mongoTemplate.findAll(PersonEntity.class));
         } catch (Exception ex) {
             throw new EntityUpdateException("Caused by", ex);
         }
@@ -158,7 +143,7 @@ public class PersonDaoImpl implements PersonDao {
                 Criteria.where("phoneNumber").is(person.getPhoneNumber())
                 )
         );
-        System.out.println("\n\n\nFOUNT THIS: " + mongoTemplate.find(query, PersonEntity.class) );
+//        log.trace("[existByFullNameorEmailorAddress] FOUNT THIS: " + mongoTemplate.find(query, PersonEntity.class) );
         return mongoTemplate.exists(query, PersonEntity.class);
     }
 

@@ -1,0 +1,33 @@
+<h2>Worker List</h2>
+<div>
+  <button [routerLink]="['/worker-add']">Add</button>
+  <table>
+    <thead>
+    <tr>
+      <th scope="col"> No. </th>
+      <th scope="col"> First name </th>
+      <th scope="col"> Middle name </th>
+      <th scope="col"> Last name </th>
+      <th scope="col"> Email </th>
+      <th scope="col"> Phone number </th>
+      <th scope="col"> Card id </th>
+      <th scope="col"> Card serial number </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let worker of workers">
+      <td> {{worker.workerId}} </td>
+      <td> {{worker.firstName}} </td>
+      <td> {{worker.middleName}} </td>
+      <td> {{worker.lastName}} </td>
+      <td> {{worker.email}} </td>
+      <td> {{worker.phoneNumber}} </td>
+      <td> {{worker.cardId}} </td>
+      <td> {{worker.cardSerialNumber}} </td>
+      <td><button [routerLink]="['/worker-edit', worker.workerId]">Edit</button></td>
+      <td><button (click)="remove(worker.workerId)">Delete</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+

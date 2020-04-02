@@ -1,0 +1,132 @@
+#+BEGIN_SRC plantuml :file db.png
+@startuml
+skinparam packageStyle rectangle
+hide circle
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+' we use bold for primary key
+' green color for unique
+' and underscore for not_null
+!define primary_key(x) <b>x</b>
+!define unique(x) <color:green>x</color>
+!define not_null(x) <u>x</u>
+
+hide methods
+'hide stereotypes
+
+title DB
+
+entity CardType << Enum >> {
+    '|= ID|= Type|\n|  1 | PERSONNEL|\n|  2 | QUEST |\n|  3 | TEMPORARY|
+    PERSONNEL
+    GUEST
+    --TEMPORARY--
+}
+
+entity Card {
+    <b>ID</b>
+    serial_number
+    location_ID
+    card_type_enum
+    manufacture_date
+    valid_until
+}
+
+
+entity Location {
+    <b>ID</b>
+    name
+    country
+    city
+    address
+    type
+    manager_worker_id
+    phone_number
+}
+
+
+entity LocationType << Enum >> {
+    OWNED_OFFISE
+    OTHER
+}
+
+entity GuestCardReservation {
+    <b>ID</b>
+    card_ID
+    guest_ID
+    reserved_from_date
+    reserved_to_date
+    reserved_by_person_id
+    reservation_purpose
+}
+
+entity Person {
+    <b>ID</b>
+    first_name
+    midle_name
+    last_name
+    email
+    phone_number
+    photo_url
+}
+
+entity Worker {
+    <b>ID</b>
+    person_id
+    card_id
+}
+
+entity Position {
+    ...
+    worker_id
+    contract_url
+    start_date
+    ...
+}
+
+entity Guest {
+    <b>ID</b>
+    person_id
+}
+
+entity Event {
+    <b>ID</b>
+    name
+    location_id
+    description
+    participants_ammount
+    start_date_time
+    end_date_time
+    event_owner_id
+}
+
+entity EventsAttendees {
+    <b>ID</b>
+    event_id
+    person_id
+}
+
+'note top of EventsAttendees : risasi su person ar card
+
+Guest -[hidden] Worker
+
+
+Worker ||--|{ Position
+CardType ||-up-|| Card
+Card }|--|| Location
+GuestCardReservation }|-right-|| Card
+'ar tikrai many to many? person(1) -- reservation(*)?
+Person ||--|| Worker
+Guest ||-up-|| Person
+GuestCardReservation }|-right-|| Guest
+Event }|--|| Location
+EventsAttendees }|--|| Event
+EventsAttendees }|-left-|{ Person
+Worker ||--|| Card
+LocationType -right- Location
+'notes
+'note "many to many or many to one" as n1
+'Person .up. n1
+'n1 .. EventsAttendees
+
+@enduml
+#+END_SRC

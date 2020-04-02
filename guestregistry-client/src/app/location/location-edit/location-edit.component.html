@@ -1,0 +1,30 @@
+<div>
+  <form #locationForm="ngForm" (ngSubmit)="save(locationForm.value)">
+    <h2>{{location.id ? 'Edit' : 'Add'}} Location</h2>
+    <input type="hidden" name="id" [(ngModel)]="location.id">
+    <label>Name
+    <input placeholder="Location Name" [(ngModel)]="location.name"
+           required name="name" #name></label><br>
+    <label>Country
+    <input placeholder="Location Country" [(ngModel)]="location.country"
+           required name="country" #country></label>
+    <label>City
+    <input placeholder="Location City" [(ngModel)]="location.city"
+           required name="city" #city></label>
+    <label>Address
+    <input placeholder="Location Address" [(ngModel)]="location.address"
+           required name="address" #address></label><br>
+    <label>Type
+    <select [(ngModel)]="location.locationType"
+            required name="locationType" #locationType>
+      <option value="OFFICE">Office</option>
+      <option value="OTHER">Other</option>
+    </select></label><br>
+    <label>Phone number
+    <input placeholder="Location Phone Number" [(ngModel)]="location.phoneNumber"
+           required name="phoneNumber" #phoneNumber></label><br>
+      <button type="submit"
+              [disabled]="!locationForm.valid">Save</button>
+      <a routerLink="/location-list">Cancel</a>
+  </form>
+</div>

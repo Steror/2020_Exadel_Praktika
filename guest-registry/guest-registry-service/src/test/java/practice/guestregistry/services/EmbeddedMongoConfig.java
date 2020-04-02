@@ -21,6 +21,8 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -71,7 +73,6 @@ public class EmbeddedMongoConfig {
         log.trace("MONGO_DATABASE:" + MONGO_DATABASE);
         log.trace("MONGO_HOST:" + MONGO_HOST);
         log.trace("MONGO_PORT:"+MONGO_PORT);
-        System.out.println("\n\n\nMONGOPORT: " + MONGO_PORT);
         log.trace("" + Integer.decode(MONGO_PORT));
 
         MongodStarter starter = MongodStarter.getDefaultInstance();

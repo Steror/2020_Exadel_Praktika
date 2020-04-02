@@ -109,6 +109,7 @@ public class PersonDaoImplTest {
         personDao.update(person2);
     }
 
+    @Test
     public void deleteById() {
         personDao.add(person1);
         personDao.deleteById(person1.getId());

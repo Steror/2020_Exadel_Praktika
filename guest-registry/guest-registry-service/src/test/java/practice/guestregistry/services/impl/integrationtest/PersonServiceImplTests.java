@@ -2,11 +2,6 @@ package practice.guestregistry.services.impl.integrationtest;
 
 import de.flapdoodle.embed.mongo.config.IMongodConfig;
 import org.bson.types.ObjectId;
-//import org.junit.After;
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.junit.platform.commons.logging.LoggerFactory;
-//import org.junit.runner.RunWith;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -79,6 +74,11 @@ public class PersonServiceImplTests {
         person2.setLastName(PERSON2_LAST_NAME);
         person2.setEmail(PERSON2_EMAIL);
         person2.setPhoneNumber(PERSON2_PHONE_NUMBER);
+    }
+
+    @After
+    public void cleanUp() {
+        personService.deleteAllPersons();
     }
 
     @Test

@@ -118,17 +118,12 @@ public class LocationServiceTests { // Integration testing
         );
     }
 
-    //changed
     @Test
     public void testDeleteLocationById() {
         locationService.addLocation(location1);
         locationService.addLocation(location2);
 
-//        LocationServiceTests.testDeleteLocationById:125 expected: <1> but was: <0>  per maven install
         locationService.deleteLocationById(location1.getId());
-        //vieninteli org.opentest4j.AssertionFailedError:
-        //Expected :1
-        //Actual   :2
         assertEquals(1, locationService.getAllLocations().size());
     }
 

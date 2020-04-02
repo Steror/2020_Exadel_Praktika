@@ -13,8 +13,6 @@ import practice.guestregistry.data.api.dao.LocationDao;
 import practice.guestregistry.data.mongo.entities.LocationEntity;
 import practice.guestregistry.data.mongo.mappers.LocationMapper;
 import practice.guestregistry.domain.Location;
-import practice.guestregistry.exceptions.EntityCreationException;
-import practice.guestregistry.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;

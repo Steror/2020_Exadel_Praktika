@@ -7,7 +7,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -18,9 +17,7 @@ public class LocationEntity {
     private ObjectId id;
     private String name;
     private String country;
-    @NotNull
     private String city;
-    @NotNull
     private String address;
     private LocationType locationType;
     private String phoneNumber;

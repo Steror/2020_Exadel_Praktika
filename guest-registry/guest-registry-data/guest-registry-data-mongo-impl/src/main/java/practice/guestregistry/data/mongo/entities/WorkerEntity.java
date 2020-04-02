@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +18,6 @@ import javax.validation.constraints.NotNull;
 public class WorkerEntity {
     @Id
     private ObjectId id;
-    @NotNull
     @DBRef
 //    @CascadeSave
     private PersonEntity personEntity;

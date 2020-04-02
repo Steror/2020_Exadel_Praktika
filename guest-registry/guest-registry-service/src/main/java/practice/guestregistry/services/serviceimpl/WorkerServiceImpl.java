@@ -57,7 +57,6 @@ public class WorkerServiceImpl implements WorkerService {
                 personService.addPerson(person);
             }
             workerDao.add(newWorker);
-            System.out.println("\n\n\n" + workerDao.findById(newWorker.getId()));
         } else {
             throw new InvalidDocumentStateException("Incorrect card information to add worker");
         }

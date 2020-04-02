@@ -38,7 +38,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>practice.guestregistry</groupId>
                 <artifactId>guest-registry-domain</artifactId>

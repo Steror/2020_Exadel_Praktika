@@ -7,8 +7,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+//import practice.guestregistry.data.mongo.JsonSerializer.ObjectID_Serializer;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,19 +17,16 @@ import java.util.List;
 @Document(collection = "event")
 public class EventEntity {
     @Id
+//    @JsonSerialize(using = ObjectID_Serializer.class)
     private ObjectId id;
     private String name;
     private String description;
     private int participantsAmount;
-    @NotNull
     private LocalDateTime startDateTime;
-    @NotNull
     private LocalDateTime endDateTime;
     @DBRef(db = "test")
-    @NotNull
     private LocationEntity location;
     @DBRef(db = "test")
-    @NotNull
     private List<PersonEntity> attendees;
     //@DBRef
     //Worker event_owner;
