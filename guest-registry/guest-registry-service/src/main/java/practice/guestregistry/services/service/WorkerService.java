@@ -1,6 +1,7 @@
 package practice.guestregistry.services.service;
 
 
+import practice.guestregistry.domain.User;
 import practice.guestregistry.domain.Worker;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface WorkerService {
     void deleteAllWorkers ();
     boolean exist(Worker worker);
     boolean existById(String id);
-
+    boolean matchUser(User user);
 }

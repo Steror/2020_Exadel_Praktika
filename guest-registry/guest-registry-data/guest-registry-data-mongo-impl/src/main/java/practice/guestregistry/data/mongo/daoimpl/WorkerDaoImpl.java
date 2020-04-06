@@ -12,8 +12,10 @@ import org.springframework.stereotype.Repository;
 import practice.guestregistry.data.api.dao.CardDao;
 import practice.guestregistry.data.api.dao.WorkerDao;
 import practice.guestregistry.data.mongo.entities.CardEntity;
+import practice.guestregistry.data.mongo.entities.RoleType;
 import practice.guestregistry.data.mongo.entities.WorkerEntity;
 import practice.guestregistry.data.mongo.mappers.WorkerMapper;
+import practice.guestregistry.domain.User;
 import practice.guestregistry.domain.Worker;
 import practice.guestregistry.exceptions.EntityCreationException;
 import practice.guestregistry.exceptions.EntityUpdateException;
@@ -75,7 +77,7 @@ public class WorkerDaoImpl implements WorkerDao {
     public void update (Worker worker) {
         WorkerEntity mappedWorkerEntity = mapper.map(worker);
         if (mappedWorkerEntity.getId() == null) {
-            throw new EntityUpdateException("id must be null");
+            throw new EntityUpdateException("id must not be null");
         }
         mongoTemplate.save(mappedWorkerEntity);
     }
@@ -104,5 +106,25 @@ public class WorkerDaoImpl implements WorkerDao {
     @Override
     public boolean existById(String id) {
         return mongoTemplate.exists(Query.query(Criteria.where("id").is(id)), WorkerEntity.class);
+    }
+
+    @Override
+    public boolean matchUser(User user) {
+//        mongoTemplate.remove(Query.query(Criteria.where("id").exists(true)), WorkerEntity.class);
+        WorkerEntity testEntity = new WorkerEntity(new ObjectId(),
+                null, null, user.getUsername(), user.getPassword(), RoleType.USER);
+        mongoTemplate.save(testEntity);
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(user.getUsername())
+                .and("password").is(user.getPassword()));
+        WorkerEntity workerEntity = mongoTemplate.find(query, WorkerEntity.class).get(0);
+        if (workerEntity != null) {
+            user.setRole(workerEntity.getRole().toString());
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

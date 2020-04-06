@@ -28,5 +28,9 @@ public class WorkerEntity {
     private PersonEntity personEntity;
     @DBRef
     private CardEntity cardEntity;
+
+    private String username;
+    private String password;
+    private RoleType role;
     // POSITION
 }

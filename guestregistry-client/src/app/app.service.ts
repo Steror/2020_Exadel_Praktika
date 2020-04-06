@@ -18,7 +18,7 @@ export class AppService {
 
   authenticate(credentials, callback) {
     this.http.post<Observable<boolean>>(this.loginUrl, {
-      userName: credentials.username,
+      username: credentials.username,
       password: credentials.password
     }).subscribe(isValid => {
       if (isValid) {
@@ -35,11 +35,7 @@ export class AppService {
   authorize() {
     if (sessionStorage.getItem('token') !== null) {
       this.createHeader();
-      const headers: HttpHeaders = new HttpHeaders({
-        Authorization: 'Basic ' + sessionStorage.getItem('token')
-      });
-      const options = { headers };
-      this.http.post<Observable<any>>(this.userUrl, {}, options).
+      this.http.post<Observable<any>>(this.userUrl, {}, this.options).
       subscribe(principal => {
           this.principal = principal;
           this.authenticated = true;

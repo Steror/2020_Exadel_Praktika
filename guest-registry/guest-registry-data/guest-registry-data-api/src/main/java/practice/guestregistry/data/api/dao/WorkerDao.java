@@ -1,9 +1,9 @@
 package practice.guestregistry.data.api.dao;
 
+import practice.guestregistry.domain.User;
 import practice.guestregistry.domain.Worker;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface WorkerDao {
     Worker findById (String id);
@@ -14,4 +14,5 @@ public interface WorkerDao {
     void deleteAll ();
     boolean existById(String id);
     boolean exist(Worker worker);
+    boolean matchUser(User user);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import practice.guestregistry.data.mongo.mappers.WorkerDomainToPersonDomainMapper;
 import practice.guestregistry.data.api.dao.WorkerDao;
 import practice.guestregistry.domain.Person;
+import practice.guestregistry.domain.User;
 import practice.guestregistry.domain.Worker;
 import practice.guestregistry.exceptions.InvalidDocumentStateException;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
@@ -107,8 +108,11 @@ public class WorkerServiceImpl implements WorkerService {
         return workerDao.exist(worker);
     }
 
-
     private boolean validCard(String id, String serial) {
         return cardService.existCardContainingIdSerial(id, serial);
+    }
+
+    public boolean matchUser(User user) {
+        return workerDao.matchUser(user);
     }
 }
