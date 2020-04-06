@@ -1,47 +1,34 @@
 package practice.guestregistry.services.impl.integrationtest;
 
-import org.assertj.core.internal.bytebuddy.implementation.bind.annotation.RuntimeType;
+import com.mongodb.client.MongoClient;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import practice.guestregistry.data.api.dao.LocationDao;
-import practice.guestregistry.data.mongo.daoimpl.LocationDaoImpl;
-import practice.guestregistry.data.mongo.mappers.LocationMapper;
+import practice.guestregistry.GuestRegistryServiceApp;
 import practice.guestregistry.domain.Location;
 import practice.guestregistry.exceptions.ResourceNotFoundException;
 import practice.guestregistry.services.EmbeddedMongoConfig;
-import practice.guestregistry.services.service.LocationService;
 import practice.guestregistry.services.serviceimpl.LocationServiceImpl;
 
+import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = {LocationDaoImpl.class, LocationDao.class, LocationServiceImpl.class,
-        LocationService.class, LocationMapper.class, EmbeddedMongoConfig.class
-})
-//@ExtendWith(SpringExtension.class)
-//@AutoConfigureDataMongo //Uses embedded mongo
+@SpringBootTest(classes = {GuestRegistryServiceApp.class, EmbeddedMongoConfig.class})
 @RunWith(SpringJUnit4ClassRunner.class)
-//@ActiveProfiles("test")
-//@ContextConfiguration(classes = {EmbeddedMongoConfig.class})
-public class LocationServiceTests { // Integration testing
+@ActiveProfiles("db-h2")
+public class LocationServiceTests {
     @Autowired
     private LocationServiceImpl locationService;
 
@@ -51,7 +38,8 @@ public class LocationServiceTests { // Integration testing
     Location location1, location2;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
+
         locationService.deleteAllLocations();
 
         location1 = new Location();

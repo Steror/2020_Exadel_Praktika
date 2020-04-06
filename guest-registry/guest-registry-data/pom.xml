@@ -14,5 +14,6 @@
 	<modules>
 		<module>guest-registry-data-api</module>
 		<module>guest-registry-data-mongo-impl</module>
-	</modules>
+        <module>guest-registry-data-sql-impl</module>
+    </modules>
 </project>

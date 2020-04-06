@@ -19,6 +19,10 @@
         </dependency>
         <dependency>
             <groupId>practice.guestregistry</groupId>
+            <artifactId>guest-registry-data-sql-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>practice.guestregistry</groupId>
             <artifactId>guest-registry-controller</artifactId>
         </dependency>
         <dependency>

@@ -5,6 +5,8 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +19,8 @@ import practice.guestregistry.domain.Location;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Profile("mongo")
+//@Primary
 @Repository
 public class LocationDaoImpl implements LocationDao {
 

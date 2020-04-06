@@ -23,6 +23,7 @@
         <module>guest-registry-service</module>
         <module>guest-registry-controller</module>
         <module>guest-registry-domain</module>
+<!--        <module>guest-registry-data-sql-impl</module>-->
     </modules>
 
     <properties>
@@ -38,6 +39,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>practice.guestregistry</groupId>
+                <artifactId>guest-registry-data-sql-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>practice.guestregistry</groupId>
                 <artifactId>guest-registry-domain</artifactId>

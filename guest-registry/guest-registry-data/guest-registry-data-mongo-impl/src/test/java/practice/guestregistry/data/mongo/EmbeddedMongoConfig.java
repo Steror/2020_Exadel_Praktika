@@ -16,8 +16,6 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDbFactory;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO:it should use core application-test.properties instead
 //@ComponentScan(basePackages = "practice.guestregistry")
@@ -25,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 //@PropertySource(value = "application-test.properties")
 //@PropertySource("file:guest-registry-core/src/main/resources/application-test.properties")
 //@PropertySource({"file:guest-registry-core/src/main/resources/application-${envTarget:dev}.properties"})
-@PropertySource({"classpath:application.properties"})
+@PropertySource({"classpath:mongoEmbedded.properties"})
 public class EmbeddedMongoConfig {
 
     private static final Logger log = LoggerFactory.getLogger(EmbeddedMongoConfig.class);

@@ -1,6 +1,8 @@
 package practice.guestregistry.services.serviceimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import practice.guestregistry.data.api.dao.LocationDao;
 import practice.guestregistry.domain.Location;
@@ -16,6 +18,7 @@ public class LocationServiceImpl implements LocationService {
     private final LocationDao dao;
 
     @Autowired
+//    public LocationServiceImpl(@Qualifier("h2repository") LocationDao dao) {
     public LocationServiceImpl(LocationDao dao) {
         this.dao = dao;
     }

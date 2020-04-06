@@ -29,10 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/*").hasRole("USER")
                 .antMatchers("/login", "/user").permitAll()
+                .antMatchers("/h2-console/*").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic();
+                .httpBasic()
+                .and().headers().frameOptions().sameOrigin();  // for h2 web console
+//                .and().headers().frameOptions().disable();
     }
 
     @Bean
