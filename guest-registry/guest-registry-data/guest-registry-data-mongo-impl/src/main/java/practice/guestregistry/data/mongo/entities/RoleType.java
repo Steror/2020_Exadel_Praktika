@@ -1,7 +1,6 @@
 package practice.guestregistry.data.mongo.entities;
 
 public enum RoleType {
-    USER,
-    MANAGER,
-    ADMIN
+    ROLE_USER,
+    ROLE_ADMIN
 }

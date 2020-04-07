@@ -111,15 +111,19 @@ public class WorkerDaoImpl implements WorkerDao {
     @Override
     public boolean matchUser(User user) {
 //        mongoTemplate.remove(Query.query(Criteria.where("id").exists(true)), WorkerEntity.class);
-        WorkerEntity testEntity = new WorkerEntity(new ObjectId(),
-                null, null, user.getUsername(), user.getPassword(), RoleType.USER);
-        mongoTemplate.save(testEntity);
+        if (!mongoTemplate.exists(Query.query(Criteria.where("username").is("user")), WorkerEntity.class)) {
+            WorkerEntity testEntity = new WorkerEntity(new ObjectId(),
+                    null, null, "user",
+                    "$2a$10$6kwQaw.2TT5TatRQsCu56uxbNCr4JxRK8uzLyS4QbRYH3it2ntlVe", RoleType.ROLE_USER);
+            mongoTemplate.save(testEntity);
+        }
 
         Query query = new Query();
-        query.addCriteria(Criteria.where("username").is(user.getUsername())
-                .and("password").is(user.getPassword()));
+        query.addCriteria(Criteria.where("username").is(user.getUsername()));
+        //Username should be unique
         WorkerEntity workerEntity = mongoTemplate.find(query, WorkerEntity.class).get(0);
         if (workerEntity != null) {
+            user.setPassword(workerEntity.getPassword());
             user.setRole(workerEntity.getRole().toString());
             return true;
         }

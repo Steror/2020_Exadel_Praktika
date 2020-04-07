@@ -28,7 +28,6 @@ public class AuthController {
 
     @RequestMapping("/login")   //TODO: Pagalvoti ar reikia sito metodo
     public boolean login(@RequestBody User user) {
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return workerService.matchUser(user);
     }
 
